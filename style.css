@@ -6,7 +6,8 @@
 }
 
 body {
-    background: #f0f2f5;
+    /* 🎨 Background එකට පට්ටම ලස්සන Dark Colorful Gradient එකක් දැම්මා */
+    background: linear-gradient(135deg, #0f172a, #1e1b4b, #2e1065);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,107 +16,121 @@ body {
 }
 
 .quiz-container {
-    background: #ffffff;
+    /* 🔮 Glassmorphism Effect එක (නූතන වීදුරු වැනි පෙනුම) */
+    background: rgba(255, 255, 255, 0.95);
     max-width: 450px;
     width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 30px 25px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 50px rgba(139, 92, 246, 0.2);
+    padding: 35px 25px;
     text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 h1, h2 {
-    color: #222;
+    color: #1e1b4b;
     margin-bottom: 8px;
-    font-size: 24px;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+/* SFT Meeter Title එක Gradient කරමු */
+.quiz-header h1 {
+    background: linear-gradient(45deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 28px;
 }
 
 .subtitle {
-    color: #666;
+    color: #6b7280;
     font-size: 14px;
     margin-bottom: 25px;
     line-height: 1.4;
+    font-weight: 500;
 }
 
-/* Input Boxes ලස්සන කරන කොටස */
+/* Input Boxes */
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* බොක්ස් දෙක අතර ගැප් එක */
+    gap: 15px;
     margin-bottom: 25px;
 }
 
 .input-group input {
     width: 100%;
     padding: 14px;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
     font-size: 16px;
     outline: none;
-    background-color: #f8f9fa;
+    background-color: #f8fafc;
     transition: all 0.3s ease;
 }
 
-/* Click කරද්දී බොක්ස් එක වටේ නිල් පාට වෙන්න */
 .input-group input:focus {
-    border-color: #007bff;
+    border-color: #6366f1;
     background-color: #fff;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.15);
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
 }
 
-/* Buttons ලස්සන කිරීම */
+/* 🚀 Colorful Gradient Buttons */
 .action-btn, #next-btn, .restart-btn {
     width: 100%;
-    background-color: #007bff;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
     color: white;
     border: none;
-    padding: 14px;
+    padding: 15px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    transition: all 0.3s ease;
 }
 
 .action-btn:hover, #next-btn:hover, .restart-btn:hover {
-    background-color: #0056b3;
+    background: linear-gradient(135deg, #4338ca, #6d28d9);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
 }
 
-.action-btn:active {
+.action-btn:active, #next-btn:active {
     transform: scale(0.98);
 }
 
-/* Info Bar & Progress Bar */
+/* Header & Timer */
 .quiz-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-}
-
-.quiz-header h1 {
-    font-size: 22px;
-    margin: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 10px;
 }
 
 .info-bar {
     text-align: left;
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 8px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 10px;
 }
 
 #timer-box {
-    color: #dc3545;
+    color: #ef4444;
     font-weight: bold;
     font-size: 16px;
+    background: #fee2e2;
+    padding: 6px 12px;
+    border-radius: 20px;
 }
 
+/* Progress Bar */
 .progress-container {
     width: 100%;
-    background-color: #e9ecef;
+    background-color: #e2e8f0;
     border-radius: 10px;
-    height: 8px;
+    height: 10px;
     margin-bottom: 25px;
     overflow: hidden;
 }
@@ -123,16 +138,17 @@ h1, h2 {
 #progress-bar {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, #28a745, #20c997);
+    background: linear-gradient(90deg, #10b981, #34d399);
     transition: width 0.4s ease;
 }
 
-/* MCQ Options Style */
+/* MCQ Options (Colorful Selection) */
 .question h2 {
-    font-size: 18px;
+    font-size: 19px;
     text-align: left;
     margin-bottom: 20px;
     line-height: 1.5;
+    color: #1e293b;
 }
 
 .options-container {
@@ -145,47 +161,50 @@ h1, h2 {
     display: flex;
     align-items: center;
     padding: 14px;
-    background: #f8f9fa;
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 16px;
-    color: #333;
+    color: #334155;
     text-align: left;
+    font-weight: 500;
 }
 
+/* Option එකක් උඩට යද්දී ලස්සන දම් පාටක් වෙන්න */
 .option-label:hover {
-    background: #e8f4fd;
-    border-color: #007bff;
+    background: #f5f3ff;
+    border-color: #a78bfa;
+    color: #6d28d9;
 }
 
 .option-label input[type="radio"] {
     margin-right: 12px;
-    width: 18px;
-    height: 18px;
-    accent-color: #007bff;
+    width: 20px;
+    height: 20px;
+    accent-color: #7c3aed;
 }
 
 /* Rules Box */
 .rules-box {
-    background: #f8f9fa;
-    border-left: 5px solid #28a745;
-    padding: 15px;
-    border-radius: 6px;
+    background: #f5f3ff;
+    border-left: 5px solid #7c3aed;
+    padding: 18px;
+    border-radius: 8px;
     text-align: left;
     margin-bottom: 25px;
 }
 
 .rules-box h3 {
     font-size: 16px;
-    color: #333;
+    color: #6d28d9;
 }
 
 .rules-box ul {
     margin-top: 8px;
     padding-left: 20px;
-    color: #555;
+    color: #4b5563;
     font-size: 14px;
 }
 
@@ -194,18 +213,26 @@ h1, h2 {
 }
 
 /* Result Box */
+#result-box h2 {
+    background: linear-gradient(45deg, #10b981, #059669);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 28px;
+}
+
 .result-stat {
     font-size: 18px;
     margin: 12px 0;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .score-badge {
-    font-size: 22px;
-    font-weight: bold;
-    color: #007bff;
+    font-size: 24px;
+    font-weight: 900;
+    color: #4f46e5;
     margin-top: 20px;
-    background: #e8f4fd;
-    padding: 15px;
-    border-radius: 10px;
+    background: #eef2ff;
+    padding: 18px;
+    border-radius: 12px;
+    border: 2px dashed #c7d2fe;
 }
