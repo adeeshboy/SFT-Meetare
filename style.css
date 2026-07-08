@@ -30,15 +30,15 @@ body {
     z-index: 1;
 }
 
-/* 🍔 SIDEBAR MENU STYLE (FIXED) */
+/* 🍔 SIDEBAR MENU STYLE */
 .sidebar {
     height: 100%;
     width: 260px;
     position: fixed;
     z-index: 100;
     top: 0;
-    left: -260px; /* මුලින්ම වම් පැත්තෙන් හංගලා තියෙන්නේ */
-    background-color: #111827; /* Dark Background */
+    left: -260px;
+    background-color: #111827;
     border-right: 2px solid #7c3aed;
     overflow-x: hidden;
     transition: 0.3s ease;
@@ -160,10 +160,10 @@ body {
     cursor: pointer;
     z-index: 90;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    display: none; /* Login වෙනකම් හංගනවා */
+    display: none;
 }
 
-/* 📑 POPUP MODAL (AdSense Info Panels) */
+/* 📑 POPUP MODAL */
 .modal {
     display: none; 
     position: fixed; 
@@ -230,7 +230,7 @@ h1, h2 {
     background-color: #f8fafc;
 }
 
-.action-btn, #next-btn, .restart-btn {
+.action-btn, #next-btn, .restart-btn, .back-home-btn {
     width: 100%;
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
     color: white;
@@ -240,6 +240,16 @@ h1, h2 {
     font-weight: bold;
     border-radius: 12px;
     cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.action-btn:active, #next-btn:active, .restart-btn:active {
+    transform: scale(0.98);
+}
+
+.back-home-btn {
+    background: #64748b;
 }
 
 /* Dashboard Cards */
@@ -259,6 +269,13 @@ h1, h2 {
     border-radius: 14px;
     text-align: left;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.topic-card:hover {
+    transform: translateY(-2px);
+    border-color: #7c3aed;
+    background: #f3e8ff;
 }
 
 .card-icon {
@@ -300,6 +317,7 @@ h1, h2 {
     width: 0%;
     height: 100%;
     background: linear-gradient(90deg, #10b981, #34d399);
+    transition: width 0.3s ease;
 }
 
 .option-label {
@@ -311,4 +329,34 @@ h1, h2 {
     border-radius: 12px;
     cursor: pointer;
     margin-bottom: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+/* ================= ✨ NEW UPDATED STYLES ================= */
+
+/* Option එකක් උඩට මවුස් එක ගෙනිච්චම වෙනස් වෙන හැටි */
+.option-label:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* Custom Scrollbar එකක් ඇප් එක ඇතුළට */
+.quiz-container::-webkit-scrollbar, 
+div::-webkit-scrollbar {
+    width: 6px;
+}
+.quiz-container::-webkit-scrollbar-track,
+div::-webkit-scrollbar-track {
+    background: transparent;
+}
+.quiz-container::-webkit-scrollbar-thumb,
+div::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Review Section එක ඇතුළේ Scroll වෙද්දී පේන කොටස් */
+.result-review-box::-webkit-scrollbar-thumb {
+    background: #a78bfa;
 }
