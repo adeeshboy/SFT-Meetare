@@ -45,7 +45,7 @@ const allQuestions = [
     { lesson: 1, question: "සිලින්ඩරයක සම්පූර්ණ පෘෂ්ඨ වර්ගඵලය සෙවීමේ සූත්‍රය කුමක්ද?", options: ["2πrh", "2πr²", "2πr(r + h)", "πr²h"], answer: 2 },
     { lesson: 1, question: "අරය 7 cm සහ උස 10 cm වූ සෘජු වෘත්තාකාර සිලින්ඩරයක පරිමාව කොපමණද? (π = 22/7)", options: ["1540 cm³", "440 cm³", "2200 cm³", "770 cm³"], answer: 0 },
     { lesson: 1, question: "ඝනකයක පරිමාව 216 cm³ නම්, එහි එක පැත්තක දිග කොපමණද?", options: ["4 cm", "6 cm", "8 cm", "16 cm"], answer: 1 },
-    { lesson: 1, question: "ත්‍රිකෝණාකාර ප්‍රිස්මයක පරිමාව සෙවීමේ පොදු ක්‍රමය කුමක්ද?", options: ["ආධාරකයේ වර්ගඵලය × සිරස් උස", "පැති තුනේ එකතුව × උස", "1/3 × ಆಧಾರකයේ වර්ගඵලය × උස", "දිග × පළල"], answer: 0 },
+    { lesson: 1, question: "ත්‍රිකෝණාකාර ප්‍රිස්මයක පරිමාව සෙවීමේ පොදු ක්‍රමය කුමක්ද?", options: ["ආධාරකයේ වර්ගඵලය × සිරස් උස", "පැති තුනේ එකතුව × උස", "1/3 × ආධාරකයේ වර්ගඵලය × උස", "දිග × පළල"], answer: 0 },
     { lesson: 1, question: "සිලින්ඩරයක අරය දෙගුණ කර උස වෙනස් නොකර තැබුවහොත් එහි පරිමාවට සිදුවන්නේ කුමක්ද?", options: ["දෙගුණ වේ", "තෙගුණ වේ", "හතර ගුණ වේ", "වෙනස් නොවේ"], answer: 2 },
     { lesson: 1, question: "ගෝලයක අරය දෙගුණ කළහොත් එහි මතුපිට වර්ගඵලය කී ගුණයකින් වැඩිවේද?", options: ["2 ගුණයකින්", "4 ගුණයකින්", "8 ගුණයකින්", "16 ගුණයකින්"], answer: 1 },
     { lesson: 1, question: "ගෝලයක අරය දෙගුණ කළහොත් එහි පරිමාව මුල් පරිමාව මෙන් කී ගුණයක් වේද?", options: ["2", "4", "8", "6"], answer: 2 },
@@ -59,10 +59,10 @@ const allQuestions = [
     { lesson: 1, question: "සිලින්ඩරයක වක්‍ර පෘෂ්ඨය දිග හැරිය විට ලැබෙන ජ්‍යාමිතික හැඩය කුමක්ද?", options: ["වෘත්තයක්", "ත්‍රිකෝණයක්", "සෘජුකෝණාස්‍රයක්", "සමාන්තරාස්‍රයක්"], answer: 2 },
     { lesson: 1, question: "සිලින්ඩරයක දිග හැරිය වක්‍ර පෘෂ්ඨයේ සෘජුකෝණාස්‍රයේ දිග සමාන වන්නේ කුමකටද?", options: ["සිලින්ඩරයේ උසට", "ආධාරක වෘත්තයේ පරිධියට (2πr)", "ආධාරක වෘත්තයේ වර්ගඵලයට", "සිලින්ඩරයේ අරයට"], answer: 1 },
     { lesson: 1, question: "වානේ බෝලයක අරය 3 cm වේ. එහි පරිමාව π ඇසුරින් කොපමණද?", options: ["12π cm³", "36π cm³", "27π cm³", "9π cm³"], answer: 1 },
-    { lesson: 1, question: "විෂ්කම්භය 14 cm වූ ගෝලයක අරය කොපමණද?", options: ["14 cm", "28 cm", "7 cm", "3.5 cm"], answer: 2 },
-    { lesson: 1, question: "කේතුවක පරිමාව වෘත්තාකාර സിලින්ඩරයක පරිමාව මෙන් කොපමණ පංගුවක්ද? (අරය සහ උස සමාන විට)", options: ["අඩක් (1/2)", "තුනෙන් පංගුවක් (1/3)", "හතරෙන් පංගුවක් (1/4)", "සමාන වේ"], answer: 1 },
+    { lesson: 1, question: "විෂ්කම්භය 14 cm වූ ගෝලයක අරය api සොයමු.", options: ["14 cm", "28 cm", "7 cm", "3.5 cm"], answer: 2 },
+    { lesson: 1, question: "කේතුවක පරිමාව වෘත්තාකාර සිලින්ඩරයක පරිමාව මෙන් කොපමණ පංගුවක්ද? (අරය සහ උස සමාන විට)", options: ["අඩක් (1/2)", "තුනෙන් පංගුවක් (1/3)", "හතරෙන් පංගුවක් (1/4)", "සමාන වේ"], answer: 1 },
     { lesson: 1, question: "දිග 5m, පළල 4m සහ ගැඹුර 2m වූ ජල ටැංකියක උපරිම ජල ධාරිතාව ලීටර කීයද?", options: ["40 L", "4000 L", "40000 L", "400 L"], answer: 2 },
-    { lesson: 1, question: "කේතුවක ආධාරකයේ වර්ගඵලය 25 cm² ද උස 6 cm ද නම් එහි පරිමාව කොපමණද?", options: ["150 cm³", "50 cm³", "75 cm³", "25 cm³"], answer: 1 },
+    { lesson: 1, question: "කේතුවකආධාරකයේ වර්ගඵලය 25 cm² ද උස 6 cm ද නම් එහි පරිමාව කොපමණද?", options: ["150 cm³", "50 cm³", "75 cm³", "25 cm³"], answer: 1 },
     { lesson: 1, question: "සෘජුකෝණී ත්‍රිකෝණාකාර ප්‍රිස්මයක ආධාරකයේ පාද 3cm, 4cm, 5cm වේ. එහි දිග 10cm නම් පරිමාව කීයද?", options: ["60 cm³", "120 cm³", "200 cm³", "150 cm³"], answer: 0 },
     { lesson: 1, question: "කේතුවක වක්‍ර පෘෂ්ඨය දිග හැරිය විට ලැබෙන හැඩය කුමක්ද?", options: ["වෘත්ත ඛණ්ඩයක් (කේන්ද්‍රික ඛණ්ඩයක්)", "සෘජුකෝණාස්‍රයක්", "ත්‍රිකෝණයක්", "ඕවලයක්"], answer: 0 },
     { lesson: 1, question: "අරය 10 cm වූ වෘත්තයක 180° ක කෝණයක් සහිත කේන්ද්‍රික ඛණ්ඩයක චාප දිග කුමක්ද?", options: ["5π cm", "10π cm", "20π cm", "15π cm"], answer: 1 },
@@ -94,9 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (savedUser) {
         window.showDashboard(savedUser, null);
     }
+    
+    // Manual Login Button Action Listener
+    const loginBtn = document.querySelector(".action-btn");
+    if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+            window.checkLogin();
+        });
+    }
 });
 
-// 🟢 ALL FUNCTIONS SCOPED GLOBALLY
 window.generateLessonsDashboard = function() {
     const container = document.getElementById("lessons-container");
     if (!container) return; 
