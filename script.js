@@ -1,19 +1,19 @@
-// 1. ඔයාගේ SFT ප්‍රශ්න ටික මෙතනට දාන්න
+// 1. ඔයාගේ ප්‍රශ්න ඇරේ එක (මෙහි කිසිදු දෝෂයක් නොමැත)
 const questions = [
     {
         question: "පහත සඳහන් ඒවායින් ප්‍රධාන පද්ධති ඒකකයක් (SI Unit) නොවන්නේ කුමක්ද?",
-        options: ["මීටරය (m)", "කිලෝග්‍රෑමය (kg)", "සෙල්සියස් (©)", "තත්පරය (s)"],
-        answer: 2 // 0 සිට ගැණිය යුතුය (සෙල්සියස් තියෙන්නේ 2 වෙනි තැන)
+        options: ["මීටරය (m)", "කිලෝග්‍රෑමය (kg)", "සෙල්සියස් (°C)", "තත්පරය (s)"],
+        answer: 2
     },
     {
         question: "පරිගණකයක ප්‍රධාන මතකය (Main Memory) ලෙස හඳුන්වනු ලබන්නේ කුමක්ද?",
         options: ["Hard Disk", "RAM", "ROM", "Cache"],
-        answer: 1 // RAM එක තියෙන්නේ 1 වෙනි තැන
+        answer: 1
     },
     {
         question: "ජලයේ තාපාංකය සෙල්සියස් අංශක කීයද?",
         options: ["0°C", "50°C", "100°C", "120°C"],
-        answer: 2 // 100°C තියෙන්නේ 2 වෙනි තැන
+        answer: 2
     }
 ];
 
@@ -28,16 +28,16 @@ function startQuiz() {
 }
 
 function loadQuestion() {
-    // Progress Text Update කිරීම
+    // Question counter එක update කිරීම
     document.getElementById("progress").innerHTML = `Question ${currentQuestion + 1} / ${questions.length}`;
 
-    // Progress Bar Update කිරීම
+    // Progress bar එක update කිරීම
     let progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
     document.getElementById("progress-bar").style.width = progressPercentage + "%";
 
     let q = questions[currentQuestion];
 
-    // ප්‍රශ්නය සහ Options ටික HTML වලට සකස් කිරීම
+    // ප්‍රශ්න සහ options HTML එකට දැමීම
     let html = `
     <div class="question">
         <h2>${q.question}</h2>
@@ -64,13 +64,11 @@ function loadQuestion() {
 function nextQuestion() {
     const selectedOption = document.querySelector('input[name="answer"]:checked');
 
-    // උත්තරයක් තෝරලා නැත්නම් Alert එකක් දෙනවා
     if (!selectedOption) {
         alert("කරුණාකර ඉදිරියට යාමට පෙර පිළිතුරක් තෝරන්න!");
         return;
     }
 
-    // උත්තරය හරිද බලනවා
     if (parseInt(selectedOption.value) === questions[currentQuestion].answer) {
         score++;
     }
@@ -105,16 +103,13 @@ function startTimer() {
 function showResults() {
     clearInterval(timerInterval);
     
-    // Quiz ප්‍රදේශය hide කරනවා
     document.getElementById("quiz-box").style.display = "none";
     document.getElementById("progress").style.display = "none";
     document.getElementById("timer-box").style.display = "none";
     document.getElementById("progress-bar").parentElement.style.display = "none";
 
-    // Result ප්‍රදේශය පෙන්වනවා
     document.getElementById("result-box").style.display = "block";
 
-    // ලකුණු පෙන්වීම
     document.getElementById("result").innerHTML = `
         <div class="result-stat" style="color: #28a745;">✅ නිවැරදි පිළිතුරු: ${score}</div>
         <div class="result-stat" style="color: #dc3545;">❌ වැරදි පිළිතුරු: ${questions.length - score}</div>
@@ -122,27 +117,7 @@ function showResults() {
     `;
 }
 
-// Quiz එක පටන් ගැනීම
-// script.js එකේ අන්තිමටම තියෙන startQuiz(); වෙනුවට මේක දාන්න:
+// HTML එක සම්පූර්ණයෙන්ම load වී අවසන් වූ පසු JavaScript එක run කරවයි
 window.onload = function() {
     startQuiz();
 };
-
-questions.forEach((q,index)=>{
-
-const selected=document.querySelector(`input[name="q${index}"]:checked`);
-
-if(selected && Number(selected.value)===q.answer){
-correct++;
-}
-
-});
-
-document.getElementById("result").innerHTML=
-`
-✅ Correct : ${correct}<br>
-❌ Wrong : ${questions.length-correct}<br>
-📊 Score : ${correct}/${questions.length}
-`;
-
-}
