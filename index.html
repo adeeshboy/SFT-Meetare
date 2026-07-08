@@ -1,35 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SFT Meeter</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-
+<div class="quiz-container">
     <h1>SFT Meeter</h1>
-    <p class="subtitle">MCQ Quiz Website</p>
+    <p>MCQ Quiz Website</p>
 
-    <div id="progress">Question 1 / 10</div>
-
-    <div id="quiz"></div>
-
-    <div class="buttons">
-        <button id="prevBtn">⬅ Previous</button>
-        <button id="nextBtn">Next ➜</button>
+    <!-- 1. Timer සහ Progress Text -->
+    <div class="quiz-header">
+        <div id="progress">Question 1 / 10</div>
+        <div id="timer-box">Time Left: <span id="timer">10:00</span></div>
     </div>
 
-    <button id="submitBtn">Submit Quiz</button>
+    <!-- 2. Progress Bar එක -->
+    <div class="progress-container">
+        <div id="progress-bar"></div>
+    </div>
 
-    <div id="result"></div>
+    <!-- 3. ප්‍රශ්න පෙනෙන තැන -->
+    <div id="quiz"></div>
 
+    <!-- 4. ඊළඟ ප්‍රශ්නයට යන Button එක -->
+    <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+
+    <!-- 5. Result එක පෙන්වන තැන (මුලින්ම මේක hide වෙලා තියෙන්නේ) -->
+    <div id="result-box" style="display: none;">
+        <h2>Quiz Completed!</h2>
+        <div id="result"></div>
+        <button onclick="location.reload()" class="restart-btn">Restart Quiz</button>
+    </div>
 </div>
-
-<script src="questions.js"></script>
-<script src="script.js"></script>
-
-</body>
-</html>
