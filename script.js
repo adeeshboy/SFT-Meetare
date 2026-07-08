@@ -1,4 +1,3 @@
-// 📋 ප්‍රශ්න ටික පාඩම් අනුව (topic) වෙන් කරලා තියෙන්නේ මචං
 const allQuestions = [
     {
         topic: "ict",
@@ -32,14 +31,13 @@ const allQuestions = [
     }
 ];
 
-let questions = []; // තෝරාගන්නා පාඩමට අදාළ ප්‍රශ්න මෙතනට ලෝඩ් වේ
+let questions = []; 
 let currentQuestion = 0;
 let score = 0;
 let totalTime = 600; 
 let timerInterval;
 let isMenuOpen = false;
 
-// 1. Sidebar Menu එක Open/Close කරන Function එක
 function toggleMenu() {
     const sidebar = document.getElementById("sidebar");
     if (isMenuOpen) {
@@ -50,7 +48,6 @@ function toggleMenu() {
     isMenuOpen = !isMenuOpen;
 }
 
-// 2. Login Check කිරීම
 function checkLogin() {
     const nameInput = document.getElementById("username").value.trim();
     const passInput = document.getElementById("password").value;
@@ -59,28 +56,25 @@ function checkLogin() {
         document.getElementById("login-page").style.display = "none";
         document.getElementById("home-page").style.display = "block";
         document.getElementById("user-display").textContent = nameInput;
-        document.querySelector(".menu-open-btn").style.display = "block"; // Login වුණාම මෙනු බටන් එක පෙන්වනවා
+        document.querySelector(".menu-open-btn").style.display = "block"; 
     } else {
         document.getElementById("login-error").style.display = "block";
     }
 }
 
-// 3. පාඩමක් තෝරාගැනීම (Topic Selection)
 function selectTopic(topicName) {
-    if (isMenuOpen) toggleMenu(); // මෙනු එක ඕපන් නම් වහනවා
+    if (isMenuOpen) toggleMenu(); 
 
-    // පාඩම අනුව ප්‍රශ්න filter කරගැනීම
     if (topicName === 'all') {
         questions = [...allQuestions];
-        document.getElementById("quiz-topic-title").textContent = "All Lessons";
+        document.getElementById("quiz-topic-title").textContent = "SFT Meetare - All Lessons";
     } else {
         questions = allQuestions.filter(q => q.topic === topicName);
         
-        let titles = { ict: "ICT Quiz", agri: "Agri Quiz", bio: "Bio Quiz" };
+        let titles = { ict: "SFT Meetare - ICT", agri: "SFT Meetare - Agri", bio: "SFT Meetare - Bio" };
         document.getElementById("quiz-topic-title").textContent = titles[topicName];
     }
 
-    // ප්‍රශ්න තිබේ නම් පමණක් ක්විස් එක පටන් ගන්නවා
     if (questions.length > 0) {
         currentQuestion = 0;
         score = 0;
@@ -173,7 +167,6 @@ function showResults() {
     `;
 }
 
-// 🏠 නැවත මුල් පිටුවට යාම සඳහා
 function backToHome() {
     clearInterval(timerInterval);
     document.getElementById("quiz-page").style.display = "none";
