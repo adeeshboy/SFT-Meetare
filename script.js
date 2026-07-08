@@ -1,4 +1,3 @@
-// 1. ඔයාගේ ප්‍රශ්න ඇරේ එක (මෙහි කිසිදු දෝෂයක් නොමැත)
 const questions = [
     {
         question: "පහත සඳහන් ඒවායින් ප්‍රධාන පද්ධති ඒකකයක් (SI Unit) නොවන්නේ කුමක්ද?",
@@ -19,25 +18,40 @@ const questions = [
 
 let currentQuestion = 0;
 let score = 0;
-let totalTime = 600; // තත්පර 600 (විනාඩි 10)
+let totalTime = 600; 
 let timerInterval;
 
-function startQuiz() {
+// 1. LOGIN පරීක්ෂා කිරීමේ Function එක
+function checkLogin() {
+    const nameInput = document.getElementById("username").value.trim();
+    const passInput = document.getElementById("password").value;
+
+    // මෙතන Password එක 1234 ලෙස දමා ඇත. නම හිස් නොවිය යුතුය.
+    if (nameInput !== "" && passInput === "1234") {
+        document.getElementById("login-page").style.display = "none"; // Login මකනවා
+        document.getElementById("home-page").style.display = "block";  // Home පෙන්වනවා
+        document.getElementById("user-display").textContent = nameInput; // නම දානවා
+    } else {
+        document.getElementById("login-error").style.display = "block"; // Error එක පෙන්වනවා
+    }
+}
+
+// 2. HOME එකෙන් QUIZ එක පටන් ගන්නා Function එක
+function startActualQuiz() {
+    document.getElementById("home-page").style.display = "none"; // Home මකනවා
+    document.getElementById("quiz-page").style.display = "block"; // Quiz පෙන්වනවා
     loadQuestion();
     startTimer();
 }
 
 function loadQuestion() {
-    // Question counter එක update කිරීම
     document.getElementById("progress").innerHTML = `Question ${currentQuestion + 1} / ${questions.length}`;
 
-    // Progress bar එක update කිරීම
     let progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
     document.getElementById("progress-bar").style.width = progressPercentage + "%";
 
     let q = questions[currentQuestion];
 
-    // ප්‍රශ්න සහ options HTML එකට දැමීම
     let html = `
     <div class="question">
         <h2>${q.question}</h2>
@@ -103,11 +117,7 @@ function startTimer() {
 function showResults() {
     clearInterval(timerInterval);
     
-    document.getElementById("quiz-box").style.display = "none";
-    document.getElementById("progress").style.display = "none";
-    document.getElementById("timer-box").style.display = "none";
-    document.getElementById("progress-bar").parentElement.style.display = "none";
-
+    document.getElementById("quiz-page").style.display = "none";
     document.getElementById("result-box").style.display = "block";
 
     document.getElementById("result").innerHTML = `
@@ -116,8 +126,3 @@ function showResults() {
         <div class="score-badge">Final Score: ${score} / ${questions.length}</div>
     `;
 }
-
-// HTML එක සම්පූර්ණයෙන්ම load වී අවසන් වූ පසු JavaScript එක run කරවයි
-window.onload = function() {
-    startQuiz();
-};
