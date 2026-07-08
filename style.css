@@ -6,17 +6,16 @@
 }
 
 body {
-    /* 🎨 Background එකට පට්ටම ලස්සන Dark Colorful Gradient එකක් දැම්මා */
     background: linear-gradient(135deg, #0f172a, #1e1b4b, #2e1065);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 .quiz-container {
-    /* 🔮 Glassmorphism Effect එක (නූතන වීදුරු වැනි පෙනුම) */
     background: rgba(255, 255, 255, 0.95);
     max-width: 450px;
     width: 100%;
@@ -25,8 +24,94 @@ body {
     padding: 35px 25px;
     text-align: center;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
 }
 
+/* 🍔 SIDEBAR MENU STYLE */
+.sidebar {
+    height: 100%;
+    width: 260px;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: -260px; /* මුලින්ම වම් පැත්තෙන් හංගලා තියෙන්නේ */
+    background-color: #1e1b4b;
+    border-right: 2px solid #4f46e5;
+    overflow-x: hidden;
+    transition: 0.3s ease;
+    padding-top: 60px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+
+.sidebar-logo {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar-title {
+    color: #a78bfa;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 25px;
+    font-weight: bold;
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #cbd5e1;
+    display: block;
+    transition: 0.2s;
+    font-weight: 500;
+}
+
+.sidebar a:hover {
+    color: white;
+    background-color: #312e81;
+    padding-left: 30px;
+}
+
+/* මෙනු එක වහන (X) බටන් එක */
+.sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 22px;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #cbd5e1;
+    cursor: pointer;
+}
+
+/* ☰ MENU BUTTON (උඩින්ම පාවෙන එක) */
+.menu-open-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 90;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: none; /* Login වෙනකම් පේන්නේ නැහැ */
+}
+
+.menu-open-btn:hover {
+    background: #6d28d9;
+}
+
+/* Titles & Subtitles */
 h1, h2 {
     color: #1e1b4b;
     margin-bottom: 8px;
@@ -34,12 +119,11 @@ h1, h2 {
     font-weight: 800;
 }
 
-/* SFT Meeter Title එක Gradient කරමු */
-.quiz-header h1 {
+#quiz-topic-title {
     background: linear-gradient(45deg, #4f46e5, #7c3aed);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 28px;
+    font-size: 24px;
 }
 
 .subtitle {
@@ -47,10 +131,9 @@ h1, h2 {
     font-size: 14px;
     margin-bottom: 25px;
     line-height: 1.4;
-    font-weight: 500;
 }
 
-/* Input Boxes */
+/* Inputs & Buttons */
 .input-group {
     display: flex;
     flex-direction: column;
@@ -66,16 +149,13 @@ h1, h2 {
     font-size: 16px;
     outline: none;
     background-color: #f8fafc;
-    transition: all 0.3s ease;
 }
 
 .input-group input:focus {
     border-color: #6366f1;
     background-color: #fff;
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
 }
 
-/* 🚀 Colorful Gradient Buttons */
 .action-btn, #next-btn, .restart-btn {
     width: 100%;
     background: linear-gradient(135deg, #4f46e5, #7c3aed);
@@ -87,19 +167,56 @@ h1, h2 {
     border-radius: 12px;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-    transition: all 0.3s ease;
 }
 
-.action-btn:hover, #next-btn:hover, .restart-btn:hover {
-    background: linear-gradient(135deg, #4338ca, #6d28d9);
-    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+/* Dashboard Grid & Lesson Selection Cards */
+.dashboard-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-.action-btn:active, #next-btn:active {
-    transform: scale(0.98);
+.topic-card {
+    display: flex;
+    align-items: center;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    padding: 15px;
+    border-radius: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* Header & Timer */
+.topic-card:hover {
+    transform: translateY(-2px);
+    border-color: #7c3aed;
+    background: #f5f3ff;
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.1);
+}
+
+.card-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.card-text h4 {
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.card-text p {
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* Quiz UI Components */
 .quiz-header {
     display: flex;
     justify-content: space-between;
@@ -119,18 +236,17 @@ h1, h2 {
 #timer-box {
     color: #ef4444;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     background: #fee2e2;
     padding: 6px 12px;
     border-radius: 20px;
 }
 
-/* Progress Bar */
 .progress-container {
     width: 100%;
     background-color: #e2e8f0;
     border-radius: 10px;
-    height: 10px;
+    height: 8px;
     margin-bottom: 25px;
     overflow: hidden;
 }
@@ -142,12 +258,11 @@ h1, h2 {
     transition: width 0.4s ease;
 }
 
-/* MCQ Options (Colorful Selection) */
+/* Options */
 .question h2 {
-    font-size: 19px;
+    font-size: 18px;
     text-align: left;
     margin-bottom: 20px;
-    line-height: 1.5;
     color: #1e293b;
 }
 
@@ -155,6 +270,7 @@ h1, h2 {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-bottom: 20px;
 }
 
 .option-label {
@@ -165,74 +281,47 @@ h1, h2 {
     border: 2px solid #e2e8f0;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 16px;
-    color: #334155;
+    font-size: 15px;
     text-align: left;
-    font-weight: 500;
 }
 
-/* Option එකක් උඩට යද්දී ලස්සන දම් පාටක් වෙන්න */
 .option-label:hover {
     background: #f5f3ff;
     border-color: #a78bfa;
-    color: #6d28d9;
 }
 
 .option-label input[type="radio"] {
     margin-right: 12px;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     accent-color: #7c3aed;
 }
 
-/* Rules Box */
-.rules-box {
-    background: #f5f3ff;
-    border-left: 5px solid #7c3aed;
-    padding: 18px;
-    border-radius: 8px;
-    text-align: left;
-    margin-bottom: 25px;
-}
-
-.rules-box h3 {
-    font-size: 16px;
-    color: #6d28d9;
-}
-
-.rules-box ul {
-    margin-top: 8px;
-    padding-left: 20px;
-    color: #4b5563;
+.back-home-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
     font-size: 14px;
 }
 
-.rules-box li {
-    margin-bottom: 6px;
+.back-home-btn:hover {
+    color: #1e1b4b;
 }
 
-/* Result Box */
-#result-box h2 {
-    background: linear-gradient(45deg, #10b981, #059669);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 28px;
-}
-
-.result-stat {
-    font-size: 18px;
-    margin: 12px 0;
-    font-weight: bold;
+.home-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
 }
 
 .score-badge {
-    font-size: 24px;
-    font-weight: 900;
+    font-size: 22px;
+    font-weight: bold;
     color: #4f46e5;
     margin-top: 20px;
     background: #eef2ff;
-    padding: 18px;
+    padding: 15px;
     border-radius: 12px;
-    border: 2px dashed #c7d2fe;
 }
