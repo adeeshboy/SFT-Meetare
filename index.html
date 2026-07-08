@@ -4,21 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - MCQ Quiz</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <!-- CSS v=6 ලෙස update කරන ලදී -->
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
+    <!-- 🍔 NEW SIDEBAR MENU (User Profile & AdSense Sections) -->
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
-        <div class="sidebar-logo">🔬🤖 SFT Meetare</div>
-        <div class="sidebar-title">SFT Lessons</div>
-        <div id="sidebar-lessons"></div>
+        
+        <!-- 👤 User Profile Section -->
+        <div class="user-profile-box">
+            <div class="profile-avatar">👨‍🎓</div>
+            <h3 id="sidebar-username">Guest User</h3>
+            <span class="status-badge">Active Status</span>
+        </div>
+
+        <hr class="menu-divider">
+
+        <!-- ⏳ Exam Countdown Tracker -->
+        <div class="countdown-box">
+            <div class="countdown-title">⏳ A/L Exam Countdown</div>
+            <div id="days-count" class="days-num">--</div>
+            <p>Days Remaining</p>
+        </div>
+
+        <hr class="menu-divider">
+
+        <!-- 📝 Sidebar Navigation Links (AdSense Requirements) -->
+        <div class="sidebar-links">
+            <a href="#" onclick="showSidebarModal('about')">ℹ️ About Owner</a>
+            <a href="#" onclick="showSidebarModal('review')">⭐ User Reviews & Feedback</a>
+            <a href="#" onclick="showSidebarModal('privacy')">🔒 Privacy Policy (AdSense)</a>
+            <a href="#" onclick="showSidebarModal('terms')">📜 Terms & Conditions</a>
+        </div>
     </div>
 
+    <!-- ☰ MENU BUTTON -->
     <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
+
+    <!-- 📑 POPUP MODAL FOR SIDEBAR LINKS (AdSense Requirements) -->
+    <div id="info-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeSidebarModal()">&times;</span>
+            <div id="modal-body-content"></div>
+        </div>
+    </div>
 
     <div class="quiz-container">
         
+        <!-- ================= 1. LOGIN PAGE ================= -->
         <div id="login-page">
             <h2>🔐 SFT Meetare Login</h2>
             <p class="subtitle">ඇතුළු වීමට ඔයාගේ නම සහ Password එක දාන්න</p>
@@ -30,6 +65,7 @@
             <p id="login-error" style="color: red; margin-top: 10px; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
         </div>
 
+        <!-- ================= 2. HOME PAGE (Lesson Dashboard) ================= -->
         <div id="home-page" style="display: none;">
             <div class="home-icon">🔬🤖</div>
             <h1>Welcome, <span id="user-display"></span>!</h1>
@@ -38,6 +74,7 @@
             <div id="lessons-container" class="dashboard-grid"></div>
         </div>
 
+        <!-- ================= 3. QUIZ AREA ================= -->
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
                 <h1 id="quiz-topic-title">SFT Meetare</h1>
@@ -54,6 +91,7 @@
             <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
         </div>
 
+        <!-- ================= 4. RESULT BOX ================= -->
         <div id="result-box" style="display: none;">
             <h2>🎉 Quiz Completed!</h2>
             <div id="result"></div>
