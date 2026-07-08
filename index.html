@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SFT Meeter - MCQ Quiz</title>
-    <link rel="stylesheet" href="style.css?v=3">
+    <title>SFT Meetare - MCQ Quiz</title>
+    <!-- CSS එක අලුතින්ම ලෝඩ් වෙන්න v=4 දැම්මා -->
+    <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
+    <!-- 🍔 SIDEBAR MENU -->
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
-        <div class="sidebar-logo">🔬🤖 SFT Meeter</div>
+        <div class="sidebar-logo">🔬🤖 SFT Meetare</div>
         <div class="sidebar-title">Select Lesson</div>
         <a href="#" onclick="selectTopic('all')">📋 All Lessons</a>
         <a href="#" onclick="selectTopic('ict')">💻 Information Technology</a>
@@ -18,12 +20,14 @@
         <a href="#" onclick="selectTopic('bio')">🧬 Bio-Systems Technology</a>
     </div>
 
+    <!-- ☰ MENU BUTTON -->
     <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
 
     <div class="quiz-container">
         
+        <!-- ================= 1. LOGIN PAGE ================= -->
         <div id="login-page">
-            <h2>🔐 SFT Meeter Login</h2>
+            <h2>🔐 SFT Meetare Login</h2>
             <p class="subtitle">ඇතුළු වීමට ඔයාගේ නම සහ Password එක දාන්න</p>
             <div class="input-group">
                 <input type="text" id="username" placeholder="Enter your name" required>
@@ -33,10 +37,11 @@
             <p id="login-error" style="color: red; margin-top: 10px; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
         </div>
 
+        <!-- ================= 2. HOME PAGE ================= -->
         <div id="home-page" style="display: none;">
             <div class="home-icon">🔬🤖</div>
             <h1>Welcome, <span id="user-display"></span>!</h1>
-            <p class="subtitle">ඔයාට Quiz එක කරන්න ඕනේ පාඩම තෝරන්න</p>
+            <p class="subtitle">SFT Meetare - MCQ Challenge</p>
             
             <div class="dashboard-grid">
                 <div class="dash-card topic-card" onclick="selectTopic('all')">
@@ -70,9 +75,10 @@
             </div>
         </div>
 
+        <!-- ================= 3. QUIZ AREA ================= -->
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
-                <h1 id="quiz-topic-title">SFT Meeter</h1>
+                <h1 id="quiz-topic-title">SFT Meetare</h1>
                 <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
             </div>
             <div class="info-bar">
@@ -86,6 +92,7 @@
             <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
         </div>
 
+        <!-- ================= 4. RESULT BOX ================= -->
         <div id="result-box" style="display: none;">
             <h2>🎉 Quiz Completed!</h2>
             <div id="result"></div>
