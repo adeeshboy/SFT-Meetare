@@ -28,6 +28,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: relative;
     z-index: 1;
+    transition: transform 0.2s ease;
 }
 
 /* 🍔 SIDEBAR MENU STYLE */
@@ -199,7 +200,7 @@ body {
     cursor: pointer;
 }
 
-/* Content Headings & Inputs */
+/* UI Content Elements */
 h1, h2 {
     color: #1e1b4b;
     margin-bottom: 8px;
@@ -217,7 +218,7 @@ h1, h2 {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .input-group input {
@@ -241,10 +242,10 @@ h1, h2 {
     border-radius: 12px;
     cursor: pointer;
     margin-top: 10px;
-    transition: transform 0.2s, background 0.2s;
+    transition: transform 0.2s;
 }
 
-.action-btn:active, #next-btn:active, .restart-btn:active {
+.action-btn:active, #next-btn:active {
     transform: scale(0.98);
 }
 
@@ -252,7 +253,57 @@ h1, h2 {
     background: #64748b;
 }
 
-/* Dashboard Cards */
+/* Password Show/Hide Style */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 45px;
+}
+
+#toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+}
+
+/* Remember Me Layout */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    font-size: 14px;
+    color: #475569;
+    padding: 0 5px;
+}
+
+.remember-me-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.remember-me-label input {
+    width: 16px;
+    height: 16px;
+    accent-color: #7c3aed;
+}
+
+.forgot-pass {
+    color: #7c3aed;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Dashboard Cards Grid */
 .dashboard-grid {
     display: flex;
     flex-direction: column;
@@ -333,30 +384,30 @@ h1, h2 {
     text-align: left;
 }
 
-/* ================= ✨ NEW UPDATED STYLES ================= */
-
-/* Option එකක් උඩට මවුස් එක ගෙනිච්චම වෙනස් වෙන හැටි */
 .option-label:hover {
     background: #f1f5f9;
     border-color: #cbd5e1;
 }
 
-/* Custom Scrollbar එකක් ඇප් එක ඇතුළට */
-.quiz-container::-webkit-scrollbar, 
-div::-webkit-scrollbar {
+/* Custom Scrollbars */
+.quiz-container::-webkit-scrollbar, div::-webkit-scrollbar {
     width: 6px;
 }
-.quiz-container::-webkit-scrollbar-track,
-div::-webkit-scrollbar-track {
+.quiz-container::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
     background: transparent;
 }
-.quiz-container::-webkit-scrollbar-thumb,
-div::-webkit-scrollbar-thumb {
+.quiz-container::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 10px;
 }
 
-/* Review Section එක ඇතුළේ Scroll වෙද්දී පේන කොටස් */
-.result-review-box::-webkit-scrollbar-thumb {
-    background: #a78bfa;
+/* Shake Animation for Wrong Pass */
+.shake-animation {
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
 }
