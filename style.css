@@ -218,3 +218,61 @@ button:hover{
     font-size:20px;
     font-weight:bold;
 }
+
+/* Login & Home Style එකතු කිරීම */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+}
+
+.action-btn {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #0056b3;
+}
+
+.rules-box {
+    background: #f8f9fa;
+    border-left: 5px solid #007bff;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: left;
+    margin: 20px 0;
+}
+
+.rules-box ul {
+    margin-top: 10px;
+    padding-left: 20px;
+    color: #555;
+}
+
+.rules-box li {
+    margin-bottom: 5px;
+}
