@@ -172,7 +172,8 @@ function toggleMenu() {
 }
 
 function calculateExamCountdown() {
-    const examDate = new Date("August 01, 2027").getTime(); 
+    // 📅 2027 අගෝස්තු 1 වෙනිදාට දින ගණනය කිරීම
+    const examDate = new Date("August 1, 2027").getTime(); 
     const now = new Date().getTime();
     const difference = examDate - now;
 
@@ -183,6 +184,7 @@ function calculateExamCountdown() {
         document.getElementById("days-count").textContent = "00";
     }
 }
+
 
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
