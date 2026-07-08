@@ -4,28 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - MCQ Quiz</title>
-    <!-- CSS එක අලුතින්ම ලෝඩ් වෙන්න v=4 දැම්මා -->
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
-    <!-- 🍔 SIDEBAR MENU -->
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         <div class="sidebar-logo">🔬🤖 SFT Meetare</div>
-        <div class="sidebar-title">Select Lesson</div>
-        <a href="#" onclick="selectTopic('all')">📋 All Lessons</a>
-        <a href="#" onclick="selectTopic('ict')">💻 Information Technology</a>
-        <a href="#" onclick="selectTopic('agri')">🌱 Agricultural Technology</a>
-        <a href="#" onclick="selectTopic('bio')">🧬 Bio-Systems Technology</a>
+        <div class="sidebar-title">SFT Lessons</div>
+        <div id="sidebar-lessons"></div>
     </div>
 
-    <!-- ☰ MENU BUTTON -->
     <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
 
     <div class="quiz-container">
         
-        <!-- ================= 1. LOGIN PAGE ================= -->
         <div id="login-page">
             <h2>🔐 SFT Meetare Login</h2>
             <p class="subtitle">ඇතුළු වීමට ඔයාගේ නම සහ Password එක දාන්න</p>
@@ -37,45 +30,14 @@
             <p id="login-error" style="color: red; margin-top: 10px; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
         </div>
 
-        <!-- ================= 2. HOME PAGE ================= -->
         <div id="home-page" style="display: none;">
             <div class="home-icon">🔬🤖</div>
             <h1>Welcome, <span id="user-display"></span>!</h1>
             <p class="subtitle">SFT Meetare - MCQ Challenge</p>
             
-            <div class="dashboard-grid">
-                <div class="dash-card topic-card" onclick="selectTopic('all')">
-                    <span class="card-icon">📋</span>
-                    <div class="card-text">
-                        <h4>All Lessons</h4>
-                        <p>සියලුම පාඩම් වල මිශ්‍ර ප්‍රශ්න</p>
-                    </div>
-                </div>
-                <div class="dash-card topic-card" onclick="selectTopic('ict')">
-                    <span class="card-icon">💻</span>
-                    <div class="card-text">
-                        <h4>Information Technology</h4>
-                        <p>SFT තොරතුරු තාක්ෂණය පාඩම්</p>
-                    </div>
-                </div>
-                <div class="dash-card topic-card" onclick="selectTopic('agri')">
-                    <span class="card-icon">🌱</span>
-                    <div class="card-text">
-                        <h4>Agricultural Technology</h4>
-                        <p>කෘෂි තාක්ෂණවේදය පාඩම්</p>
-                    </div>
-                </div>
-                <div class="dash-card topic-card" onclick="selectTopic('bio')">
-                    <span class="card-icon">🧬</span>
-                    <div class="card-text">
-                        <h4>Bio-Systems Technology</h4>
-                        <p>ජෛව පද්ධති තාක්ෂණවේදය පාඩම්</p>
-                    </div>
-                </div>
-            </div>
+            <div id="lessons-container" class="dashboard-grid"></div>
         </div>
 
-        <!-- ================= 3. QUIZ AREA ================= -->
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
                 <h1 id="quiz-topic-title">SFT Meetare</h1>
@@ -92,7 +54,6 @@
             <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
         </div>
 
-        <!-- ================= 4. RESULT BOX ================= -->
         <div id="result-box" style="display: none;">
             <h2>🎉 Quiz Completed!</h2>
             <div id="result"></div>
