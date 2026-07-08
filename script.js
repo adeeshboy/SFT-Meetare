@@ -27,7 +27,6 @@ const sftLessons = [
     { id: 25, title: "25. පාරිසරික සමතුලිතතාව", desc: "රසායන විද්‍යාව - 13 ශ්‍රේණිය", icon: "🌍" }
 ];
 
-
 const allQuestions = [
     // 📐 LESSON 01: වර්ගඵලය හා පරිමාව
     { lesson: 1, question: "අරය r සහ උස h වූ සෘජු වෘත්තාකාර සිලින්ඩරයක පරිමාව සෙවීමේ සූත්‍රය කුමක්ද?", options: ["πr²h", "2πrh", "1/3 πr²h", "4/3 πr³"], answer: 0 },
@@ -39,7 +38,7 @@ const allQuestions = [
 
     // 🔺 LESSON 03: පයිතගරස් සම්බන්ධය
     { lesson: 3, question: "පයිතගරස් ප්‍රමේයය වලංගු වන්නේ කුමන ත්‍රිකෝණ සඳහා පමණද?", options: ["සමපාද ත්‍රිකෝණ", "ඍජුකෝණී ත්‍රිකෝණ", "සමද්වීපාද ත්‍රිකෝණ", "මහා කෝණී ත්‍රිකෝණ"], answer: 1 },
-    { lesson: 3, question: "ඍජුකෝණී ත්‍රිකෝණයක සුළු කෝණ අභිමුඛ පාදවල දිග 3cm සහ 4cm නම්, එහි කර්ණය කොපමණද?", options: ["5 cm", "7 cm", "6 cm", "25 cm"], answer: 0 },
+    { lesson: 3, question: "ඍජුකෝණී ත්‍රිකෝණයක සුළු කෝණ අභිමුඛ"* පාදවල දිග 3cm සහ 4cm නම්, එහි කර්ණය කොපමණද?", options: ["5 cm", "7 cm", "6 cm", "25 cm"], answer: 0 },
 
     // 🌱 LESSON 04: ජීව විද්‍යා කොටස්
     { lesson: 4, question: "ශාක සෛලයක පමණක් දැකිය හැකි, සෛලයට ස්ථාවර හැඩයක් ලබා දෙන ව්‍යුහය කුමක්ද?", options: ["සෛල ප්ලාස්මීය පටලය", "සෛල බිත්තිය", "න්‍යෂ්ටිය", "මයිටොකොන්ඩ්‍රියාව"], answer: 1 },
@@ -59,7 +58,7 @@ const allQuestions = [
 
     // 🔄 LESSON 08: භ්‍රමණ චලිතය
     { lesson: 8, question: "කෝණික ප්‍රවේගය මැනීමේ SI ඒකකය කුමක්ද?", options: ["m/s", "rad/s", "deg/s", "rad/s²"], answer: 1 },
-    { lesson: 8, question: "භ්‍රමණ චලිතයේදී රේඛීය ස්කන්ධයට (m) ප්‍රතිසම වන රාශිය කුමක්ද?", options: ["කෝණික ගම්‍යතාව", "ඝූර්ණතාව", "භ්‍රමණ අවස්ථිති ඝූර්ණය", "බල යුග්මය"], answer: 2 },
+    { lesson: 8, question: "භ්‍රමණ චලිතයේදී ਰੇඛීය ස්කන්ධයට (m) ප්‍රතිසම වන රාශිය කුමක්ද?", options: ["කෝණික ගම්‍යතාව", "ඝූර්ණතාව", "භ්‍රමණ අවස්ථිති ඝූර්ණය", "බල යුග්මය"], answer: 2 },
 
     // 🔌 LESSON 09: විද්‍යුතය
     { lesson: 9, question: "ඕම්ගේ නියමයට (Ohm's Law) අදාළ නිවැරදි සම්බන්ධතාවය කුමක්ද?", options: ["V = I/R", "V = IR", "I = VR", "R = I/V"], answer: 1 },
@@ -70,7 +69,7 @@ const allQuestions = [
     { lesson: 10, question: "තාපය සම්ප්‍රේෂණය වන ප්‍රධාන ක්‍රම 3 කුමක්ද?", options: ["සන්නයනය, සංවහනය, විකිරණය", "වාෂ්පීකරණය, ඝනීභවනය, ද්‍රවීකරණය", "ප්‍රසාරණය, සංකෝචනය, විලයනය", "කිසිවක් නොවේ"], answer: 0 },
 
     // 🧪 LESSON 11: තාප රසායනය
-    { lesson: 11, question: "පද්ධතියක් මඟින් අවට පරිසරයට තාපය පිටකරන රසායනික ප්‍රතික්‍රියා හඳුන්වන්නේ කුමන නමකින්ද?", options: ["තාපදායක ප්‍රතික්‍රියා", "තාප අවශෝෂක ප්‍රතික්‍රියා", "ප්‍රතිවර්ත්‍ය ප්‍රතික්‍රියා", "උත්ප්‍රේරක ප්‍රතික්‍රියා"], answer: 0 },
+    { lesson: 11, question: "පද්ධතියක් මඟින් අවට පරිසරයට තාපය පිටකරන ਰසායනික ප්‍රතික්‍රියා ਹඳුන්වන්නේ කුමන නමකින්ද?", options: ["තාපදායක ප්‍රතික්‍රියා", "තාප අවශෝෂක ප්‍රතික්‍රියා", "ප්‍රතිවර්ත්‍ය ප්‍රතික්‍රියා", "උත්ප්‍රේරක ප්‍රතික්‍රියා"], answer: 0 },
     { lesson: 11, question: "තාප අවශෝෂක ප්‍රතික්‍රියාවක එන්තැල්පි වෙනස (ΔH) සාමාන්‍යයෙන් කුමක්ද?", options: ["ධන අගයකි (+)", "සෘණ අගයකි (-)", "ශුන්‍ය වේ (0)", "කිසිවක් නොවේ"], answer: 0 },
 
     // ⏳ LESSON 12: චාලක රසායනය
@@ -130,7 +129,6 @@ const allQuestions = [
     { lesson: 25, question: "අම්ල වැසි ඇතිවීම සඳහා ප්‍රධාන වශයෙන්ම දායක වන වායුවක් වන්නේ කුමක්ද?", options: ["SO2 (සල්ෆර් ඩයොක්සයිඩ්)", "CH4", "O3", "H2"], answer: 0 }
 ];
 
-
 let questions = []; 
 let currentQuestion = 0;
 let score = 0;
@@ -139,17 +137,18 @@ let timerInterval;
 let isMenuOpen = false;
 let userAnswers = [];
 
-// Auto-Login Check on Load
+// Auto-Login Check on Load (පරණ Password මතක තියාගන්න එක විතරයි මෙතන බලන්නේ, Google එක HTML එකෙන් බලාගන්නවා)
 document.addEventListener("DOMContentLoaded", () => {
     const savedUser = localStorage.getItem("sft_username");
     if (savedUser) {
-        showDashboard(savedUser);
+        window.showDashboard(savedUser, null);
     }
 });
 
-function generateLessonsDashboard() {
+// 🟢 GLOBAL SCOPE එකට දැම්මා HTML එක ඇතුලෙන් කෝල් කරන්න පුළුවන් වෙන්න
+window.generateLessonsDashboard = function() {
     const container = document.getElementById("lessons-container");
-    if (!container) return; // Prevent error if not on the right page
+    if (!container) return; 
     let htmlContent = "";
     sftLessons.forEach(lesson => {
         htmlContent += `
@@ -165,14 +164,13 @@ function generateLessonsDashboard() {
     container.innerHTML = htmlContent;
 }
 
-function toggleMenu() {
+window.toggleMenu = function() {
     const sidebar = document.getElementById("sidebar");
     sidebar.style.left = isMenuOpen ? "-260px" : "0px";
     isMenuOpen = !isMenuOpen;
 }
 
-function calculateExamCountdown() {
-    // 📅 2027 අගෝස්තු 1 වෙනිදාට දින ගණනය කිරීම
+window.calculateExamCountdown = function() {
     const examDate = new Date("August 1, 2027").getTime(); 
     const now = new Date().getTime();
     const difference = examDate - now;
@@ -185,8 +183,7 @@ function calculateExamCountdown() {
     }
 }
 
-
-function togglePasswordVisibility() {
+window.togglePasswordVisibility = function() {
     const passwordInput = document.getElementById("password");
     const toggleIcon = document.getElementById("toggle-password");
     
@@ -199,7 +196,7 @@ function togglePasswordVisibility() {
     }
 }
 
-function checkLogin() {
+window.checkLogin = function() {
     const nameInput = document.getElementById("username").value.trim();
     const passInput = document.getElementById("password").value;
     const rememberMeChecked = document.getElementById("remember-me").checked;
@@ -211,7 +208,7 @@ function checkLogin() {
         if (rememberMeChecked) {
             localStorage.setItem("sft_username", nameInput);
         }
-        showDashboard(nameInput);
+        window.showDashboard(nameInput, null);
     } else {
         errorMsg.style.display = "block";
         containerBox.classList.add("shake-animation");
@@ -221,20 +218,32 @@ function checkLogin() {
     }
 }
 
-// 🟢 මෙම Function එක සාමාන්‍ය Login එකටයි, Google Login එකටයි දෙකටම පොදුවේ පාවිච්චි වෙනවා දැන්
-window.showDashboard = function(username) {
+// 🟢 PROFILE PICTURE එකත් එක්ක වැඩ කරන විදිහට UPDATE කරා
+window.showDashboard = function(username, photoURL) {
     document.getElementById("login-page").style.display = "none";
     document.getElementById("home-page").style.display = "block";
     document.getElementById("user-display").textContent = username;
     document.getElementById("sidebar-username").textContent = username;
     document.querySelector(".menu-open-btn").style.display = "block"; 
     
-    generateLessonsDashboard();
-    calculateExamCountdown();
+    // Google Profile Image එක සෙට් කිරීම
+    const imgTag = document.getElementById("sidebar-user-img");
+    const avatarFallback = document.getElementById("profile-avatar-fallback");
+    if (photoURL && imgTag) {
+        imgTag.src = photoURL;
+        imgTag.style.display = "block";
+        if(avatarFallback) avatarFallback.style.display = "none";
+    } else if (imgTag) {
+        imgTag.style.display = "none";
+        if(avatarFallback) avatarFallback.style.display = "block";
+    }
+
+    window.generateLessonsDashboard();
+    window.calculateExamCountdown();
 }
 
-function selectLesson(lessonId, lessonTitle) {
-    if (isMenuOpen) toggleMenu(); 
+window.selectLesson = function(lessonId, lessonTitle) {
+    if (isMenuOpen) window.toggleMenu(); 
 
     if (lessonId === 'all') {
         questions = [...allQuestions];
@@ -283,7 +292,7 @@ function loadQuestion() {
     document.getElementById("quiz").innerHTML = html;
 }
 
-function highlightOption(index) {
+window.highlightOption = function(index) {
     const labels = document.querySelectorAll('.option-label');
     labels.forEach(label => {
         label.style.background = "#f8fafc";
@@ -298,7 +307,7 @@ function highlightOption(index) {
     radio.checked = true;
 }
 
-function nextQuestion() {
+window.nextQuestion = function() {
     const selectedOption = document.querySelector('input[name="answer"]:checked');
 
     if (!selectedOption) {
@@ -359,34 +368,4 @@ function showResults() {
     document.getElementById("result").innerHTML = `
         <div style="font-size:20px; font-weight:800; color:#7c3aed; margin-bottom:15px;">Final Score: ${score} / ${questions.length}</div>
         <p style="font-size:14px; font-weight:600; color:#1e293b; text-align:left;">📊 ප්‍රශ්න පත්‍රයේ විවරණය (Review):</p>
-        ${reviewHtml}
-    `;
-}
-
-function backToHome() {
-    clearInterval(timerInterval);
-    document.getElementById("quiz-page").style.display = "none";
-    document.getElementById("result-box").style.display = "none";
-    document.getElementById("home-page").style.display = "block";
-}
-
-function showSidebarModal(type) {
-    if (isMenuOpen) toggleMenu();
-    const modal = document.getElementById("info-modal");
-    const contentBox = document.getElementById("modal-body-content");
-    let html = "";
-    if (type === 'about') {
-        html = `<h2>ℹ️ About Owner</h2><p style="margin-top:14px; line-height:1.5; font-size:14px;">Welcome to <b>SFT Meetare</b>! Created by Adeesha Lakshitha to help Technology stream students score A grades.</p>`;
-    } else if (type === 'review') {
-        html = `<h2>⭐ Reviews & Feedback</h2><textarea id="feedback-text" style="width:100%; height:80px; margin:15px 0; padding:10px; border-radius:8px; border:1px solid #cbd5e1;" placeholder="Write review..."></textarea><button onclick="alert('Thank you for review!')" class="action-btn">Submit</button>`;
-    } else if (type === 'privacy') {
-        html = `<h2>🔒 Privacy Policy</h2><p style="margin-top:14px; font-size:12px; line-height:1.4; text-align:left;">We use Google AdSense cookies to show optimized ads for students visiting SFT Meetare.</p>`;
-    } else if (type === 'terms') {
-        html = `<h2>📜 Terms & Conditions</h2><p style="margin-top:14px; font-size:12px; line-height:1.4;">All content is provided strictly for educational and model testing purposes.</p>`;
-    }
-    contentBox.innerHTML = html;
-    modal.style.display = "block";
-}
-
-function closeSidebarModal() { document.getElementById("info-modal").style.display = "none"; }
-window.onclick = function(e) { if(e.target == document.getElementById("info-modal")) closeSidebarModal(); }
+        ${review
