@@ -1,4 +1,3 @@
-// 📚 SFT පාඩම් 24 ම මෙන්න මෙතන ලිස්ට් කරලා තියෙනවා මචං
 const sftLessons = [
     { id: "all", title: "All Lessons", desc: "සියලුම පාඩම් වල මිශ්‍ර ප්‍රශ්න", icon: "📋" },
     { id: 1, title: "Lesson 01", desc: "තාක්ෂණවේදය සඳහා ජෛව පද්ධති හැඳින්වීම", icon: "🧬" },
@@ -27,25 +26,12 @@ const sftLessons = [
     { id: 24, title: "Lesson 24", desc: "තාක්ෂණවේදයේ නැඹුරුවීම් සහ අනාගතය", icon: "🚀" }
 ];
 
-// 📋 ප්‍රශ්න දාද්දී මෙන්න මේ විදිහට අදාළ lesson අංකය දෙන්න මචං:
 const allQuestions = [
     {
-        lesson: 3, // Lesson 3 (ICT) එකට අයිති ප්‍රශ්නයක්
+        lesson: 3,
         question: "පරිගණකයක ප්‍රධාන මතකය (Main Memory) ලෙස හඳුන්වනු ලබන්නේ කුමක්ද?",
         options: ["Hard Disk", "RAM", "ROM", "Cache"],
         answer: 1
-    },
-    {
-        lesson: 7, // Lesson 7 (OS) එකට අයිති ප්‍රශ්නයක්
-        question: "පහත සඳහන් ඒවායින් Operating System (OS) එකක් නොවන්නේ කුමක්ද?",
-        options: ["Windows", "Linux", "HTML", "macOS"],
-        answer: 2
-    },
-    {
-        lesson: 12, // Lesson 12 (Agri) එකට අයිති ප්‍රශ්නයක්
-        question: "ශාක වල ප්‍රභාසංස්ලේෂණය සඳහා අත්‍යවශ්‍ය නොවන සාධකය කුමක්ද?",
-        options: ["සූර්යාලෝකය", "කාබන් ඩයොක්සයිඩ්", "ඔක්සිජන්", "හරිතප්‍රද"],
-        answer: 2
     }
 ];
 
@@ -56,16 +42,10 @@ let totalTime = 600;
 let timerInterval;
 let isMenuOpen = false;
 
-// 🔮 පේජ් එක ලෝඩ් වෙද්දීම පාඩම් 24 ම HTML එක ඇතුළට Dynamic ලෝඩ් කරන ක්‍රමය
 function generateLessonsDashboard() {
     const container = document.getElementById("lessons-container");
-    const sidebarContainer = document.getElementById("sidebar-lessons");
-    
     let htmlContent = "";
-    let sidebarContent = "";
-
     sftLessons.forEach(lesson => {
-        // Dashboard එකේ Cards සඳහා
         htmlContent += `
         <div class="dash-card topic-card" onclick="selectLesson('${lesson.id}', '${lesson.title}')">
             <span class="card-icon">${lesson.icon}</span>
@@ -75,15 +55,8 @@ function generateLessonsDashboard() {
             </div>
         </div>
         `;
-
-        // Sidebar එකේ ලින්ක්ස් සඳහා
-        sidebarContent += `
-        <a href="#" onclick="selectLesson('${lesson.id}', '${lesson.title}')">${lesson.icon} ${lesson.title}</a>
-        `;
     });
-
     container.innerHTML = htmlContent;
-    sidebarContainer.innerHTML = sidebarContent;
 }
 
 function toggleMenu() {
@@ -96,6 +69,20 @@ function toggleMenu() {
     isMenuOpen = !isMenuOpen;
 }
 
+// ⏳ විභාගයට ඇති දවස් ගණන ගණනය කරන Function එක
+function calculateExamCountdown() {
+    const examDate = new Date("November 25, 2026").getTime(); // 👈 ඔයාට ඕන දිනයක් මෙතනට දාන්න
+    const now = new Date().getTime();
+    const difference = examDate - now;
+
+    if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        document.getElementById("days-count").textContent = days;
+    } else {
+        document.getElementById("days-count").textContent = "00";
+    }
+}
+
 function checkLogin() {
     const nameInput = document.getElementById("username").value.trim();
     const passInput = document.getElementById("password").value;
@@ -104,16 +91,58 @@ function checkLogin() {
         document.getElementById("login-page").style.display = "none";
         document.getElementById("home-page").style.display = "block";
         document.getElementById("user-display").textContent = nameInput;
+        
+        // Sidebar එකේ යූසර් ප්‍රොෆයිල් එකට නම දානවා
+        document.getElementById("sidebar-username").textContent = nameInput;
         document.querySelector(".menu-open-btn").style.display = "block"; 
         
-        // ලොගින් වුණාම පාඩම් 24 ජෙනරේට් කරනවා
         generateLessonsDashboard();
+        calculateExamCountdown(); // Countdown එක සක්‍රීය කිරීම
     } else {
         document.getElementById("login-error").style.display = "block";
     }
 }
 
-// 🎯 පාඩමක් සිලෙක්ට් කරද්දී ක්‍රියාත්මක වන Function එක
+// 📑 AdSense අවශ්‍යතා සඳහා Sidebar එකේ බටන්ස් වල Popup Modals
+function showSidebarModal(type) {
+    if (isMenuOpen) toggleMenu();
+    const modal = document.getElementById("info-modal");
+    const contentBox = document.getElementById("modal-body-content");
+    
+    let html = "";
+    if (type === 'about') {
+        html = `<h2>ℹ️ About Owner</h2>
+                <p style="margin-top:10px;">Welcome to <b>SFT Meetare</b>! This platform was created to help Advanced Level Technology stream students score high in their SFT MCQ papers.</p>
+                <p style="margin-top:10px;"><b>Owner/Developer:</b> Adeesha Boy<br><b>Mission:</b> Delivering top-notch educational resources digitally.</p>`;
+    } else if (type === 'review') {
+        html = `<h2>⭐ Reviews & Feedback</h2>
+                <p style="margin-top:10px;">We value your feedback! Rate your experience with SFT Meetare.</p>
+                <textarea id="feedback-text" style="width:100%; height:80px; margin:10px 0; padding:10px; border-radius:8px;" placeholder="Write your review here..."></textarea>
+                <button onclick="alert('Thank you for your valuable review!')" class="action-btn" style="padding:10px;">Submit Review</button>`;
+    } else if (type === 'privacy') {
+        html = `<h2>🔒 Privacy Policy</h2>
+                <p style="margin-top:10px; font-size:13px; text-align:left;">At SFT Meetare, accessible from your domain, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by SFT Meetare and how we use it. We use cookies and web beacons for Google AdSense to serve personalized ads based on your visits.</p>`;
+    } else if (type === 'terms') {
+        html = `<h2>📜 Terms & Conditions</h2>
+                <p style="margin-top:10px; font-size:13px; text-align:left;">By accessing SFT Meetare, we assume you accept these terms and conditions. Do not continue to use this web application if you do not agree to take all of the terms and conditions stated on this page. Content is strictly for educational purposes.</p>`;
+    }
+    
+    contentBox.innerHTML = html;
+    modal.style.display = "block";
+}
+
+function closeSidebarModal() {
+    document.getElementById("info-modal").style.display = "none";
+}
+
+// Window එකෙන් පිට ක්ලික් කරත් Modal එක වැහෙනවා
+window.onclick = function(event) {
+    const modal = document.getElementById("info-modal");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
 function selectLesson(lessonId, lessonTitle) {
     if (isMenuOpen) toggleMenu(); 
 
@@ -121,7 +150,6 @@ function selectLesson(lessonId, lessonTitle) {
         questions = [...allQuestions];
         document.getElementById("quiz-topic-title").textContent = "SFT Meetare - All Lessons";
     } else {
-        // නියමිත ලසන් අංකයට සමාන ප්‍රශ්න විතරක් ෆිල්ටර් කරගන්නවා
         questions = allQuestions.filter(q => q.lesson == lessonId);
         document.getElementById("quiz-topic-title").textContent = "SFT Meetare - " + lessonTitle;
     }
