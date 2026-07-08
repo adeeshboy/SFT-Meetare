@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - MCQ Quiz</title>
     
-    <!-- 🎨 CSS එක කෙලින්ම HTML එක ඇතුළටම දැම්මා මචං, එතකොට cache වෙන්නේ නැහැ -->
     <style>
         * {
             margin: 0;
@@ -37,6 +36,7 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             z-index: 1;
+            transition: transform 0.2s ease;
         }
 
         /* 🍔 SIDEBAR MENU STYLE */
@@ -208,7 +208,7 @@
             cursor: pointer;
         }
 
-        /* UI Content Headings */
+        /* UI Content Elements */
         h1, h2 {
             color: #1e1b4b;
             margin-bottom: 8px;
@@ -226,7 +226,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .input-group input {
@@ -250,10 +250,65 @@
             border-radius: 12px;
             cursor: pointer;
             margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        .action-btn:active, #next-btn:active {
+            transform: scale(0.98);
         }
 
         .back-home-btn {
             background: #64748b;
+        }
+
+        /* Password Show/Hide Style */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        #toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+
+        /* Remember Me Layout */
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+            font-size: 14px;
+            color: #475569;
+            padding: 0 5px;
+        }
+
+        .remember-me-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .remember-me-label input {
+            width: 16px;
+            height: 16px;
+            accent-color: #7c3aed;
+        }
+
+        .forgot-pass {
+            color: #7c3aed;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         /* Dashboard Cards Grid */
@@ -273,6 +328,13 @@
             border-radius: 14px;
             text-align: left;
             cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-2px);
+            border-color: #7c3aed;
+            background: #f3e8ff;
         }
 
         .card-icon {
@@ -314,6 +376,7 @@
             width: 0%;
             height: 100%;
             background: linear-gradient(90deg, #10b981, #34d399);
+            transition: width 0.3s ease;
         }
 
         .option-label {
@@ -325,102 +388,25 @@
             border-radius: 12px;
             cursor: pointer;
             margin-bottom: 10px;
+            transition: all 0.2s ease;
+            text-align: left;
         }
-    </style>
-</head>
-<body>
 
-    <!-- 🍔 SIDEBAR MENU -->
-    <div id="sidebar" class="sidebar">
-        <button class="close-btn" onclick="toggleMenu()">×</button>
-        
-        <!-- 👤 User Profile -->
-        <div class="user-profile-box">
-            <div class="profile-avatar">👨‍🎓</div>
-            <h3 id="sidebar-username">Guest User</h3>
-            <span class="status-badge">Active Status</span>
-        </div>
+        .option-label:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
 
-        <hr class="menu-divider">
+        /* Custom Scrollbars */
+        .quiz-container::-webkit-scrollbar, div::-webkit-scrollbar {
+            width: 6px;
+        }
+        .quiz-container::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .quiz-container::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
 
-        <!-- ⏳ Exam Countdown -->
-        <div class="countdown-box">
-            <div class="countdown-title">⏳ A/L Exam Countdown</div>
-            <div id="days-count" class="days-num">--</div>
-            <p>Days Remaining</p>
-        </div>
-
-        <hr class="menu-divider">
-
-        <!-- 📝 AdSense Requirement Links -->
-        <div class="sidebar-links">
-            <a href="#" onclick="showSidebarModal('about')">ℹ️ About Owner</a>
-            <a href="#" onclick="showSidebarModal('review')">⭐ User Reviews</a>
-            <a href="#" onclick="showSidebarModal('privacy')">🔒 Privacy Policy</a>
-            <a href="#" onclick="showSidebarModal('terms')">📜 Terms & Conditions</a>
-        </div>
-    </div>
-
-    <!-- ☰ MENU BUTTON -->
-    <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
-
-    <!-- 📑 POPUP MODAL -->
-    <div id="info-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeSidebarModal()">&times;</span>
-            <div id="modal-body-content"></div>
-        </div>
-    </div>
-
-    <!-- MAIN BOX CONTAINER -->
-    <div class="quiz-container">
-        
-        <!-- ================= 1. LOGIN PAGE ================= -->
-        <div id="login-page">
-            <h2>🔐 SFT Meetare Login</h2>
-            <p class="subtitle">ඇතුළු වීමට ඔයාගේ නම සහ Password එක දාන්න</p>
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Enter your name" required>
-                <input type="password" id="password" placeholder="Enter Password (1234)" required>
-            </div>
-            <button onclick="checkLogin()" class="action-btn">Login 🚀</button>
-            <p id="login-error" style="color: red; margin-top: 10px; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
-        </div>
-
-        <!-- ================= 2. HOME PAGE ================= -->
-        <div id="home-page" style="display: none;">
-            <div class="home-icon">🔬🤖</div>
-            <h1>Welcome, <span id="user-display"></span>!</h1>
-            <p class="subtitle">SFT Meetare - MCQ Challenge</p>
-            <div id="lessons-container" class="dashboard-grid"></div>
-        </div>
-
-        <!-- ================= 3. QUIZ AREA ================= -->
-        <div id="quiz-page" style="display: none;">
-            <div class="quiz-header">
-                <h1 id="quiz-topic-title">SFT Meetare</h1>
-                <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
-            </div>
-            <div class="info-bar">
-                <div id="progress">Question 1 / 10</div>
-            </div>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div id="quiz"></div>
-            <button id="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
-            <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
-        </div>
-
-        <!-- ================= 4. RESULT BOX ================= -->
-        <div id="result-box" style="display: none;">
-            <h2>🎉 Quiz Completed!</h2>
-            <div id="result"></div>
-            <button onclick="backToHome()" class="restart-btn">🔄 Done & Back to Home</button>
-        </div>
-
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+        /* Shake
