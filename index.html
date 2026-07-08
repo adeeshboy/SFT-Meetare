@@ -1,80 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - MCQ Quiz</title>
-    <!-- CSS ෆයිල් එක ලින්ක් කරලා තියෙන්නේ මෙතනින් -->
     <link rel="stylesheet" href="style.css">
-    
-    <!-- 🟢 CSS එකට පොඩි ලස්සනක් එකතු කරන්න (Google බටන් එකට) -->
-    <style>
-        .google-btn {
-            background-color: #ffffff;
-            color: #333333;
-            border: 1px solid #dadce0;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background-color 0.2s;
-        }
-        .google-btn:hover {
-            background-color: #f8f9fa;
-        }
-        .or-divider {
-            margin: 15px 0;
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-            position: relative;
-        }
-    </style>
 </head>
 <body>
 
-    <!-- 🍔 SIDEBAR MENU -->
+    <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
+
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         
-        <!-- 👤 User Profile -->
         <div class="user-profile-box">
-            <div class="profile-avatar">👨‍🎓</div>
-            <h3 id="sidebar-username">Guest User</h3>
-            <span class="status-badge">Active Status</span>
+            <div id="profile-avatar-fallback" class="profile-avatar">👤</div>
+            <img id="sidebar-user-img" src="" alt="Profile" style="width:60px; height:60px; border-radius:50%; margin: 0 auto 8px auto; display:none; border:2px solid #7c3aed;">
+            <h3 id="sidebar-username">Student</h3>
+            <span class="status-badge">Active Student</span>
         </div>
 
         <hr class="menu-divider">
 
-        <!-- ⏳ Exam Countdown -->
         <div class="countdown-box">
-            <div class="countdown-title">⏳ A/L Exam Countdown</div>
-            <div id="days-count" class="days-num">--</div>
+            <div class="countdown-title">A/L EXAM COUNTDOWN</div>
+            <div id="days-count" class="days-num">00</div>
             <p>Days Remaining</p>
         </div>
 
         <hr class="menu-divider">
 
-        <!-- 📝 Sidebar Links -->
         <div class="sidebar-links">
             <a href="#" onclick="showSidebarModal('about')">ℹ️ About Owner</a>
-            <a href="#" onclick="showSidebarModal('review')">⭐ User Reviews</a>
+            <a href="#" onclick="showSidebarModal('review')">⭐ Reviews & Feedback</a>
             <a href="#" onclick="showSidebarModal('privacy')">🔒 Privacy Policy</a>
             <a href="#" onclick="showSidebarModal('terms')">📜 Terms & Conditions</a>
         </div>
     </div>
 
-    <!-- ☰ MENU BUTTON -->
-    <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
-
-    <!-- 📑 POPUP MODAL -->
     <div id="info-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeSidebarModal()">&times;</span>
@@ -82,121 +45,67 @@
         </div>
     </div>
 
-    <!-- MAIN BOX CONTAINER -->
     <div class="quiz-container">
         
-        <!-- ================= 1. LOGIN PAGE ================= -->
         <div id="login-page">
-            <div style="font-size: 40px; margin-bottom: 10px;">🔐</div>
-            <h2>SFT Meetare Login</h2>
-            <p class="subtitle">🚀 😍  තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
+            <h1>SFT Meetare</h1>
+            <p class="subtitle">තාක්ෂණවේදය සඳහා විද්‍යාව ප්‍රශ්නෝත්තර පද්ධතිය</p>
             
             <div class="input-group">
-                <input type="text" id="username" placeholder="Enter your name" required>
-                
+                <input type="text" id="username" placeholder="ඔබේ නම ඇතුළත් කරන්න">
                 <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Enter Password (1234)" required>
+                    <input type="password" id="password" placeholder="මුද්‍රා පදය (Password)">
                     <span id="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
                 </div>
             </div>
 
             <div class="login-options">
                 <label class="remember-me-label">
-                    <input type="checkbox" id="remember-me"> Remember Me
+                    <input type="checkbox" id="remember-me"> මාව මතක තබා ගන්න
                 </label>
-                <span class="forgot-pass" onclick="alert('Password එක 1234 මචං! 😉')">Forgot?</span>
+                <span class="forgot-pass" onclick="alert('පන්ති භාර ගුරුතුමා අමතන්න!')">Forgot Password?</span>
             </div>
 
-            <button onclick="checkLogin()" class="action-btn">Login & Start 🚀</button>
-            <p id="login-error" style="color: #ef4444; margin-top: 12px; font-weight: 500; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
-
-            <!-- 🟢 GOOGLE LOGIN BUTTON එක එකතු කරා -->
-            <div class="or-divider">──────── OR ────────</div>
-            <button id="google-login-btn" class="google-btn">
-                <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google Logo" width="18">
-                Sign in with Google
-            </button>
+            <p id="login-error" style="color: #ef4444; font-size: 13px; margin-bottom: 15px; display: none; font-weight: 600;">❌ ඇතුළත් කළ දත්ත වැරදියි! නැවත උත්සාහ කරන්න.</p>
+            
+            <button class="action-btn" onclick="checkLogin()">Login</button>
         </div>
 
-        <!-- ================= 2. HOME PAGE ================= -->
         <div id="home-page" style="display: none;">
-            <div style="font-size: 40px; margin-bottom: 10px;">🔬🤖</div>
-            <h1>Welcome, <span id="user-display"></span>!</h1>
-            <p class="subtitle">SFT Meetare - MCQ Challenge</p>
-            <div id="lessons-container" class="dashboard-grid"></div>
+            <h2 style="text-align: left; font-size: 22px;">ආයුබෝවන්, <span id="user-display" style="color:#7c3aed;">Student</span>! 👋</h2>
+            <p class="subtitle" style="text-align: left; margin-bottom: 15px;">ඔබට අවශ්‍ය පාඩම තෝරාගෙන MCQ පුහුණුව ආරම්භ කරන්න.</p>
+            
+            <div id="lessons-container" class="dashboard-grid">
+                </div>
         </div>
 
-        <!-- ================= 3. QUIZ AREA ================= -->
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
-                <h1 id="quiz-topic-title" style="font-size: 20px;">SFT Meetare</h1>
-                <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
+                <span id="progress" style="font-size: 13px; font-weight: 600; color: #475569;">Question 1 / 50</span>
+                <div id="timer-box">⏳ <span id="timer">10:00</span></div>
             </div>
-            <div class="info-bar">
-                <div id="progress" style="font-size: 14px; font-weight: 600; margin-bottom: 8px; text-align: left; color:#475569;">Question 1 / 10</div>
-            </div>
+            
             <div class="progress-container">
                 <div id="progress-bar"></div>
             </div>
-            <div id="quiz"></div>
-            <button id="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
-            <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
+
+            <h2 id="quiz-topic-title" style="font-size: 18px; margin-bottom: 20px; color: #7c3aed; text-align: left;">01. වර්ගඵලය හා පරිමාව</h2>
+            
+            <div id="quiz">
+                </div>
+
+            <button id="next-btn" onclick="nextQuestion()">මීළඟ ප්‍රශ්නය ➡️</button>
         </div>
 
-        <!-- ================= 4. RESULT BOX ================= -->
         <div id="result-box" style="display: none;">
-            <h2>🎉 Quiz Completed!</h2>
+            <h2>🎯 ඔබේ ප්‍රතිඵල</h2>
             <div id="result"></div>
-            <button onclick="backToHome()" class="restart-btn">🔄 Done & Back to Home</button>
+            <button class="restart-btn" onclick="backToHome()">නැවත උත්සාහ කරන්න 🔄</button>
         </div>
 
     </div>
 
-    <!-- ඔයාගේ පැරණි script.js එක මෙතන තියෙනවා -->
     <script src="script.js"></script>
-
-    <!-- 🟢 FIREBASE FIREBASE CONFIGURATION & LOGIC (CDN) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-        // Firebase Configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyBBtsKSoSb5_7_C1HNevt66IqeAQH8ASHs",
-          authDomain: "sft-meetare.firebaseapp.com",
-          projectId: "sft-meetare",
-          storageBucket: "sft-meetare.firebasestorage.app",
-          messagingSenderId: "333390520435",
-          appId: "1:333390520435:web:3ee83fd2e5812160f84a06"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        // Google Login Button Click Event
-        document.getElementById("google-login-btn").addEventListener("click", () => {
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    const user = result.user;
-                    
-                    // 1. Login පිටුව හංගලා Home පිටුව පෙන්වනවා
-                    document.getElementById("login-page").style.display = "none";
-                    document.getElementById("home-page").style.display = "block";
-                    
-                    // 2. User ගේ නම තැන් දෙකටම දානවා (Dashboard එකට සහ Sidebar එකට)
-                    document.getElementById("user-display").innerText = user.displayName;
-                    document.getElementById("sidebar-username").innerText = user.displayName;
-
-                    // 3. ඔයාගේ script.js එකේ තියෙන lessons load කරන function එකක් තියෙනවා නම් ඒක මෙතනින් call කරන්න පුළුවන්
-                    // උදාහරණයක් විදිහට: if(typeof loadLessons === 'function') { loadLessons(); }
-                })
-                .catch((error) => {
-                    console.error("Firebase Login Error: ", error.message);
-                    alert("ලොග් වීමට නොහැකි වුණා. නැවත උත්සාහ කරන්න.");
-                });
-        });
-    </script>
 </body>
 </html>
+y
