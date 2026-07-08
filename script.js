@@ -69,9 +69,8 @@ function toggleMenu() {
     isMenuOpen = !isMenuOpen;
 }
 
-// ⏳ විභාගයට ඇති දවස් ගණන ගණනය කරන Function එක
 function calculateExamCountdown() {
-    const examDate = new Date("November 25, 2026").getTime(); // 👈 ඔයාට ඕන දිනයක් මෙතනට දාන්න
+    const examDate = new Date("November 25, 2026").getTime(); 
     const now = new Date().getTime();
     const difference = examDate - now;
 
@@ -91,19 +90,16 @@ function checkLogin() {
         document.getElementById("login-page").style.display = "none";
         document.getElementById("home-page").style.display = "block";
         document.getElementById("user-display").textContent = nameInput;
-        
-        // Sidebar එකේ යූසර් ප්‍රොෆයිල් එකට නම දානවා
         document.getElementById("sidebar-username").textContent = nameInput;
         document.querySelector(".menu-open-btn").style.display = "block"; 
         
         generateLessonsDashboard();
-        calculateExamCountdown(); // Countdown එක සක්‍රීය කිරීම
+        calculateExamCountdown();
     } else {
         document.getElementById("login-error").style.display = "block";
     }
 }
 
-// 📑 AdSense අවශ්‍යතා සඳහා Sidebar එකේ බටන්ස් වල Popup Modals
 function showSidebarModal(type) {
     if (isMenuOpen) toggleMenu();
     const modal = document.getElementById("info-modal");
@@ -112,19 +108,19 @@ function showSidebarModal(type) {
     let html = "";
     if (type === 'about') {
         html = `<h2>ℹ️ About Owner</h2>
-                <p style="margin-top:10px;">Welcome to <b>SFT Meetare</b>! This platform was created to help Advanced Level Technology stream students score high in their SFT MCQ papers.</p>
-                <p style="margin-top:10px;"><b>Owner/Developer:</b> Adeesha Boy<br><b>Mission:</b> Delivering top-notch educational resources digitally.</p>`;
+                <p style="margin-top:14px; line-height:1.5;">Welcome to <b>SFT Meetare</b>! This platform was created to help Advanced Level Technology stream students score high in their SFT MCQ papers.</p>
+                <p style="margin-top:10px;"><b>Owner/Developer:</b> Adeesha Lakshitha<br><b>Mission:</b> Delivering top-notch educational resources digitally.</p>`;
     } else if (type === 'review') {
         html = `<h2>⭐ Reviews & Feedback</h2>
                 <p style="margin-top:10px;">We value your feedback! Rate your experience with SFT Meetare.</p>
-                <textarea id="feedback-text" style="width:100%; height:80px; margin:10px 0; padding:10px; border-radius:8px;" placeholder="Write your review here..."></textarea>
+                <textarea id="feedback-text" style="width:100%; height:80px; margin:15px 0; padding:10px; border:1px solid #ccc; border-radius:8px;" placeholder="Write your review here..."></textarea>
                 <button onclick="alert('Thank you for your valuable review!')" class="action-btn" style="padding:10px;">Submit Review</button>`;
     } else if (type === 'privacy') {
         html = `<h2>🔒 Privacy Policy</h2>
-                <p style="margin-top:10px; font-size:13px; text-align:left;">At SFT Meetare, accessible from your domain, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by SFT Meetare and how we use it. We use cookies and web beacons for Google AdSense to serve personalized ads based on your visits.</p>`;
+                <p style="margin-top:14px; font-size:13px; text-align:left; line-height:1.5; height:200px; overflow-y:auto;">At SFT Meetare, accessible from your domain, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by SFT Meetare and how we use it. We use cookies and web beacons for Google AdSense to serve personalized ads based on your visits.</p>`;
     } else if (type === 'terms') {
         html = `<h2>📜 Terms & Conditions</h2>
-                <p style="margin-top:10px; font-size:13px; text-align:left;">By accessing SFT Meetare, we assume you accept these terms and conditions. Do not continue to use this web application if you do not agree to take all of the terms and conditions stated on this page. Content is strictly for educational purposes.</p>`;
+                <p style="margin-top:14px; font-size:13px; text-align:left; line-height:1.5;">By accessing SFT Meetare, we assume you accept these terms and conditions. Do not continue to use this web application if you do not agree to take all of the terms and conditions stated on this page. Content is strictly for educational purposes.</p>`;
     }
     
     contentBox.innerHTML = html;
@@ -135,7 +131,6 @@ function closeSidebarModal() {
     document.getElementById("info-modal").style.display = "none";
 }
 
-// Window එකෙන් පිට ක්ලික් කරත් Modal එක වැහෙනවා
 window.onclick = function(event) {
     const modal = document.getElementById("info-modal");
     if (event.target == modal) {
