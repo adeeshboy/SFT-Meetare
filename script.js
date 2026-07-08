@@ -123,7 +123,11 @@ function showResults() {
 }
 
 // Quiz එක පටන් ගැනීම
-startQuiz();
+// script.js එකේ අන්තිමටම තියෙන startQuiz(); වෙනුවට මේක දාන්න:
+window.onload = function() {
+    startQuiz();
+};
+
 questions.forEach((q,index)=>{
 
 const selected=document.querySelector(`input[name="q${index}"]:checked`);
