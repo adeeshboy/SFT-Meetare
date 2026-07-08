@@ -63,12 +63,19 @@
                 <label class="remember-me-label">
                     <input type="checkbox" id="remember-me"> මාව මතක තබා ගන්න
                 </label>
-                <span class="forgot-pass" onclick="alert('පන්ති භාර ගුරුතුමා අමතන්න!')">Forgot Password?</span>
+                <span class="forgot-pass" onclick="alert('Class භාර ගුරුතුමා අමතන්න!')">Forgot Password?</span>
             </div>
 
             <p id="login-error" style="color: #ef4444; font-size: 13px; margin-bottom: 15px; display: none; font-weight: 600;">❌ ඇතුළත් කළ දත්ත වැරදියි! නැවත උත්සාහ කරන්න.</p>
             
             <button class="action-btn" onclick="checkLogin()">Login</button>
+
+            <div style="margin-top: 20px;">
+                <p style="font-size: 13px; color: #64748b; margin-bottom: 10px;">නැතහොත් Google ගිණුමෙන් ලොග් වන්න:</p>
+                <button id="google-login-btn" class="action-btn" style="background: #ffffff; color: #1e293b; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_\" standalone=\"\" logo\".svg\" alt=\"Google\" style=\"width:18px;\" width="18"> Google සමඟ ඉදිරියට යන්න
+                </button>
+            </div>
         </div>
 
         <div id="home-page" style="display: none;">
@@ -105,7 +112,40 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+        // ⚠️ මෙතන තියෙන්නේ Sample Config එකක්. ඔයාගේ නියම Firebase Config එක මේකට පේස්ට් කරන්න!
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Google Login Button Action
+        document.getElementById("google-login-btn").addEventListener("click", () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    localStorage.setItem("sft_username", user.displayName);
+                    window.showDashboard(user.displayName, user.photoURL);
+                })
+                .catch((error) => {
+                    console.error("Google Sign-In Error: ", error);
+                    alert("Google ලොගින් වීම අසාර්ථකයි! නැවත උත්සාහ කරන්න.");
+                });
+        });
+    </script>
+
+    <script src="script.js" defer></script>
 </body>
 </html>
-y
