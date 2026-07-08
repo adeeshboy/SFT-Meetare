@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meeter - MCQ Quiz</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
+
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="toggleMenu()">×</button>
+        <div class="sidebar-logo">🔬🤖 SFT Meeter</div>
+        <div class="sidebar-title">Select Lesson</div>
+        <a href="#" onclick="selectTopic('all')">📋 All Lessons</a>
+        <a href="#" onclick="selectTopic('ict')">💻 Information Technology</a>
+        <a href="#" onclick="selectTopic('agri')">🌱 Agricultural Technology</a>
+        <a href="#" onclick="selectTopic('bio')">🧬 Bio-Systems Technology</a>
+    </div>
+
+    <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
 
     <div class="quiz-container">
         
@@ -22,23 +34,45 @@
         </div>
 
         <div id="home-page" style="display: none;">
-            <h1>👋 සාදරයෙන් පිළිගන්නවා, <span id="user-display"></span>!</h1>
-            <p class="subtitle">SFT Meeter MCQ ප්‍රශ්න පත්තරයට මුහුණ දීමට සූදානම්ද?</p>
+            <div class="home-icon">🔬🤖</div>
+            <h1>Welcome, <span id="user-display"></span>!</h1>
+            <p class="subtitle">ඔයාට Quiz එක කරන්න ඕනේ පාඩම තෝරන්න</p>
             
-            <div class="rules-box">
-                <h3>📌 උපදෙස්:</h3>
-                <ul>
-                    <li>ප්‍රශ්න 10ක් ඇතුළත් වේ.</li>
-                    <li>කාලය විනාඩි 10කි.</li>
-                    <li>සියලුම ප්‍රශ්න වලට පිළිතුරු සැපයිය යුතුය.</li>
-                </ul>
+            <div class="dashboard-grid">
+                <div class="dash-card topic-card" onclick="selectTopic('all')">
+                    <span class="card-icon">📋</span>
+                    <div class="card-text">
+                        <h4>All Lessons</h4>
+                        <p>සියලුම පාඩම් වල මිශ්‍ර ප්‍රශ්න</p>
+                    </div>
+                </div>
+                <div class="dash-card topic-card" onclick="selectTopic('ict')">
+                    <span class="card-icon">💻</span>
+                    <div class="card-text">
+                        <h4>Information Technology</h4>
+                        <p>SFT තොරතුරු තාක්ෂණය පාඩම්</p>
+                    </div>
+                </div>
+                <div class="dash-card topic-card" onclick="selectTopic('agri')">
+                    <span class="card-icon">🌱</span>
+                    <div class="card-text">
+                        <h4>Agricultural Technology</h4>
+                        <p>කෘෂි තාක්ෂණවේදය පාඩම්</p>
+                    </div>
+                </div>
+                <div class="dash-card topic-card" onclick="selectTopic('bio')">
+                    <span class="card-icon">🧬</span>
+                    <div class="card-text">
+                        <h4>Bio-Systems Technology</h4>
+                        <p>ජෛව පද්ධති තාක්ෂණවේදය පාඩම්</p>
+                    </div>
+                </div>
             </div>
-            <button onclick="startActualQuiz()" class="action-btn" style="background-color: #28a745;">Start Quiz 🏁</button>
         </div>
 
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
-                <h1>SFT Meeter</h1>
+                <h1 id="quiz-topic-title">SFT Meeter</h1>
                 <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
             </div>
             <div class="info-bar">
@@ -49,12 +83,13 @@
             </div>
             <div id="quiz"></div>
             <button id="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
+            <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
         </div>
 
         <div id="result-box" style="display: none;">
             <h2>🎉 Quiz Completed!</h2>
             <div id="result"></div>
-            <button onclick="location.reload()" class="restart-btn">🔄 Try Again</button>
+            <button onclick="backToHome()" class="restart-btn">🔄 Done & Back to Home</button>
         </div>
 
     </div>
