@@ -9,21 +9,44 @@
 <body>
 
     <div class="quiz-container">
-        <div class="quiz-header">
-            <h1>SFT Meeter</h1>
-            <p class="subtitle">Science for Technology MCQ Quiz</p>
+        
+        <div id="login-page">
+            <h2>🔐 SFT Meeter Login</h2>
+            <p class="subtitle">ඇතුළු වීමට ඔයාගේ නම සහ Password එක දාන්න</p>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Enter your name" required>
+                <input type="password" id="password" placeholder="Enter Password (1234)" required>
+            </div>
+            <button onclick="checkLogin()" class="action-btn">Login 🚀</button>
+            <p id="login-error" style="color: red; margin-top: 10px; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
         </div>
 
-        <div class="info-bar">
-            <div id="progress">Question 1 / 10</div>
-            <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
+        <div id="home-page" style="display: none;">
+            <h1>👋 සාදරයෙන් පිළිගන්නවා, <span id="user-display"></span>!</h1>
+            <p class="subtitle">SFT Meeter MCQ ප්‍රශ්න පත්තරයට මුහුණ දීමට සූදානම්ද?</p>
+            
+            <div class="rules-box">
+                <h3>📌 උපදෙස්:</h3>
+                <ul>
+                    <li>ප්‍රශ්න 10ක් ඇතුළත් වේ.</li>
+                    <li>කාලය විනාඩි 10කි.</li>
+                    <li>සියලුම ප්‍රශ්න වලට පිළිතුරු සැපයිය යුතුය.</li>
+                </ul>
+            </div>
+            <button onclick="startActualQuiz()" class="action-btn" style="background-color: #28a745;">Start Quiz 🏁</button>
         </div>
 
-        <div class="progress-container">
-            <div id="progress-bar"></div>
-        </div>
-
-        <div id="quiz-box">
+        <div id="quiz-page" style="display: none;">
+            <div class="quiz-header">
+                <h1>SFT Meeter</h1>
+                <div id="timer-box">⏱️ <span id="timer">10:00</span></div>
+            </div>
+            <div class="info-bar">
+                <div id="progress">Question 1 / 10</div>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar"></div>
+            </div>
             <div id="quiz"></div>
             <button id="next-btn" onclick="nextQuestion()">Next Question ➡️</button>
         </div>
@@ -33,6 +56,7 @@
             <div id="result"></div>
             <button onclick="location.reload()" class="restart-btn">🔄 Try Again</button>
         </div>
+
     </div>
 
     <script src="script.js"></script>
