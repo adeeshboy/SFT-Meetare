@@ -172,7 +172,7 @@ function toggleMenu() {
 }
 
 function calculateExamCountdown() {
-    const examDate = new Date("November 25, 2026").getTime(); 
+    const examDate = new Date("August 01, 2027").getTime(); 
     const now = new Date().getTime();
     const difference = examDate - now;
 
