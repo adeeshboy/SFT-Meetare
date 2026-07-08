@@ -19,7 +19,6 @@ body {
     background: rgba(255, 255, 255, 0.95);
     max-width: 450px;
     width: 100%;
-    /* 🟢 මෙතන max-height එක අයින් කරලා min-height එකක් දැම්මා Responsive වෙන්න */
     min-height: auto;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -382,6 +381,7 @@ h1, h2 {
     margin-bottom: 10px;
     transition: all 0.2s ease;
     text-align: left;
+    width: 100%;
 }
 
 .option-label:hover {
@@ -412,7 +412,7 @@ h1, h2 {
     40%, 80% { transform: translateX(8px); }
 }
 
-/* 🟢 මොබයිල් ෆෝන් වලට UI එක තවත් ලස්සන වෙන්න මේ පොඩි කෑල්ල එකතු කරා */
+/* 📱 Mobile Responsiveness */
 @media (max-width: 480px) {
     body {
         padding: 10px;
