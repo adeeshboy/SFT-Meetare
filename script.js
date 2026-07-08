@@ -33,7 +33,7 @@ const sftLessons = [
     { id: 21, title: "21. පරිගණක පද්ධතිය හා උපාංග", desc: "තොරතුරු තාක්ෂණය - 13 ශ්‍රේණිය", icon: "🖥️" },
     { id: 22, title: "22. Operating Systems (OS)", desc: "තොරතුරු තාක්ෂණය - 13 ශ්‍රේණිය", icon: "⚙️" },
     { id: 23, title: "23. යෙදුම් මෘදුකාංග", desc: "තොරතුරු තාක්ෂණය - 13 ශ්‍රේණිය", icon: "📱" },
-    { id: 24, title: "24. අන්තර්ජාලය", desc: "තොරතුරු තාක්ෂණය - 13 ශ්‍රේණිය", icon: "🌐" }
+    { id: 24, title: "24. അന്തർജാലം", desc: "තොරතුරු තාක්ෂණය - 13 ශ්‍රේණිය", icon: "🌐" }
 ];
 
 const allQuestions = [
@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function generateLessonsDashboard() {
     const container = document.getElementById("lessons-container");
+    if (!container) return; // Prevent error if not on the right page
     let htmlContent = "";
     sftLessons.forEach(lesson => {
         htmlContent += `
@@ -129,7 +130,8 @@ function checkLogin() {
     }
 }
 
-function showDashboard(username) {
+// 🟢 මෙම Function එක සාමාන්‍ය Login එකටයි, Google Login එකටයි දෙකටම පොදුවේ පාවිච්චි වෙනවා දැන්
+window.showDashboard = function(username) {
     document.getElementById("login-page").style.display = "none";
     document.getElementById("home-page").style.display = "block";
     document.getElementById("user-display").textContent = username;
