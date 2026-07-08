@@ -19,7 +19,8 @@ body {
     background: rgba(255, 255, 255, 0.95);
     max-width: 450px;
     width: 100%;
-    min-height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     padding: 35px 25px;
@@ -381,7 +382,6 @@ h1, h2 {
     margin-bottom: 10px;
     transition: all 0.2s ease;
     text-align: left;
-    width: 100%;
 }
 
 .option-label:hover {
@@ -410,15 +410,4 @@ h1, h2 {
     0%, 100% { transform: translateX(0); }
     20%, 60% { transform: translateX(-8px); }
     40%, 80% { transform: translateX(8px); }
-}
-
-/* 📱 Mobile Responsiveness */
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    .quiz-container {
-        padding: 25px 15px;
-        border-radius: 15px;
-    }
 }
