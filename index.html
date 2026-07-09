@@ -1,142 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - Learn SFT</title>
     <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- ---------------- LOGIN PAGE ---------------- -->
     <div id="login-page" class="page active">
-        <div class="lang-selector">
-            <i class="fas fa-globe"></i>
-            <select id="lang-switch">
-                <option value="si">සිංහල</option>
-                <option value="en" selected>English</option>
-                <option value="ta">தமிழ்</option>
-            </select>
+        <!-- Pure Sinhala Premium Badge (No Selector Needed Now) -->
+        <div class="lang-badge-fixed">
+            <i class="fas fa-globe"></i> සිංහල මාධ්‍යය
         </div>
 
+        <!-- Premium Unique White Login Card -->
         <div class="login-card">
             <div class="lock-badge">
                 <i class="fas fa-unlock-alt"></i>
             </div>
-            <h2 data-lang="site-title">SFT Meetare</h2>
+            <h2>SFT මීටරය</h2>
             <p class="tagline">🚀😍 තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
             
             <button type="button" class="google-btn">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                <span>Sign in with Google</span>
+                <span>Google ගිණුමෙන් ඇතුල් වන්න</span>
             </button>
 
-            <div class="divider"><span>OR WITH EMAIL</span></div>
+            <div class="divider"><span>නැතහොත් ඊමේල් මඟින්</span></div>
 
             <form id="login-form">
                 <div class="input-group">
                     <span class="input-icon"><i class="far fa-user"></i></span>
-                    <input type="text" id="username" placeholder="Enter your name" required>
+                    <input type="text" id="username" placeholder="ඔබේ නම ඇතුලත් කරන්න" required>
                 </div>
                 <div class="input-group pass-group">
                     <span class="input-icon"><i class="far fa-key"></i></span>
-                    <input type="password" id="password" placeholder="Enter Password (1234)" required>
+                    <input type="password" id="password" placeholder="මුරපදය ඇතුලත් කරන්න (1234)" required>
                     <i class="far fa-eye" id="toggle-password"></i>
                 </div>
                 
                 <div class="login-options">
                     <label class="remember-me">
-                        <input type="checkbox"> <span data-lang="remember-me-txt">Remember Me</span>
+                        <input type="checkbox"> <span>මාව මතක තබා ගන්න</span>
                     </label>
-                    <a href="#" class="forgot-link">Forgot?</a>
+                    <a href="#" class="forgot-link">අමතක වුනාද?</a>
                 </div>
 
-                <button type="submit" class="btn-primary" id="login-submit-btn">Login to Dashboard 🚀</button>
+                <button type="submit" class="btn-primary" id="login-submit-btn">Dashboard එකට ඇතුල් වන්න 🚀</button>
             </form>
         </div>
     </div>
 
+    <!-- ---------------- HOME PAGE ---------------- -->
     <div id="home-page" class="page">
+        <!-- Navbar -->
         <header class="navbar">
             <button id="menu-btn" class="menu-btn"><i class="fas fa-bars-staggered"></i></button>
-            <div class="logo" data-lang="site-title">SFT Meetare</div>
+            <div class="logo">SFT මීටරය</div>
             <div class="user-profile">
                 <i class="fas fa-circle-user"></i> 
-                <span id="user-display-name">Student</span>
+                <span id="user-display-name">ශිෂ්‍යයා</span>
             </div>
         </header>
 
+        <!-- Side Menu -->
         <div id="sidebar" class="sidebar">
             <button id="close-btn" class="close-btn">&times;</button>
             <div class="sidebar-content">
                 
+                <!-- Huge Elegant Countdown Widget -->
                 <div class="countdown-widget">
-                    <h4 data-lang="countdown-title">2027 A/L EXAM COUNTDOWN</h4>
+                    <h4>2027 උසස් පෙළ COUNTDOWN</h4>
                     <div class="countdown-days">
                         <span id="days-count">000</span>
-                        <div class="days-sub" data-lang="days-label">DAYS REMAINING</div>
+                        <div class="days-sub">විභාගයට ඉතිරි දින ගණන</div>
                     </div>
                 </div>
                 
                 <hr class="nav-hr">
 
-                <h3 class="side-title" data-lang="about-dev-title">About Developer</h3>
+                <h3 class="side-title">සංවර්ධකයා ගැන</h3>
                 <div class="dev-info">
                     <i class="fas fa-laptop-code dev-icon"></i>
-                    <p><strong data-lang="dev-label">Developer:</strong> Adeesha Lakshitha</p>
-                    <p id="dev-desc">This is an educational platform dedicated to Advanced Level Technology (SFT) students.</p>
+                    <p><strong>නිර්මාණකරු:</strong> Adeesha Lakshitha</p>
+                    <p id="dev-desc">මෙය උසස් පෙළ තාක්ෂණවේදය (SFT) හදාරන සිසුන් වෙනුවෙන්ම වෙන්වූ අධ්‍යාපනික පද්ධතියකි.</p>
                 </div>
                 
                 <hr class="nav-hr">
                 
                 <div class="legal-links">
-                    <a href="#" data-lang="link-privacy">Privacy Policy</a>
-                    <a href="#" data-lang="link-terms">Terms & Conditions</a>
-                    <a href="#" data-lang="link-contact">Contact Us</a>
+                    <a href="#">රහස්‍යතා ප්‍රතිපත්තිය</a>
+                    <a href="#">සේවා කොන්දේසි</a>
+                    <a href="#">අපව අමතන්න</a>
                 </div>
             </div>
         </div>
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
+        <!-- Main Content (SIDE BY SIDE CATEGORIES) -->
         <main class="main-content">
-            
-            <section class="cat-section">
-                <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> <span data-lang="cat-syllabus">SFT Syllabus Lessons</span></h2>
-                <div class="lessons-grid" id="lessons-container">
+            <div class="dashboard-grid-layout">
+                
+                <!-- LEFT SIDE: SFT SYLLABUS LESSONS -->
+                <section class="cat-section">
+                    <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> SFT විෂය නිර්දේශයේ පාඩම්</h2>
+                    <div class="lessons-grid" id="lessons-container">
+                        <!-- 24 Boxes load here -->
                     </div>
-            </section>
+                </section>
 
-            <section class="cat-section">
-                <h2 class="cat-title"><i class="fas fa-file-invoice"></i> <span data-lang="cat-papers">Past Papers & Model Papers</span></h2>
-                <div class="lessons-grid" id="papers-container">
+                <!-- RIGHT SIDE: PAST PAPERS & MODEL PAPERS -->
+                <section class="cat-section">
+                    <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර සහ ආදර්ශ ප්‍රශ්න පත්‍ර</h2>
+                    <div class="lessons-grid flex-column-papers" id="papers-container">
+                        <!-- Paper Boxes load here -->
                     </div>
-            </section>
+                </section>
 
+            </div>
         </main>
     </div>
 
+    <!-- ---------------- QUIZ PAGE ---------------- -->
     <div id="quiz-page" class="page">
         <div class="quiz-container">
             <div class="quiz-header">
-                <h2 id="quiz-title">Lesson Title</h2>
-                <div class="timer" id="timer"><span data-lang="time-left">Time left:</span> <span id="time-sec">20</span>s</div>
+                <h2 id="quiz-title">පාඩමේ මාතෘකාව</h2>
+                <div class="timer" id="timer">ඉතිරි කාලය: <span id="time-sec">20</span>s</div>
             </div>
             <div class="quiz-body">
-                <p class="question" id="question-text">Question goes here?</p>
+                <p class="question" id="question-text">ප්‍රශ්නය මෙතැනට දිස්වේ...</p>
                 <div class="options" id="options-container"></div>
             </div>
             <div class="quiz-footer">
-                <button id="next-btn" class="btn-primary" data-lang="next-btn" style="display: none;">Next Question</button>
+                <button id="next-btn" class="btn-primary" style="display: none;">මීළඟ ප්‍රශ්නය</button>
             </div>
         </div>
     </div>
 
+    <!-- ---------------- RESULT PAGE ---------------- -->
     <div id="result-page" class="page">
         <div class="result-card">
             <div class="trophy-badge"><i class="fas fa-trophy"></i></div>
-            <h2 data-lang="quiz-completed">Quiz Completed!</h2>
-            <p id="result-text">You scored 0 out of 0</p>
-            <button id="back-home-btn" class="btn-primary" data-lang="back-home-btn">Back to Home</button>
+            <h2>ප්‍රශ්නාවලිය අවසන්!</h2>
+            <p id="result-text">ඔබ ලබාගත් ලකුණු ප්‍රමාණය: 0</p>
+            <button id="back-home-btn" class="btn-primary">මුල් පිටුවට</button>
         </div>
     </div>
 
