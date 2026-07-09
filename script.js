@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// --- SFT LESSONS WITH MATCHING EMOJIS ---
+// --- SFT LESSONS WITH MATCHING EMOJIS (KEEP IN SINHALA) ---
 const sftLessonsList = {
     1: { name: "01. මිනුම් විද්‍යාව හා පරිමාණය", emoji: "📐" },
     2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬" },
@@ -25,7 +25,7 @@ const sftLessonsList = {
     7: { name: "07. ත්‍රිකෝණමිතික අනුපාත", emoji: "📈" },
     8: { name: "08. ප්‍රකාශ විද්‍යාව", emoji: "🔍" },
     9: { name: "09. විද්‍යුතය", emoji: "⚡" },
-    10: { name: "10. තාපය", emoji: "🔥" },
+    10: { name: "10.  තාපය", emoji: "🔥" },
     11: { name: "11. තාප රසායනය", emoji: "🧪" },
     12: { name: "12. විද්‍යුත් රසායනය", emoji: "🔋" },
     13: { name: "13. පොලිමර", emoji: "🧬" },
@@ -42,11 +42,11 @@ const sftLessonsList = {
     24: { name: "24. අන්තර්ජාලය", emoji: "🌐" }
 };
 
-// --- PAPERS LIST ---
+// --- PAPERS LIST (KEEP IN SINHALA) ---
 const papersList = [
-    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝" },
-    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜" },
-    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
+    { id: "p1", title: "2024 A/L SFT පසුගිය විභාග ප්‍රශ්න පත්‍රය", emoji: "📝" },
+    { id: "p2", title: "2025 A/L SFT පසුගිය විභාග ප්‍රශ්න පත්‍රය", emoji: "📜" },
+    { id: "p3", title: "SFT ආදර්ශ ප්‍රශ්න පත්‍රය - 01", emoji: "💎" }
 ];
 
 const loginPage = document.getElementById('login-page');
@@ -65,7 +65,7 @@ function enterDashboard(displayName) {
 document.getElementById('google-login-btn').addEventListener('click', () => {
     auth.signInWithPopup(provider)
         .then((result) => { enterDashboard(result.user.displayName); })
-        .catch((error) => { alert("Google Auth error: " + error.message); });
+        .catch((error) => { alert("Google Authentication Error: " + error.message); });
 });
 
 document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -73,13 +73,12 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     enterDashboard(document.getElementById('username').value);
 });
 
-// View Switcher (Syllabus/Papers/All) Logic
+// View Switcher Tabs Logic
 function switchView(viewType) {
     const syllabusSection = document.getElementById('section-syllabus');
     const papersSection = document.getElementById('section-papers');
     const gridLayout = document.getElementById('dashboard-grid');
 
-    // Reset Active Tabs
     document.querySelectorAll('.switch-tab-btn').forEach(btn => btn.classList.remove('active'));
 
     if (viewType === 'all') {
@@ -129,7 +128,7 @@ function generateDashboard() {
     });
 }
 
-// --- QUIZ CORE ENGINE ---
+// --- QUIZ ENGINE ---
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
@@ -154,7 +153,7 @@ function loadQuestion(type) {
     
     let titleName = (type === 'syllabus') ? sftLessonsList[currentLesson].name : (papersList.find(p => p.id === currentLesson)?.title || "MCQ Paper");
 
-    const questions = [{ q: `[${titleName}] සඳහා වන ආදර්ශ ප්‍රශ්නය - ප්‍රශ්න අංක 01?`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C (නිවැරදි)", "පිළිතුර D"], correct: 2 }];
+    const questions = [{ q: `Sample MCQ Question for: [${titleName}]?`, options: ["Option A", "Option B", "Option C (Correct)", "Option D"], correct: 2 }];
 
     if(currentQuestionIndex >= questions.length) { endQuiz(questions.length); return; }
 
@@ -196,7 +195,7 @@ function endQuiz(totalQs) {
     document.getElementById('quiz-page').classList.remove('active');
     setTimeout(() => {
         document.getElementById('result-page').classList.add('active');
-        document.getElementById('result-text').innerText = `ඔබ ප්‍රශ්න ${totalQs} කින් ${score} ක් නිවැරදිව ලබා ගත්තා!`;
+        document.getElementById('result-text').innerText = `You scored ${score} out of ${totalQs} questions!`;
     }, 400);
 }
 
@@ -220,7 +219,7 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000); updateCountdown();
 
-// Sidebar menu setup
+// Sidebar Navigation
 const menuBtn = document.getElementById('menu-btn'), closeBtn = document.getElementById('close-btn'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebar-overlay');
 menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('open'); }
 closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
