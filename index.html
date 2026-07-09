@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SFT Meeter</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFT Meeter</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -16,32 +14,20 @@
     <div id="loginPage">
 
         <h1>SFT Meeter</h1>
+        <p class="subtitle">MCQ Quiz Website</p>
 
-        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter Your Name">
 
-        <input
-        type="text"
-        id="username"
-        placeholder="Enter Your Name">
-
-        <br><br>
-
-        <button onclick="login()">
-            Login
-        </button>
+        <button onclick="login()">Login</button>
 
     </div>
 
-
     <!-- Home Page -->
-
     <div id="homePage" style="display:none;">
 
         <h1>Welcome</h1>
 
         <h2 id="welcomeText"></h2>
-
-        <br>
 
         <button onclick="startQuiz()">
             Start Quiz
@@ -49,30 +35,26 @@
 
     </div>
 
-
     <!-- Quiz Page -->
-
     <div id="quizPage" style="display:none;">
 
-        <h1>SFT Meeter</h1>
-
-        <div id="progress"></div>
+        <h2 id="progress"></h2>
 
         <div id="quiz"></div>
 
-        <br>
+        <div class="buttons">
 
-        <button id="prevBtn">
-            Previous
-        </button>
+            <button id="prevBtn" onclick="previousQuestion()">
+                Previous
+            </button>
 
-        <button id="nextBtn">
-            Next
-        </button>
+            <button id="nextBtn" onclick="nextQuestion()">
+                Next
+            </button>
 
-        <br><br>
+        </div>
 
-        <button id="submitBtn">
+        <button id="submitBtn" onclick="submitQuiz()">
             Submit Quiz
         </button>
 
@@ -83,7 +65,6 @@
 </div>
 
 <script src="questions.js"></script>
-
 <script src="script.js"></script>
 
 </body>
