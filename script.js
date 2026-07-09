@@ -1,15 +1,15 @@
-// --- SFT LESSONS LIST (1 to 24 IN ORDER FROM YOUR IMAGE) ---
+// --- SFT LESSONS LIST (1 to 24 IN ORDER) ---
 const sftLessonsList = {
     1: { si: "01. මිනුම් විද්‍යාව හා පරිමාණය", en: "01. Metrology and Scales", ta: "01. அளவையியல் மற்றும் அளவீடுகள்" },
     2: { si: "02. මූලික ඒකක හා මූලික උපකරණ", en: "02. Basic Units & Basic Instruments", ta: "02. அடிப்படை அலகுகள் மற்றும் கருவிகள்" },
-    3: { si: "03. ගණිතකරණ සංකල්概念ය", en: "03. Mathematical Concepts", ta: "03. கணிதக் கருத்துக்கள்" },
+    3: { si: "03. ගණිතකරණ සංකල්පය", en: "03. Mathematical Concepts", ta: "03. கணிதக் கருத்துக்கள்" },
     4: { si: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", en: "04.1. Organisms with Cellular Organization", ta: "04.1. கல ஒழுங்கமைப்புடைய உயிரினங்கள்" },
     5: { si: "05. බලය", en: "05. Force", ta: "05. விசை" },
     6: { si: "06. කාර්යය, ශක්තිය, බලය (යාන්ත්‍රිකව)", en: "06. Work, Energy, Power (Mechanical)", ta: "06. வேலை, சக்தி, வலு (இயந்திரவியல்)" },
     7: { si: "07. ත්‍රිකෝණමිතික අනුපාත", en: "07. Trigonometric Ratios", ta: "07. திரிகோணவிகிதங்கள்" },
     8: { si: "08. ප්‍රකාශ විද්‍යාව", en: "08. Optics", ta: "08. ஒளியியல்" },
     9: { si: "09. විද්‍යුතය", en: "09. Electricity", ta: "09. மின்னியல்" },
-    10: { si: "10. තාපය", en: "10. Heat", ta: "10. வெப்பம்" },
+    10: { si: "10. -තාපය", en: "10. Heat", ta: "10. வெப்பம்" },
     11: { si: "11. -තාප රසායනය", en: "11. Thermochemistry", ta: "11. வெப்ப இரசாயனம்" },
     12: { si: "12. විද්‍යුත් රසායනය", en: "12. Electrochemistry", ta: "12. மின் இரசாயனம்" },
     13: { si: "13. පොලිමර", en: "13. Polymers", ta: "13. பல்லுறுப்பிகள்" },
@@ -26,21 +26,27 @@ const sftLessonsList = {
     24: { si: "24. අන්තර්ජාලය", en: "24. Internet", ta: "24. இணையம்" }
 };
 
-// --- LANGUAGE DICTIONARY ---
+// --- PAPERS DUMMY DATA ---
+const papersList = [
+    { id: "p1", si: "2024 A/L SFT Past Paper", en: "2024 A/L SFT Past Paper", ta: "2024 A/L SFT கடந்தகால வினாத்தாள்" },
+    { id: "p2", si: "2025 A/L SFT Past Paper", en: "2025 A/L SFT Past Paper", ta: "2025 A/L SFT கடந்தகால வினாத்தாள்" },
+    { id: "p3", si: "SFT Model Paper - 01", en: "SFT Model Paper - 01", ta: "SFT மாதிரி வினாத்தாள் - 01" }
+];
+
+// --- TRANSLATIONS DICTIONARY ---
 const translations = {
     en: {
         "site-title": "SFT Meetare",
         "remember-me-txt": "Remember Me",
-        "user-role": "Student",
-        "countdown-title": "2027 A/L Exam Countdown",
-        "days-label": "Days",
+        "countdown-title": "2027 A/L EXAM COUNTDOWN",
+        "days-label": "DAYS REMAINING",
         "about-dev-title": "About Developer",
         "dev-label": "Developer:",
         "link-privacy": "Privacy Policy",
         "link-terms": "Terms & Conditions",
         "link-contact": "Contact Us",
-        "lessons-title": "SFT Lessons List",
-        "lesson-card-sub": "Click to Start MCQ",
+        "cat-syllabus": "SFT Syllabus Lessons",
+        "cat-papers": "Past Papers & Model Papers",
         "time-left": "Time left:",
         "next-btn": "Next Question",
         "quiz-completed": "Quiz Completed!",
@@ -52,16 +58,15 @@ const translations = {
     si: {
         "site-title": "SFT මීටරය",
         "remember-me-txt": "මාව මතක තබා ගන්න",
-        "user-role": "ශිෂ්‍යයා",
         "countdown-title": "2027 උසස් පෙළ Countdown",
-        "days-label": "දින",
+        "days-label": "විභාගයට ඉතිරි දින ගණන",
         "about-dev-title": "සංවර්ධකයා ගැන",
         "dev-label": "නිර්මාණකරු:",
         "link-privacy": "රහස්‍යතා ප්‍රතිපත්තිය",
         "link-terms": "සේවා කොන්දේසි",
         "link-contact": "අපව අමතන්න",
-        "lessons-title": "SFT පාඩම් මාලාව",
-        "lesson-card-sub": "MCQ ආරම්භ කරන්න",
+        "cat-syllabus": "SFT විෂය නිර්දේශයේ පාඩම්",
+        "cat-papers": "පසුගිය විභාග ප්‍රශ්න පත්‍ර සහ ආදර්ශ ප්‍රශ්න පත්‍ර",
         "time-left": "ඉතිරි කාලය:",
         "next-btn": "මීළඟ ප්‍රශ්නය",
         "quiz-completed": "ප්‍රශ්නාවලිය අවසන්!",
@@ -73,16 +78,15 @@ const translations = {
     ta: {
         "site-title": "SFT மீற்றர்",
         "remember-me-txt": "என்னை நியாபகம் வை",
-        "user-role": "மாணவர்",
         "countdown-title": "2027 A/L பரீட்சை கவுண்ட்டவுன்",
-        "days-label": "நாட்கள்",
+        "days-label": "நாட்கள் மீதமுள்ளன",
         "about-dev-title": "உருவாக்குனர் பற்றி",
         "dev-label": "உருவாக்கியவர்:",
         "link-privacy": "தனியுரிமைக் கொள்கை",
         "link-terms": "விதிமுறைகள்",
         "link-contact": "தொடர்புகொள்ள",
-        "lessons-title": "SFT பாடங்களின் பட்டியல்",
-        "lesson-card-sub": "MCQ ஐ தொடங்குக",
+        "cat-syllabus": "SFT பாடத்திட்ட பாடங்கள்",
+        "cat-papers": "கடந்தகால மற்றும் மாதிரி வினாத்தாள்கள்",
         "time-left": "நேரம்:",
         "next-btn": "அடுத்த கேள்வி",
         "quiz-completed": "வினாடி வினா முடிந்தது!",
@@ -95,12 +99,12 @@ const translations = {
 
 let currentLang = 'en';
 
-// Change Language Event Listener
+// Change Language
 document.getElementById('lang-switch').addEventListener('change', function(e) {
     currentLang = e.target.value;
     applyLanguage(currentLang);
     if(document.getElementById('home-page').classList.contains('active')) {
-        generateLessons();
+        generateDashboard();
     }
 });
 
@@ -110,12 +114,9 @@ function applyLanguage(lang) {
         const key = el.getAttribute('data-lang');
         if (dict[key]) el.innerText = dict[key];
     });
-    
-    // Developer description translation
-    document.getElementById('dev-desc').innerText = dict["dev-desc"] || translations['en']["dev-desc"];
 }
 
-// Password View/Hide Toggle
+// Password Visibility Toggle
 document.getElementById('toggle-password').addEventListener('click', function() {
     const passInput = document.getElementById('password');
     if (passInput.type === 'password') {
@@ -127,7 +128,7 @@ document.getElementById('toggle-password').addEventListener('click', function() 
     }
 });
 
-// --- 2027 AUGUST 01 COUNTDOWN TIMER ---
+// --- HUGE ELGANT COUNTDOWN TIMER ---
 function updateCountdown() {
     const examDate = new Date("August 1, 2027 00:00:00").getTime();
     const now = new Date().getTime();
@@ -135,30 +136,27 @@ function updateCountdown() {
 
     if (difference > 0) {
         const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        document.getElementById("days-count").innerText = days < 10 ? "0" + days : days;
+        document.getElementById("days-count").innerText = days < 100 ? (days < 10 ? "00" + days : "0" + days) : days;
     } else {
-        document.getElementById("days-count").innerText = "00";
+        document.getElementById("days-count").innerText = "000";
     }
 }
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// --- LOGIN & DYNAMIC USERNAME DISPLAY ---
+// --- LOGIN HANDLER ---
 const loginPage = document.getElementById('login-page');
 const homePage = document.getElementById('home-page');
 
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    // User ඇතුලත් කරපු නම ගන්නවා
     const enteredName = document.getElementById('username').value;
-    // Navbar එකේ student වෙනුවට ඒ නම දානවා
     document.getElementById('user-display-name').innerText = enteredName;
 
     loginPage.classList.remove('active');
     setTimeout(() => {
         homePage.classList.add('active');
-        generateLessons();
+        generateDashboard();
     }, 400);
 });
 
@@ -172,55 +170,72 @@ menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('
 closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
 overlay.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
 
-// --- GENERATE COMPACT LESSONS WITH ACTUAL NAMES ---
-function generateLessons() {
-    const container = document.getElementById('lessons-container');
-    container.innerHTML = "";
-    const dict = translations[currentLang];
-    
+// --- GENERATE SYLLABUS & PAPERS ---
+function generateDashboard() {
+    // 1. Generate Lessons
+    const lessonsContainer = document.getElementById('lessons-container');
+    lessonsContainer.innerHTML = "";
     for(let i = 1; i <= 24; i++) {
-        const lessonName = sftLessonsList[i][currentLang];
         const box = document.createElement('div');
         box.className = 'lesson-box';
         box.innerHTML = `
-            <i class="fas fa-book-open"></i>
-            <h3>${lessonName}</h3>
-            <p style="color: #94a3b8; font-size: 0.72rem; margin-top:5px; font-weight:400;">${dict['lesson-card-sub']}</p>
+            <i class="fas fa-book-open-reader"></i>
+            <h3>${sftLessonsList[i][currentLang]}</h3>
         `;
-        box.onclick = () => startQuiz(i);
-        container.appendChild(box);
+        box.onclick = () => startQuiz(i, 'syllabus');
+        lessonsContainer.appendChild(box);
     }
+
+    // 2. Generate Papers
+    const papersContainer = document.getElementById('papers-container');
+    papersContainer.innerHTML = "";
+    papersList.forEach(paper => {
+        const box = document.createElement('div');
+        box.className = 'lesson-box';
+        box.innerHTML = `
+            <i class="fas fa-file-lines"></i>
+            <h3>${paper[currentLang]}</h3>
+        `;
+        box.onclick = () => startQuiz(paper.id, 'paper');
+        papersContainer.appendChild(box);
+    });
 }
 
-// --- MCQ QUIZ ENGINE ---
+// --- QUIZ ENGINE ---
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
 let timeLeft = 20;
 
-function startQuiz(lessonId) {
-    currentLesson = lessonId;
+function startQuiz(id, type) {
+    currentLesson = id;
     currentQuestionIndex = 0;
     score = 0;
     homePage.classList.remove('active');
     setTimeout(() => {
         document.getElementById('quiz-page').classList.add('active');
-        loadQuestion();
+        loadQuestion(type);
     }, 400);
 }
 
-function loadQuestion() {
+function loadQuestion(type) {
     clearInterval(timerInterval);
     timeLeft = 20;
     document.getElementById('time-sec').innerText = timeLeft;
     const dict = translations[currentLang];
-    const lessonName = sftLessonsList[currentLesson][currentLang];
     
-    // Default Sample Question
+    let titleName = "";
+    if(type === 'syllabus') {
+        titleName = sftLessonsList[currentLesson][currentLang];
+    } else {
+        const pObj = papersList.find(p => p.id === currentLesson);
+        titleName = pObj ? pObj[currentLang] : "Paper MCQ";
+    }
+
     const questions = [
         { 
-            q: `${dict['sample-q']} [${lessonName}] - Q1?`, 
+            q: `${dict['sample-q']} [${titleName}] - Q1?`, 
             options: [`${dict['sample-opt']} A`, `${dict['sample-opt']} B`, `${dict['sample-opt']} C (Correct)`, `${dict['sample-opt']} D`], 
             correct: 2 
         }
@@ -232,7 +247,7 @@ function loadQuestion() {
     }
 
     const currentQ = questions[currentQuestionIndex];
-    document.getElementById('quiz-title').innerText = `${lessonName}`;
+    document.getElementById('quiz-title').innerText = titleName;
     document.getElementById('question-text').innerText = currentQ.q;
     
     const optionsContainer = document.getElementById('options-container');
@@ -293,5 +308,4 @@ document.getElementById('back-home-btn').onclick = () => {
     setTimeout(() => { homePage.classList.add('active'); }, 400);
 };
 
-// Initial Setup
 applyLanguage(currentLang);
