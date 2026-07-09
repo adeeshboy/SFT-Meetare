@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - MCQ Quiz</title>
-    <!-- CSS ෆයිල් එක ලින්ක් කරලා තියෙන්නේ මෙතනින් -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- 🟢 Google බටන් එකට අදාළ ස්ටයිල්ස් -->
     <style>
         .google-btn {
             background-color: #ffffff;
@@ -44,13 +42,10 @@
 </head>
 <body>
 
-    <!-- 🍔 SIDEBAR MENU -->
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         
-        <!-- 👤 User Profile -->
         <div class="user-profile-box">
-            <!-- 🟢 Google Profile Image එක පෙන්වන්න මෙතනට img tag එකක් දැම්මා -->
             <img id="sidebar-user-img" src="" alt="👤" style="width:65px; height:65px; border-radius:50%; margin-bottom:8px; display:none; border:2px solid #7c3aed; margin-left:auto; margin-right:auto; object-fit: cover;">
             <div id="profile-avatar-fallback" class="profile-avatar">👨‍🎓</div>
             <h3 id="sidebar-username">Guest User</h3>
@@ -59,7 +54,6 @@
 
         <hr class="menu-divider">
 
-        <!-- ⏳ Exam Countdown -->
         <div class="countdown-box">
             <div class="countdown-title">⏳ A/L Exam Countdown</div>
             <div id="days-count" class="days-num">--</div>
@@ -68,21 +62,17 @@
 
         <hr class="menu-divider">
 
-        <!-- 📝 Sidebar Links -->
         <div class="sidebar-links">
             <a href="#" onclick="showSidebarModal('about')">ℹ️ About Owner</a>
             <a href="#" onclick="showSidebarModal('review')">⭐ User Reviews</a>
             <a href="#" onclick="showSidebarModal('privacy')">🔒 Privacy Policy</a>
             <a href="#" onclick="showSidebarModal('terms')">📜 Terms & Conditions</a>
-            <!-- 🟢 Logout වෙන්න බටන් එකක් එකතු කරා -->
             <a href="#" id="firebase-logout-btn" style="color: #ef4444; font-weight: bold; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: none;">🚪 Logout Account</a>
         </div>
     </div>
 
-    <!-- ☰ MENU BUTTON -->
     <button class="menu-open-btn" onclick="toggleMenu()">☰ Menu</button>
 
-    <!-- 📑 POPUP MODAL -->
     <div id="info-modal" class="modal">
         <div class="modal-content">
             <span class="modal-close" onclick="closeSidebarModal()">&times;</span>
@@ -90,16 +80,13 @@
         </div>
     </div>
 
-    <!-- MAIN BOX CONTAINER -->
     <div class="quiz-container">
         
-        <!-- ================= 1. LOGIN PAGE ================= -->
         <div id="login-page">
             <div style="font-size: 40px; margin-bottom: 10px;">🔐</div>
             <h2>SFT Meetare Login</h2>
             <p class="subtitle">🚀 😍  තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
             
-            <!-- 🟢 GOOGLE LOGIN BUTTON -->
             <button id="google-login-btn" class="google-btn">
                 <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google Logo" width="18">
                 Sign in with Google
@@ -127,7 +114,6 @@
             <p id="login-error" style="color: #ef4444; margin-top: 12px; font-weight: 500; display: none;">❌ වැරදි නමක් හෝ Password එකක්!</p>
         </div>
 
-        <!-- ================= 2. HOME PAGE ================= -->
         <div id="home-page" style="display: none;">
             <div style="font-size: 40px; margin-bottom: 10px;">🔬🤖</div>
             <h1>Welcome, <span id="user-display"></span>!</h1>
@@ -135,7 +121,6 @@
             <div id="lessons-container" class="dashboard-grid"></div>
         </div>
 
-        <!-- ================= 3. QUIZ AREA ================= -->
         <div id="quiz-page" style="display: none;">
             <div class="quiz-header">
                 <h1 id="quiz-topic-title" style="font-size: 20px;">SFT Meetare</h1>
@@ -152,7 +137,6 @@
             <button onclick="backToHome()" class="back-home-btn">🏠 Back to Dashboard</button>
         </div>
 
-        <!-- ================= 4. RESULT BOX ================= -->
         <div id="result-box" style="display: none;">
             <h2>🎉 Quiz Completed!</h2>
             <div id="result"></div>
@@ -161,10 +145,8 @@
 
     </div>
 
-    <!-- ඔයාගේ පැරණි script.js එක මෙතන තියෙනවා -->
     <script src="script.js"></script>
 
-    <!-- 🟢 FIREBASE CONFIGURATION & LOGIC (FIXED) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -182,18 +164,16 @@
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // 🔄 ළමයෙක් දැනටමත් ලොග් වෙලා ඉන්නවද කියලා Auto-Check කරන කෑල්ල
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                handleSuccessfulLogin(user);
+                window.handleSuccessfulLogin(user);
             }
         });
 
-        // Google Login Button Click
         document.getElementById("google-login-btn").addEventListener("click", () => {
             signInWithPopup(auth, provider)
                 .then((result) => {
-                    handleSuccessfulLogin(result.user);
+                    window.handleSuccessfulLogin(result.user);
                 })
                 .catch((error) => {
                     console.error("Firebase Login Error: ", error.message);
@@ -201,29 +181,25 @@
                 });
         });
 
-        // 🚪 Logout Button Click
         document.getElementById("firebase-logout-btn").addEventListener("click", (e) => {
             e.preventDefault();
             signOut(auth).then(() => {
-                localStorage.removeItem("sft_username"); // පරණ local storage එකත් අයින් කරනවා
-                location.reload(); // පේජ් එක රීලෝඩ් කරලා ලොගින් පිටුවට ගන්නවා
+                localStorage.removeItem("sft_username");
+                location.reload();
             });
         });
 
-        // 🛠️ සාර්ථකව Login වුණාම UI එක අප්ඩේට් කරන පොදු Function එක
-        function handleSuccessfulLogin(user) {
+        // Expose the handler globally so script.js or inside context can view it safely
+        window.handleSuccessfulLogin = function(user) {
             document.getElementById("login-page").style.display = "none";
             document.getElementById("home-page").style.display = "block";
             
             document.getElementById("user-display").innerText = user.displayName;
             document.getElementById("sidebar-username").innerText = user.displayName;
             
-            // Menu Button එක පෙන්වනවා
             document.querySelector(".menu-open-btn").style.display = "block";
-            // Logout බටන් එක සයිඩ්බාර් එකේ පෙන්වනවා
             document.getElementById("firebase-logout-btn").style.display = "block";
 
-            // Google Profile Image එක සෙට් කිරීම
             const imgTag = document.getElementById("sidebar-user-img");
             const avatarFallback = document.getElementById("profile-avatar-fallback");
             if (user.photoURL) {
@@ -232,9 +208,8 @@
                 avatarFallback.style.display = "none";
             }
 
-            // 🚀 script.js එකේ තියෙන Dashboard functions ටික call කරනවා
-            if (typeof generateLessonsDashboard === 'function') { generateLessonsDashboard(); }
-            if (typeof calculateExamCountdown === 'function') { calculateExamCountdown(); }
+            if (typeof window.generateLessonsDashboard === 'function') { window.generateLessonsDashboard(); }
+            if (typeof window.calculateExamCountdown === 'function') { window.calculateExamCountdown(); }
         }
     </script>
 </body>
