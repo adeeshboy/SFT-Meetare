@@ -14,39 +14,57 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// --- SFT LESSONS WITH MATCHING EMOJIS (KEEP IN SINHALA) ---
+// --- OFFICIAL EXAM SYLLABUS MAPPED FROM IMAGE ---
 const sftLessonsList = {
+    // ---- MATHS MODULE ----
     1: { name: "01. මිනුම් විද්‍යාව හා පරිමාණය", emoji: "📐" },
-    2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬" },
     3: { name: "03. ගණිතකරණ සංකල්පය", emoji: "🧮" },
-    4: { name: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", emoji: "🦠" },
-    5: { name: "05. බලය", emoji: "🏋️‍♂️" },
-    6: { name: "06. කාර්යය, ශක්තිය, බලය (යාන්ත්‍රිකව)", emoji: "⚙️" },
     7: { name: "07. ත්‍රිකෝණමිතික අනුපාත", emoji: "📈" },
+    19: { name: "19. ඛණ්ඩාංක ජ්‍යාමිතිය", emoji: "🗺️" },
+    20: { name: "20. සංඛ්‍යානය", emoji: "📊" },
+    
+    // ---- PHYSICS MODULE ----
+    2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬" },
+    5: { name: "05. බලය", emoji: "🏋️‍♂️" },
+    6: { name: "06. කාර්යය, ශක්තිය, බලය", emoji: "⚙️" },
     8: { name: "08. ප්‍රකාශ විද්‍යාව", emoji: "🔍" },
     9: { name: "09. විද්‍යුතය", emoji: "⚡" },
-    10: { name: "10.  තාපය", emoji: "🔥" },
+    10: { name: "10. තාපය", emoji: "🔥" },
+    16: { name: "16. තරංග", emoji: "🌊" },
+    
+    // ---- CHEMISTRY MODULE ----
     11: { name: "11. තාප රසායනය", emoji: "🧪" },
     12: { name: "12. විද්‍යුත් රසායනය", emoji: "🔋" },
     13: { name: "13. පොලිමර", emoji: "🧬" },
     14: { name: "14. ඇග්‍රෝඩර්මා", emoji: "🌱" },
     15: { name: "15. පෘෂ්ඨීය යාන්ත්‍රික ගුණ", emoji: "💧" },
-    16: { name: "16. තරංග", emoji: "🌊" },
     17: { name: "17. රසායනික කර්මාන්ත", emoji: "🏭" },
     18: { name: "18. ස්වභාවික නිෂ්පාදන", emoji: "🥥" },
-    19: { name: "19. ඛණ්ඩාංක ජ්‍යාමිතිය", emoji: "🗺️" },
-    20: { name: "20. සංඛ්‍යානය", emoji: "📊" },
+    25: { name: "25. පරිසර පද්ධති", emoji: "🌲" },
+    
+    // ---- BIO MODULE ----
+    41: { name: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", emoji: "🦠" },
+    42: { name: "04.2. ශාක වර්ගීකරණය", emoji: "🌿" },
+    43: { name: "04.3. සත්ව වර්ගීකරණය", emoji: "🦁" },
+    44: { name: "04.4. ක්ෂුද්‍ර ජීවීන්", emoji: "🧫" },
+    45: { name: "04.5. ක්ෂුද්‍ර ජීවීන් ආශ්‍රිත කර්මාන්ත", emoji: "🍞" },
+    46: { name: "04.6. ජෛව පද්ධතිමය තාක්ෂණය", emoji: "🧬" },
+    47: { name: "04.7. සත්ව කායික විද්‍යාව", emoji: "🫁" },
+    48: { name: "04.8. ස්වාභාවික වනාන්තර", emoji: "🦊" },
+    49: { name: "04.9. පාරිසරික ගැටළු", emoji: "⚠️" },
+    
+    // ---- ICT MODULE ----
     21: { name: "21. පරිගණක පද්ධතිය හා උපාංග", emoji: "💻" },
     22: { name: "22. OS (මෙහෙයුම් පද්ධති)", emoji: "💽" },
     23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱" },
     24: { name: "24. අන්තර්ජාලය", emoji: "🌐" }
 };
 
-// --- PAPERS LIST (KEEP IN SINHALA) ---
+// --- PAPERS LIST ---
 const papersList = [
-    { id: "p1", title: "2024 A/L SFT පසුගිය විභාග ප්‍රශ්න පත්‍රය", emoji: "📝" },
-    { id: "p2", title: "2025 A/L SFT පසුගිය විභාග ප්‍රශ්න පත්‍රය", emoji: "📜" },
-    { id: "p3", title: "SFT ආදර්ශ ප්‍රශ්න පත්‍රය - 01", emoji: "💎" }
+    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝" },
+    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜" },
+    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
 const loginPage = document.getElementById('login-page');
@@ -73,7 +91,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     enterDashboard(document.getElementById('username').value);
 });
 
-// View Switcher Tabs Logic
+// View Switcher Navigation
 function switchView(viewType) {
     const syllabusSection = document.getElementById('section-syllabus');
     const papersSection = document.getElementById('section-papers');
@@ -99,20 +117,20 @@ function switchView(viewType) {
     }
 }
 
-// Generate Dashboard Elements
+// Generate UI Items
 function generateDashboard() {
     const lessonsContainer = document.getElementById('lessons-container');
     lessonsContainer.innerHTML = "";
-    for(let i = 1; i <= 24; i++) {
+    Object.keys(sftLessonsList).forEach(key => {
         const box = document.createElement('div');
         box.className = 'lesson-box';
         box.innerHTML = `
-            <span class="box-emoji">${sftLessonsList[i].emoji}</span>
-            <h3>${sftLessonsList[i].name}</h3>
+            <span class="box-emoji">${sftLessonsList[key].emoji}</span>
+            <h3>${sftLessonsList[key].name}</h3>
         `;
-        box.onclick = () => startQuiz(i, 'syllabus');
+        box.onclick = () => startQuiz(key, 'syllabus');
         lessonsContainer.appendChild(box);
-    }
+    });
 
     const papersContainer = document.getElementById('papers-container');
     papersContainer.innerHTML = "";
@@ -128,7 +146,7 @@ function generateDashboard() {
     });
 }
 
-// --- QUIZ ENGINE ---
+// --- QUIZ GAME ENGINE ---
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
@@ -153,7 +171,7 @@ function loadQuestion(type) {
     
     let titleName = (type === 'syllabus') ? sftLessonsList[currentLesson].name : (papersList.find(p => p.id === currentLesson)?.title || "MCQ Paper");
 
-    const questions = [{ q: `Sample MCQ Question for: [${titleName}]?`, options: ["Option A", "Option B", "Option C (Correct)", "Option D"], correct: 2 }];
+    const questions = [{ q: `Sample Question for [${titleName}]: Select the most accurate statement.`, options: ["Option A", "Option B", "Option C (Correct Answer)", "Option D"], correct: 2 }];
 
     if(currentQuestionIndex >= questions.length) { endQuiz(questions.length); return; }
 
@@ -204,7 +222,7 @@ document.getElementById('back-home-btn').onclick = () => {
     setTimeout(() => { homePage.classList.add('active'); }, 400);
 };
 
-// Password Toggle & Countdown Logic
+// Password Toggle & Countdown Timer Logic
 document.getElementById('toggle-password').addEventListener('click', function() {
     const passInput = document.getElementById('password');
     passInput.type = (passInput.type === 'password') ? 'text' : 'password';
@@ -219,7 +237,7 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000); updateCountdown();
 
-// Sidebar Navigation
+// Sidebar Controller
 const menuBtn = document.getElementById('menu-btn'), closeBtn = document.getElementById('close-btn'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebar-overlay');
 menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('open'); }
 closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
