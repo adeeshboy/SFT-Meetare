@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - Premium Learning Platform</title>
     <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <!-- ---------------- LOGIN PAGE ---------------- -->
     <div id="login-page" class="page active">
         <div class="lang-badge-fixed">
             <i class="fas fa-globe"></i> සිංහල මාධ්‍යය
@@ -53,21 +55,24 @@
         </div>
     </div>
 
+    <!-- ---------------- HOME PAGE ---------------- -->
     <div id="home-page" class="page">
+        <!-- Navbar -->
         <header class="navbar">
             <button id="menu-btn" class="menu-btn"><i class="fas fa-bars-staggered"></i></button>
             <div class="logo">SFT Meetare</div>
             <div class="user-profile">
-                <i class="fas fa-circle-user"></i> 
+                <!-- 🔥 Google Profile Photo Display Element -->
+                <img id="user-profile-pic" src="https://via.placeholder.com/150" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                 <span id="user-display-name">Loading...</span>
                 <button id="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </header>
 
+        <!-- Side Menu -->
         <div id="sidebar" class="sidebar">
             <button id="close-btn" class="close-btn">&times;</button>
             <div class="sidebar-content">
-                
                 <div class="countdown-widget">
                     <h4>2027 A/L COUNTDOWN</h4>
                     <div class="countdown-days">
@@ -75,18 +80,14 @@
                         <div class="days-sub">Days Remaining</div>
                     </div>
                 </div>
-                
                 <hr class="nav-hr">
-
                 <h3 class="side-title">About Developer</h3>
                 <div class="dev-info">
                     <i class="fas fa-laptop-code dev-icon"></i>
                     <p><strong>Developer:</strong> Adeesha Lakshitha</p>
                     <p id="dev-desc">An advanced educational portal designed exclusively for Advanced Level Science for Technology (SFT) students.</p>
                 </div>
-                
                 <hr class="nav-hr">
-                
                 <div class="legal-links">
                     <a href="#">Privacy Policy</a>
                     <a href="#">Terms of Service</a>
@@ -96,6 +97,7 @@
         </div>
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
+        <!-- Main Content -->
         <main class="main-content">
             <div class="view-switcher-container">
                 <button class="switch-tab-btn active" id="tab-all" onclick="switchView('all')">📄 Show All</button>
@@ -113,21 +115,31 @@
             </div>
 
             <div class="dashboard-grid-layout" id="dashboard-grid">
-                
+                <!-- LEFT SIDE: SFT SYLLABUS LESSONS -->
                 <section class="cat-section" id="section-syllabus">
                     <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> SFT විෂය නිර්දේශයේ පාඩම්</h2>
                     <div class="lessons-grid" id="lessons-container"></div>
                 </section>
 
+                <!-- RIGHT SIDE: PAPERS SECTION WITH AUTOMATED SEARCH BAR -->
                 <section class="cat-section" id="section-papers">
-                    <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර</h2>
+                    <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර (Papers)</h2>
+                    
+                    <!-- 🔥 NEW SEARCH BAR FEATURE -->
+                    <div class="search-container" style="margin-bottom: 20px; position: relative;">
+                        <span style="position: absolute; left: 15px; top: 12px; color: #94a3b8;"><i class="fas fa-search"></i></span>
+                        <input type="text" id="paper-search-input" placeholder="ප්‍රශ්න පත්‍රයක් සර්ච් කරන්න (e.g., 2023, Model Paper)..." 
+                               oninput="searchPapers()" 
+                               style="width: 100%; padding: 12px 16px 12px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: #fff; outline: none; font-size: 0.9rem;">
+                    </div>
+
                     <div class="lessons-grid flex-column-papers" id="papers-container"></div>
                 </section>
-
             </div>
         </main>
     </div>
 
+    <!-- ---------------- QUIZ PAGE ---------------- -->
     <div id="quiz-page" class="page">
         <div class="quiz-container">
             <div class="quiz-header">
@@ -144,6 +156,7 @@
         </div>
     </div>
 
+    <!-- ---------------- RESULT PAGE ---------------- -->
     <div id="result-page" class="page">
         <div class="result-card">
             <div class="trophy-badge"><i class="fas fa-trophy"></i></div>
@@ -153,8 +166,10 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script src="script.js"></script>
 </body>
