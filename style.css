@@ -22,10 +22,71 @@ body { background-color: var(--bg-dark); color: var(--text-light); min-height: 1
 /* Navbar */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 75px; background: rgba(10, 11, 30, 0.7); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 1px solid var(--border-color); z-index: 100; backdrop-filter: blur(20px); }
 
-/* Login Page Styles */
-#login-page { display: flex; justify-content: center; align-items: center; height: 100vh; }
-.login-card { background: rgba(255,255,255,0.05); padding: 40px; border-radius: 20px; text-align: center; border: 1px solid var(--border-color); width: 350px; }
-.google-btn { background: #fff; color: #000; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 20px; }
+/* --- FIXING LOGIN PAGE ISSUES --- */
+#login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Fix Google Button Logo */
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: white;
+    color: black;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Fix Inputs */
+.input-group {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #1a1a2e;
+    color: white;
+}
+
+#login-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+color: #000; padding: 12px 20px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; margin-top: 20px; }
 
 /* Dashboard Layout */
 #home-page { padding: 100px 25px 40px; }
