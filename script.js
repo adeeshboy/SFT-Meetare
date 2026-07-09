@@ -9,51 +9,49 @@ const firebaseConfig = {
   measurementId: "G-NFFZSJHMM5"
 };
 
-// Initialize Firebase (Compat mode)
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// --- SFT LESSONS LIST ---
+// --- SFT LESSONS WITH MATCHING EMOJIS ---
 const sftLessonsList = {
-    1: "01. මිනුම් විද්‍යාව හා පරිමාණය",
-    2: "02. මූලික ඒකක හා මූලික උපකරණ",
-    3: "03. ගණිතකරණ සංකල්පය",
-    4: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්",
-    5: "05. බලය",
-    6: "06. කාර්යය, ශක්තිය, බලය (යාන්ත්‍රිකව)",
-    7: "07. ත්‍රිකෝණමිතික අනුපාත",
-    8: "08. ප්‍රකාශ විද්‍යාව",
-    9: "09. විද්‍යුතය",
-    10: "10. තාපය",
-    11: "11. තාප රසායනය",
-    12: "12. විද්‍යුත් රසායනය",
-    13: "13. පොලිමර",
-    14: "14. ඇග්‍රෝඩර්මා",
-    15: "15. පෘෂ්ඨීය යාන්ත්‍රික ගුණ",
-    16: "16. තරංග",
-    17: "17. රසායනික කර්මාන්ත",
-    18: "18. ස්වභාවික නිෂ්පාදන",
-    19: "19. ඛණ්ඩාංක ජ්‍යාමිතිය - සරල රේඛා හා වෘත්ත ශ්‍රිත",
-    20: "20. සංඛ්‍යානය",
-    21: "21. පරිගණක පද්ධතිය හා උපාංග",
-    22: "22. OS (මෙහෙයුම් පද්ධති)",
-    23: "23. යෙදුම් මෘදුකාංග",
-    24: "24. අන්තර්ජාලය"
+    1: { name: "01. මිනුම් විද්‍යාව හා පරිමාණය", emoji: "📐" },
+    2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬" },
+    3: { name: "03. ගණිතකරණ සංකල්පය", emoji: "🧮" },
+    4: { name: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", emoji: "🦠" },
+    5: { name: "05. බලය", emoji: "🏋️‍♂️" },
+    6: { name: "06. කාර්යය, ශක්තිය, බලය (යාන්ත්‍රිකව)", emoji: "⚙️" },
+    7: { name: "07. ත්‍රිකෝණමිතික අනුපාත", emoji: "📈" },
+    8: { name: "08. ප්‍රකාශ විද්‍යාව", emoji: "🔍" },
+    9: { name: "09. විද්‍යුතය", emoji: "⚡" },
+    10: { name: "10. තාපය", emoji: "🔥" },
+    11: { name: "11. තාප රසායනය", emoji: "🧪" },
+    12: { name: "12. විද්‍යුත් රසායනය", emoji: "🔋" },
+    13: { name: "13. පොලිමර", emoji: "🧬" },
+    14: { name: "14. ඇග්‍රෝඩර්මා", emoji: "🌱" },
+    15: { name: "15. පෘෂ්ඨීය යාන්ත්‍රික ගුණ", emoji: "💧" },
+    16: { name: "16. තරංග", emoji: "🌊" },
+    17: { name: "17. රසායනික කර්මාන්ත", emoji: "🏭" },
+    18: { name: "18. ස්වභාවික නිෂ්පාදන", emoji: "🥥" },
+    19: { name: "19. ඛණ්ඩාංක ජ්‍යාමිතිය", emoji: "🗺️" },
+    20: { name: "20. සංඛ්‍යානය", emoji: "📊" },
+    21: { name: "21. පරිගණක පද්ධතිය හා උපාංග", emoji: "💻" },
+    22: { name: "22. OS (මෙහෙයුම් පද්ධති)", emoji: "💽" },
+    23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱" },
+    24: { name: "24. අන්තර්ජාලය", emoji: "🌐" }
 };
 
 // --- PAPERS LIST ---
 const papersList = [
-    { id: "p1", title: "2024 A/L SFT Past Paper" },
-    { id: "p2", title: "2025 A/L SFT Past Paper" },
-    { id: "p3", title: "SFT Model Paper - 01" }
+    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝" },
+    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜" },
+    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
-// Pages Selection
 const loginPage = document.getElementById('login-page');
 const homePage = document.getElementById('home-page');
 
-// Function to Navigate to Dashboard after successful login
 function enterDashboard(displayName) {
     document.getElementById('user-display-name').innerText = displayName;
     loginPage.classList.remove('active');
@@ -63,66 +61,46 @@ function enterDashboard(displayName) {
     }, 400);
 }
 
-// --- GOOGLE SIGN IN WITH FIREBASE ---
+// --- GOOGLE AUTH ---
 document.getElementById('google-login-btn').addEventListener('click', () => {
     auth.signInWithPopup(provider)
-        .then((result) => {
-            const user = result.user;
-            console.log("Google Login Successful: ", user.displayName);
-            enterDashboard(user.displayName); // Dashboard එකට යනවා Google Name එකත් එක්ක
-        })
-        .catch((error) => {
-            console.error("Error during Google Login: ", error.message);
-            alert("Google Login එකේ ගැටළුවක් පවතී. Firebase Console එකේ Google Sign-In සක්‍රීය කර ඇත්දැයි පරීක්ෂා කරන්න: " + error.message);
-        });
+        .then((result) => { enterDashboard(result.user.displayName); })
+        .catch((error) => { alert("Google Auth error: " + error.message); });
 });
 
-// --- NORMAL EMAIL/PASSWORD LOGIN (BACKUP) ---
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    const enteredName = document.getElementById('username').value;
-    enterDashboard(enteredName);
+    enterDashboard(document.getElementById('username').value);
 });
 
-// Password Visibility Toggle
-document.getElementById('toggle-password').addEventListener('click', function() {
-    const passInput = document.getElementById('password');
-    if (passInput.type === 'password') {
-        passInput.type = 'text';
-        this.classList.replace('fa-eye', 'fa-eye-slash');
-    } else {
-        passInput.type = 'password';
-        this.classList.replace('fa-eye-slash', 'fa-eye');
-    }
-});
+// View Switcher (Syllabus/Papers/All) Logic
+function switchView(viewType) {
+    const syllabusSection = document.getElementById('section-syllabus');
+    const papersSection = document.getElementById('section-papers');
+    const gridLayout = document.getElementById('dashboard-grid');
 
-// --- HUGE ELEGANT COUNTDOWN TIMER ---
-function updateCountdown() {
-    const examDate = new Date("August 1, 2027 00:00:00").getTime();
-    const now = new Date().getTime();
-    const difference = examDate - now;
+    // Reset Active Tabs
+    document.querySelectorAll('.switch-tab-btn').forEach(btn => btn.classList.remove('active'));
 
-    if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        document.getElementById("days-count").innerText = days < 100 ? (days < 10 ? "00" + days : "0" + days) : days;
-    } else {
-        document.getElementById("days-count").innerText = "000";
+    if (viewType === 'all') {
+        document.getElementById('tab-all').classList.add('active');
+        syllabusSection.style.display = "block";
+        papersSection.style.display = "block";
+        gridLayout.style.gridTemplateColumns = window.innerWidth > 992 ? "2.7fr 1.3fr" : "1fr";
+    } else if (viewType === 'syllabus') {
+        document.getElementById('tab-syllabus').classList.add('active');
+        syllabusSection.style.display = "block";
+        papersSection.style.display = "none";
+        gridLayout.style.gridTemplateColumns = "1fr";
+    } else if (viewType === 'papers') {
+        document.getElementById('tab-papers').classList.add('active');
+        syllabusSection.style.display = "none";
+        papersSection.style.display = "block";
+        gridLayout.style.gridTemplateColumns = "1fr";
     }
 }
-setInterval(updateCountdown, 1000);
-updateCountdown();
 
-// --- SIDEBAR LOGIC ---
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebar-overlay');
-
-menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('open'); }
-closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
-overlay.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
-
-// --- GENERATE SYLLABUS & PAPERS ---
+// Generate Dashboard Elements
 function generateDashboard() {
     const lessonsContainer = document.getElementById('lessons-container');
     lessonsContainer.innerHTML = "";
@@ -130,8 +108,8 @@ function generateDashboard() {
         const box = document.createElement('div');
         box.className = 'lesson-box';
         box.innerHTML = `
-            <i class="fas fa-book-open-reader"></i>
-            <h3>${sftLessonsList[i]}</h3>
+            <span class="box-emoji">${sftLessonsList[i].emoji}</span>
+            <h3>${sftLessonsList[i].name}</h3>
         `;
         box.onclick = () => startQuiz(i, 'syllabus');
         lessonsContainer.appendChild(box);
@@ -143,7 +121,7 @@ function generateDashboard() {
         const box = document.createElement('div');
         box.className = 'lesson-box';
         box.innerHTML = `
-            <i class="fas fa-file-lines"></i>
+            <span class="box-emoji">${paper.emoji}</span>
             <h3>${paper.title}</h3>
         `;
         box.onclick = () => startQuiz(paper.id, 'paper');
@@ -151,7 +129,7 @@ function generateDashboard() {
     });
 }
 
-// --- QUIZ ENGINE ---
+// --- QUIZ CORE ENGINE ---
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
@@ -174,26 +152,11 @@ function loadQuestion(type) {
     timeLeft = 20;
     document.getElementById('time-sec').innerText = timeLeft;
     
-    let titleName = "";
-    if(type === 'syllabus') {
-        titleName = sftLessonsList[currentLesson];
-    } else {
-        const pObj = papersList.find(p => p.id === currentLesson);
-        titleName = pObj ? pObj.title : "Paper MCQ";
-    }
+    let titleName = (type === 'syllabus') ? sftLessonsList[currentLesson].name : (papersList.find(p => p.id === currentLesson)?.title || "MCQ Paper");
 
-    const questions = [
-        { 
-            q: `[${titleName}] සඳහා වන ආදර්ශ ප්‍රශ්නය - ප්‍රශ්න අංක 01?`, 
-            options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C (නිවැරදි පිළිතුර)", "පිළිතුර D"], 
-            correct: 2 
-        }
-    ];
+    const questions = [{ q: `[${titleName}] සඳහා වන ආදර්ශ ප්‍රශ්නය - ප්‍රශ්න අංක 01?`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C (නිවැරදි)", "පිළිතුර D"], correct: 2 }];
 
-    if(currentQuestionIndex >= questions.length) {
-        endQuiz(questions.length);
-        return;
-    }
+    if(currentQuestionIndex >= questions.length) { endQuiz(questions.length); return; }
 
     const currentQ = questions[currentQuestionIndex];
     document.getElementById('quiz-title').innerText = titleName;
@@ -203,7 +166,7 @@ function loadQuestion(type) {
     optionsContainer.innerHTML = "";
     document.getElementById('next-btn').style.display = 'none';
 
-    currentQ.forEachOptions = currentQ.options.forEach((opt, idx) => {
+    currentQ.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.innerText = opt;
@@ -214,32 +177,19 @@ function loadQuestion(type) {
     timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById('time-sec').innerText = timeLeft;
-        if(timeLeft <= 0) {
-            clearInterval(timerInterval);
-            disableOptions();
-            document.getElementById('next-btn').style.display = 'block';
-        }
+        if(timeLeft <= 0) { clearInterval(timerInterval); disableOptions(); document.getElementById('next-btn').style.display = 'block'; }
     }, 1000);
 }
 
 function checkAnswer(selected, correct, clickedBtn) {
     clearInterval(timerInterval);
     disableOptions();
-    const optionsButtons = document.querySelectorAll('.option-btn');
-    if(selected === correct) {
-        clickedBtn.classList.add('correct');
-        score++;
-    } else {
-        clickedBtn.classList.add('wrong');
-        optionsButtons[correct].classList.add('correct');
-    }
+    if(selected === correct) { clickedBtn.classList.add('correct'); score++; } 
+    else { clickedBtn.classList.add('wrong'); document.querySelectorAll('.option-btn')[correct].classList.add('correct'); }
     document.getElementById('next-btn').style.display = 'block';
 }
 
-function disableOptions() {
-    document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
-}
-
+function disableOptions() { document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true); }
 document.getElementById('next-btn').onclick = () => { currentQuestionIndex++; loadQuestion(); };
 
 function endQuiz(totalQs) {
@@ -254,3 +204,24 @@ document.getElementById('back-home-btn').onclick = () => {
     document.getElementById('result-page').classList.remove('active');
     setTimeout(() => { homePage.classList.add('active'); }, 400);
 };
+
+// Password Toggle & Countdown Logic
+document.getElementById('toggle-password').addEventListener('click', function() {
+    const passInput = document.getElementById('password');
+    passInput.type = (passInput.type === 'password') ? 'text' : 'password';
+    this.classList.toggle('fa-eye'); this.classList.toggle('fa-eye-slash');
+});
+
+function updateCountdown() {
+    const examDate = new Date("August 1, 2027 00:00:00").getTime();
+    const difference = examDate - new Date().getTime();
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    document.getElementById("days-count").innerText = difference > 0 ? (days < 100 ? (days < 10 ? "00" + days : "0" + days) : days) : "000";
+}
+setInterval(updateCountdown, 1000); updateCountdown();
+
+// Sidebar menu setup
+const menuBtn = document.getElementById('menu-btn'), closeBtn = document.getElementById('close-btn'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebar-overlay');
+menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('open'); }
+closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+overlay.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
