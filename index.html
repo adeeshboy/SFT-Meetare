@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SFT Meetare - Premium Learning Platform</title>
     <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- ---------------- LOGIN PAGE (ENGLISH) ---------------- -->
     <div id="login-page" class="page active">
         <div class="lang-badge-fixed">
             <i class="fas fa-globe"></i> සිංහල මාධ්‍යය
@@ -20,13 +18,12 @@
             <div class="lock-badge">
                 <i class="fas fa-unlock-alt"></i>
             </div>
-            <h2>SFT Meetare</h2>
-            <p class="tagline">🚀😍 The Ultimate Hub for Technology Students</p>
+            <h2>SFT Meetare Login</h2>
+            <p class="tagline">🚀😍 තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
             
-            <!-- Premium Google Login Button (Fixed Icon) -->
             <button type="button" class="google-btn" id="google-login-btn">
                 <div class="google-icon-wrapper">
-                    <img src="https://fonts.gstatic.com/navya/images/logos/g-logo.png" alt="Google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
                 </div>
                 <span class="google-btn-text">Sign in with Google</span>
             </button>
@@ -40,25 +37,23 @@
                 </div>
                 <div class="input-group pass-group">
                     <span class="input-icon"><i class="far fa-key"></i></span>
-                    <input type="password" id="password" placeholder="Enter password (1234)" required>
+                    <input type="password" id="password" placeholder="Enter Password (1234)" required>
                     <i class="far fa-eye" id="toggle-password"></i>
                 </div>
                 
                 <div class="login-options">
                     <label class="remember-me">
-                        <input type="checkbox"> <span>Remember me</span>
+                        <input type="checkbox"> <span>Remember Me</span>
                     </label>
-                    <a href="#" class="forgot-link">Forgot Password?</a>
+                    <a href="#" class="forgot-link">Forgot?</a>
                 </div>
 
-                <button type="submit" class="btn-primary" id="login-submit-btn">Access Dashboard 🚀</button>
+                <button type="submit" class="btn-primary" id="login-submit-btn">Login with Password 🚀</button>
             </form>
         </div>
     </div>
 
-    <!-- ---------------- HOME PAGE ---------------- -->
     <div id="home-page" class="page">
-        <!-- Navbar -->
         <header class="navbar">
             <button id="menu-btn" class="menu-btn"><i class="fas fa-bars-staggered"></i></button>
             <div class="logo">SFT Meetare</div>
@@ -68,7 +63,6 @@
             </div>
         </header>
 
-        <!-- Side Menu -->
         <div id="sidebar" class="sidebar">
             <button id="close-btn" class="close-btn">&times;</button>
             <div class="sidebar-content">
@@ -101,9 +95,7 @@
         </div>
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Modern View Switcher Toolbar (English) -->
             <div class="view-switcher-container">
                 <button class="switch-tab-btn active" id="tab-all" onclick="switchView('all')">📄 Show All</button>
                 <button class="switch-tab-btn" id="tab-syllabus" onclick="switchView('syllabus')">📚 Syllabus</button>
@@ -112,13 +104,11 @@
 
             <div class="dashboard-grid-layout" id="dashboard-grid">
                 
-                <!-- LEFT SIDE: SFT SYLLABUS LESSONS (Names in Sinhala) -->
                 <section class="cat-section" id="section-syllabus">
                     <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> SFT විෂය නිර්දේශයේ පාඩම්</h2>
                     <div class="lessons-grid" id="lessons-container"></div>
                 </section>
 
-                <!-- RIGHT SIDE: PAST PAPERS & MODEL PAPERS (Names in Sinhala) -->
                 <section class="cat-section" id="section-papers">
                     <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර සහ ආදර්ශ ප්‍රශ්න පත්‍ර</h2>
                     <div class="lessons-grid flex-column-papers" id="papers-container"></div>
@@ -128,7 +118,6 @@
         </main>
     </div>
 
-    <!-- ---------------- QUIZ PAGE ---------------- -->
     <div id="quiz-page" class="page">
         <div class="quiz-container">
             <div class="quiz-header">
@@ -145,7 +134,6 @@
         </div>
     </div>
 
-    <!-- ---------------- RESULT PAGE ---------------- -->
     <div id="result-page" class="page">
         <div class="result-card">
             <div class="trophy-badge"><i class="fas fa-trophy"></i></div>
@@ -155,7 +143,6 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
