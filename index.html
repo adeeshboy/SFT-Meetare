@@ -3,24 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SFT Meeter - Home</title>
+<title>SFT Meeter</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
 <div class="container">
 
-<h1>📚 SFT Meeter</h1>
+    <!-- Login Page -->
+    <div id="loginPage">
 
-<p>Welcome to SFT Meeter MCQ Quiz Website</p>
+        <h1>SFT Meeter</h1>
 
-<br>
+        <h2>Login</h2>
 
-<button onclick="location.href='quiz.html'">
-Start Quiz
-</button>
+        <input
+        type="text"
+        id="username"
+        placeholder="Enter Your Name">
+
+        <br><br>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+    </div>
+
+
+    <!-- Home Page -->
+
+    <div id="homePage" style="display:none;">
+
+        <h1>Welcome</h1>
+
+        <h2 id="welcomeText"></h2>
+
+        <br>
+
+        <button onclick="startQuiz()">
+            Start Quiz
+        </button>
+
+    </div>
+
+
+    <!-- Quiz Page -->
+
+    <div id="quizPage" style="display:none;">
+
+        <h1>SFT Meeter</h1>
+
+        <div id="progress"></div>
+
+        <div id="quiz"></div>
+
+        <br>
+
+        <button id="prevBtn">
+            Previous
+        </button>
+
+        <button id="nextBtn">
+            Next
+        </button>
+
+        <br><br>
+
+        <button id="submitBtn">
+            Submit Quiz
+        </button>
+
+        <div id="result"></div>
+
+    </div>
 
 </div>
+
+<script src="questions.js"></script>
+
+<script src="script.js"></script>
 
 </body>
 </html>
