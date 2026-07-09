@@ -48,148 +48,121 @@ const sftLessons = [
 
 // --- Core Data: Questions Matrix ---
 const allQuestions = [
-    // LESSON 1 (තාක්ෂණවේදය සඳහා ගණිතය)
+    // LESSON 1
     { id: 1, lessonId: 1, text: "පහත දැක්වෙන ප්‍රකාශ අතුරින් සත්‍ය ප්‍රකාශය කුමක්ද?", options: ["SFT යනු කලාවකි", "SFT යනු තාක්ෂණවේදය සඳහා විද්‍යාවයි", "SFT යනු වාණිජ විෂයකි", "ඉහත කිසිවක් නොවේ"], answer: "Mg==" }, // "2" encoded
     { id: 2, lessonId: 1, text: "SI ඒකක ක්‍රමයට අනුව මූලික ඒකක ගණන කොපමණද?", options: ["5", "6", "7", "8"], answer: "Mw==" }, // "3" encoded
-    
-    // LESSON 2 (දත්ත නිරූපණය සහ සංඛ්‍යා පද්ධති)
+    // LESSON 2
     { id: 3, lessonId: 2, text: "දශම සංඛ්‍යා පද්ධතියේ (Decimal) පාදය කුමක්ද?", options: ["2", "8", "10", "16"], answer: "Mw==" } // "3" encoded
 ];
 
 // --- DOM Elements & Initialization ---
 document.addEventListener("DOMContentLoaded", () => {
     initApp();
-    setupEventListeners();
 });
 
 function initApp() {
-    updateCountdown();
-    setInterval(updateCountdown, 60000); // විනාඩියෙන් විනාඩියට යාවත්කාලීන වේ
+    calculateExamCountdown();
+    setInterval(calculateExamCountdown, 60000); // විනාඩියෙන් විනාඩියට යාවත්කාලීන වේ
 
-    // ස්වයංක්‍රීය පුරනය වීම් පරීක්ෂාව (Auto-Login Session)
-    const savedUser = localStorage.getItem("sft_user");
+    // ස්වයංක්‍රීය පුරනය වීම් පරීක්ෂාව (Remember Me / Session)
+    const savedUser = localStorage.getItem("sft_username");
     if (savedUser) {
-        const user = JSON.parse(savedUser);
-        showDashboard(user.name, user.avatar);
+        showDashboard(savedUser);
     } else {
         showPage("login-page");
     }
 }
 
-function setupEventListeners() {
-    const menuBtn = document.getElementById("menuBtn");
-    const sidebar = document.getElementById("sidebar");
-    if(menuBtn && sidebar) {
-        menuBtn.addEventListener("click", () => sidebar.classList.toggle("active"));
-    }
-
-    // HTML එකේ inline onclick නැතිනම් බොත්තම් සඳහා Event Listeners එකතු කිරීම
-    const loginBtn = document.getElementById("loginActionBtn");
-    if (loginBtn) loginBtn.addEventListener("click", handleLogin);
-
-    const logoutBtn = document.getElementById("firebase-logout-btn");
-    if (logoutBtn) logoutBtn.addEventListener("click", handleLogout);
-
-    const prevBtn = document.getElementById("prevBtn");
-    if (prevBtn) prevBtn.addEventListener("click", prevQuestion);
-
-    const nextBtn = document.getElementById("nextBtn");
-    if (nextBtn) nextBtn.addEventListener("click", nextQuestion);
-    
-    const backHomeBtn = document.getElementById("backHomeBtn");
-    if (backHomeBtn) backHomeBtn.addEventListener("click", backToHome);
-}
-
-// --- Navigation Helper ---
+// --- Navigation Helper (HTML IDs වලට ගැළපෙන පරිදි සකසා ඇත) ---
 function showPage(pageId) {
-    const pages = ["login-page", "dashboard-page", "quiz-page", "result-page"];
+    const pages = ["login-page", "home-page", "quiz-page", "result-box"];
     pages.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.style.display = (id === pageId) ? "block" : "none";
     });
     
+    // Sidebar එක වසා දැමීම
     const sidebar = document.getElementById("sidebar");
     if(sidebar) sidebar.classList.remove("active");
 }
 
-// --- Notification UI ---
-function showNotification(message, type = "info") {
-    // පද්ධතියේ වෙනත් alert ඇත්නම් ඒවා වෙනුවට ලස්සන custom toast එකක් පෙන්වීම
-    let toastContainer = document.getElementById("toast-container");
-    if (!toastContainer) {
-        toastContainer = document.createElement("div");
-        toastContainer.id = "toast-container";
-        toastContainer.style.cssText = "position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;";
-        document.body.appendChild(toastContainer);
+// --- Authentication (Password ලොගින් එක) ---
+function checkLogin() {
+    const usernameInput = document.getElementById("username").value.trim();
+    const passwordInput = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("login-error");
+    const rememberMe = document.getElementById("remember-me").checked;
+
+    if (!usernameInput) {
+        alert("කරුණාකර ඔබගේ නම ඇතුළත් කරන්න.");
+        return;
     }
 
-    const toast = document.createElement("div");
-    toast.className = `custom-toast ${type}`;
-    toast.style.cssText = `padding: 12px 24px; border-radius: 8px; color: white; font-weight: bold; background: ${type === 'error' ? '#ef4444' : '#7c3aed'}; opacity: 0; transition: opacity 0.3s ease;`;
-    toast.innerText = message;
-    
-    toastContainer.appendChild(toast);
-    setTimeout(() => toast.style.opacity = "1", 50);
-    
-    setTimeout(() => {
-        toast.style.opacity = "0";
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
-}
-
-// --- Authentication ---
-function handleLogin() {
-    const nameInput = document.getElementById("studentName").value.trim();
-    const passInput = document.getElementById("accessPassword").value.trim();
-    const avatarInput = document.querySelector('input[name="avatar"]:checked');
-
-    if (!nameInput) return showNotification("කරුණාකර ඔබගේ නම ඇතුළත් කරන්න.", "error");
-    if (passInput !== "1234") return showNotification("ප්‍රවේශ මුරපදය වැරදියි!", "error");
-    
-    const avatarSrc = avatarInput ? avatarInput.value : "👨‍🎓";
-    
-    localStorage.setItem("sft_user", JSON.stringify({ name: nameInput, avatar: avatarSrc }));
-    showDashboard(nameInput, avatarSrc);
-}
-
-function handleLogout() {
-    localStorage.removeItem("sft_user");
-    clearInterval(timerInterval);
-    showPage("login-page");
-}
-
-// --- Dashboard ---
-function showDashboard(name, avatar) {
-    showPage("dashboard-page");
-    
-    const navUserName = document.getElementById("navUserName");
-    const navAvatar = document.getElementById("navAvatar");
-    
-    if (navUserName) navUserName.innerText = name;
-    if (navAvatar) {
-        if (avatar.includes("http") || avatar.includes(".png")) {
-            navAvatar.src = avatar;
-            navAvatar.style.display = "block";
-        } else {
-            // Emoji එකක් නම් පෙළක් ලෙස පෙන්වන්න
-            navAvatar.parentNode.innerHTML = `<div id="navAvatar" style="font-size:30px;">${avatar}</div>`;
+    if (passwordInput === "1234") {
+        if (errorMsg) errorMsg.style.display = "none";
+        
+        if (rememberMe) {
+            localStorage.setItem("sft_username", usernameInput);
         }
+        
+        showDashboard(usernameInput);
+    } else {
+        if (errorMsg) errorMsg.style.display = "block";
     }
-    
-    const grid = document.getElementById("lessonsGrid");
-    if (!grid) return;
-    
-    grid.innerHTML = sftLessons.map(lesson => {
-        const count = allQuestions.filter(q => q.lessonId === lesson.id).length;
-        return `
-            <div class="lesson-card" onclick="selectLesson(${lesson.id}, '${lesson.title}')" style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; border-left: 5px solid #7c3aed; margin-bottom:12px; transition: transform 0.2s;">
-                <div class="lesson-icon" style="font-size: 24px; margin-bottom: 8px;">📚</div>
-                <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size:16px;">${lesson.title}</h3>
-                <p style="margin: 0; font-size: 13px; color: #64748b;">${count} ප්‍රශ්න ඇතුළත් වේ</p>
-            </div>
-        `;
-    }).join("");
 }
+
+// --- Firebase සාර්ථකව පුරනය වූ පසු (Firebase Interface) ---
+window.handleSuccessfulLogin = function(user) {
+    showDashboard(user.displayName, user.photoURL);
+};
+
+// --- Dashboard පාලනය ---
+function showDashboard(name, avatarUrl = "") {
+    showPage("home-page");
+    
+    document.getElementById("user-display").innerText = name;
+    document.getElementById("sidebar-username").innerText = name;
+    
+    // මෙනු සහ ලොගවුට් බොත්තම් පෙන්වීම
+    document.querySelector(".menu-open-btn").style.display = "block";
+    document.getElementById("firebase-logout-btn").style.display = "block";
+
+    // ප්‍රෝෆයිල් පින්තූරය සැකසීම
+    const imgTag = document.getElementById("sidebar-user-img");
+    const avatarFallback = document.getElementById("profile-avatar-fallback");
+    if (avatarUrl && imgTag && avatarFallback) {
+        imgTag.src = avatarUrl;
+        imgTag.style.display = "block";
+        avatarFallback.style.display = "none";
+    }
+
+    generateLessonsDashboard();
+}
+
+// --- පාඩම් මාලාව Dashboard එකට එකතු කිරීම ---
+window.generateLessonsDashboard = function() {
+    const container = document.getElementById("lessons-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    sftLessons.forEach(lesson => {
+        const count = allQuestions.filter(q => q.lessonId === lesson.id).length;
+        const card = document.createElement("div");
+        card.className = "dashboard-card";
+        card.style.cssText = "background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; border-left: 5px solid #7c3aed; margin-bottom: 15px; transition: transform 0.2s;";
+        
+        card.innerHTML = `
+            <h3 style="margin: 0 0 8px 0; color: #1e293b; font-size: 16px;">${lesson.title}</h3>
+            <p style="margin: 0; font-size: 14px; color: #64748b;">${count} ප්‍රශ්න ඇතුළත් වේ</p>
+        `;
+        
+        card.onclick = () => selectLesson(lesson.id, lesson.title);
+        card.onmouseenter = () => card.style.transform = "translateY(-3px)";
+        card.onmouseleave = () => card.style.transform = "translateY(0)";
+        
+        container.appendChild(card);
+    });
+};
 
 // --- Quiz Engine ---
 function selectLesson(lessonId, lessonTitle) {
@@ -197,17 +170,17 @@ function selectLesson(lessonId, lessonTitle) {
     selectedLessonQuestions = allQuestions.filter(q => q.lessonId === lessonId);
     
     if (selectedLessonQuestions.length === 0) {
-        return showNotification("මෙම පාඩම සඳහා ප්‍රශ්න තවමත් ඇතුළත් කර නැත.", "info");
+        alert("මෙම පාඩම සඳහා ප්‍රශ්න තවමත් ඇතුළත් කර නැත.");
+        return;
     }
     
     currentQuestionIndex = 0;
     score = 0;
     userAnswers = new Array(selectedLessonQuestions.length).fill(null);
-    timeLeft = selectedLessonQuestions.length * 60; // එක් ප්‍රශ්නයකට විනාඩිය බැගින්
+    timeLeft = selectedLessonQuestions.length * 60; // එක් ප්‍රශ්නයකට තත්පර 60 බැගින්
     
     showPage("quiz-page");
-    const titleEl = document.getElementById("quizLessonTitle");
-    if (titleEl) titleEl.innerText = lessonTitle;
+    document.getElementById("quizTopic-title") ? document.getElementById("quizTopic-title").innerText = lessonTitle : document.getElementById("quiz-topic-title").innerText = lessonTitle;
     
     startTimer();
     renderQuestion();
@@ -215,19 +188,19 @@ function selectLesson(lessonId, lessonTitle) {
 
 function startTimer() {
     clearInterval(timerInterval);
-    const timerEl = document.getElementById("quizTimer");
+    const timerEl = document.getElementById("timer");
     
     timerInterval = setInterval(() => {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            showNotification("කාලය අවසන් විය!", "error");
+            alert("⏰ කාලය අවසන් විය!");
             submitQuiz();
             return;
         }
         timeLeft--;
         const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
         const secs = (timeLeft % 60).toString().padStart(2, '0');
-        if(timerEl) timerEl.innerText = `⏱️ කාලය: ${mins}:${secs}`;
+        if(timerEl) timerEl.innerText = `${mins}:${secs}`;
     }, 1000);
 }
 
@@ -236,57 +209,57 @@ function renderQuestion() {
     
     const q = selectedLessonQuestions[currentQuestionIndex];
     
-    const progressEl = document.getElementById("currentQuestionNum");
-    if (progressEl) progressEl.innerText = `ප්‍රශ්න අංක: ${currentQuestionIndex + 1}/${selectedLessonQuestions.length}`;
+    // ප්‍රගතිය පෙන්වීම
+    const totalQuestions = selectedLessonQuestions.length;
+    document.getElementById("progress").innerText = `Question ${currentQuestionIndex + 1} / ${totalQuestions}`;
+    const progressPercent = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+    document.getElementById("progress-bar").style.width = `${progressPercent}%`;
+
+    const quizBox = document.getElementById("quiz");
+    quizBox.innerHTML = `
+        <h3 style="margin-top: 15px; margin-bottom: 20px; color: #0f172a; font-size: 18px;">${q.text}</h3>
+        <div id="options-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
+    `;
     
-    const textEl = document.getElementById("questionText");
-    if (textEl) textEl.innerText = q.text;
-    
-    const optionsContainer = document.getElementById("optionsContainer");
-    if (optionsContainer) {
-        optionsContainer.innerHTML = q.options.map((opt, idx) => `
-            <div class="option-card ${userAnswers[currentQuestionIndex] === idx + 1 ? 'selected' : ''}" 
-                 onclick="selectOption(${idx + 1})" 
-                 style="text-align: left; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; font-size: 15px; cursor: pointer; margin-bottom: 8px; font-weight: 500; display: flex; gap: 10px; align-items: center;">
-                <span class="option-index" style="background: #f1f5f9; padding: 4px 8px; border-radius: 6px; font-weight: bold;">${idx + 1}</span>
-                <span class="option-text">${opt}</span>
-            </div>
-        `).join("");
-    }
-    
-    // බොත්තම් පාලනය (Navigation)
-    const prevBtn = document.getElementById("prevBtn");
-    if (prevBtn) prevBtn.disabled = currentQuestionIndex === 0;
-    
-    const nextBtn = document.getElementById("nextBtn");
-    if (nextBtn) {
-        if (currentQuestionIndex === selectedLessonQuestions.length - 1) {
-            nextBtn.innerText = "ප්‍රශ්නාවලිය අවසන් කරන්න 🏁";
-            nextBtn.className = "btn finish-btn";
-        } else {
-            nextBtn.innerText = "මීළඟ ප්‍රශ්නය ➡️";
-            nextBtn.className = "btn primary-btn";
+    const optionsContainer = document.getElementById("options-list");
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.innerText = `${idx + 1}. ${opt}`;
+        btn.style.cssText = "text-align: left; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; font-size: 15px; cursor: pointer; font-weight: 500; transition: all 0.2s;";
+        
+        if (userAnswers[currentQuestionIndex] === idx + 1) {
+            btn.style.borderColor = "#7c3aed";
+            btn.style.background = "#f3e8ff";
         }
+
+        btn.onclick = () => selectOption(idx + 1, btn);
+        optionsContainer.appendChild(btn);
+    });
+    
+    // බොත්තම් පාලනය
+    const nextBtn = document.getElementById("next-btn");
+    if (currentQuestionIndex === selectedLessonQuestions.length - 1) {
+        nextBtn.innerText = "ප්‍රශ්නාවලිය අවසන් කරන්න 🏁";
+    } else {
+        nextBtn.innerText = "Next Question ➡️";
     }
 }
 
-function selectOption(optionNum) {
+function selectOption(optionNum, selectedBtn) {
     userAnswers[currentQuestionIndex] = optionNum;
-    const options = document.querySelectorAll(".option-card");
-    options.forEach((opt, idx) => {
-        if (idx + 1 === optionNum) {
-            opt.style.borderColor = "#7c3aed";
-            opt.style.background = "#f3e8ff";
-        } else {
-            opt.style.borderColor = "#e2e8f0";
-            opt.style.background = "white";
-        }
-    });
+    const buttons = document.getElementById("options-list").children;
+    for (let btn of buttons) {
+        btn.style.borderColor = "#e2e8f0";
+        btn.style.background = "white";
+    }
+    selectedBtn.style.borderColor = "#7c3aed";
+    selectedBtn.style.background = "#f3e8ff";
 }
 
 function nextQuestion() {
     if (userAnswers[currentQuestionIndex] === null) {
-        return showNotification("කරුණාකර ඉදිරියට යාමට පිළිතුරක් තෝරන්න.", "info");
+        alert("කරුණාකර ඉදිරියට යාමට පිළිතුරක් තෝරන්න.");
+        return;
     }
     
     if (currentQuestionIndex < selectedLessonQuestions.length - 1) {
@@ -297,19 +270,7 @@ function nextQuestion() {
     }
 }
 
-function prevQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        renderQuestion();
-    }
-}
-
-function backToHome() {
-    clearInterval(timerInterval);
-    showPage("dashboard-page");
-}
-
-// --- Results Handling ---
+// --- ප්‍රශ්නාවලිය අවසන් කර ප්‍රතිඵල පෙන්වීම ---
 function submitQuiz() {
     clearInterval(timerInterval);
     score = 0;
@@ -319,27 +280,20 @@ function submitQuiz() {
         if (userAnswers[idx] === correctAns) score++;
     });
     
-    showPage("result-page");
+    showPage("result-box");
     
     const total = selectedLessonQuestions.length;
     const percentage = Math.round((score / total) * 100);
     
-    const scoreEl = document.getElementById("resultScore");
-    if (scoreEl) scoreEl.innerText = `ලකුණු: ${score} / ${total} (${percentage}%)`;
-    
-    const statusTextEl = document.getElementById("resultStatusText");
-    if(statusTextEl) {
-        if(percentage >= 75) {
-            statusTextEl.innerText = "🎉 විශිෂ්ටයි! ඔබට සාමාර්ථයක් ඇත.";
-            statusTextEl.style.color = "#22c55e";
-        } else if(percentage >= 40) {
-            statusTextEl.innerText = "👍 හොඳයි, තවත් උත්සාහ කරන්න!";
-            statusTextEl.style.color = "#eab308";
-        } else {
-            statusTextEl.innerText = "📚 නැවත උත්සාහ කරන්න. ඔබට පුළුවන්!";
-            statusTextEl.style.color = "#ef4444";
-        }
-    }
+    document.getElementById("result").innerHTML = `
+        <div style="font-size: 50px; margin-bottom: 15px;">📊</div>
+        <p style="font-size: 18px; color: #475569; margin-bottom: 5px;">Your Final Score</p>
+        <h2 style="font-size: 36px; margin: 0 0 15px 0; color: #7c3aed;">${score} / ${total}</h2>
+        <div style="font-size: 16px; font-weight: 600; padding: 8px 16px; background: #f1f5f9; display: inline-block; border-radius: 20px; color: #1e293b; margin-bottom:20px;">
+            Success Rate: ${percentage}%
+        </div>
+        <div id="reviewContainer" style="text-align:left; max-height: 300px; overflow-y: auto; padding: 10px;"></div>
+    `;
     
     renderReview();
 }
@@ -354,40 +308,75 @@ function renderReview() {
         const isCorrect = userAns === correctAns;
         
         return `
-            <div class="review-card" style="padding: 15px; border-radius: 8px; border: 2px solid ${isCorrect ? '#22c55e' : '#ef4444'}; background: ${isCorrect ? '#f0fdf4' : '#fef2f2'}; margin-bottom: 12px;">
-                <h4 style="margin: 0 0 10px 0; color: #1e293b;">ප්‍රශ්නය ${idx + 1}: ${q.text}</h4>
-                <div class="review-options" style="display:flex; flex-direction:column; gap:6px;">
-                    ${q.options.map((opt, oIdx) => {
-                        let style = "padding: 8px; border-radius: 6px; background: white; border: 1px solid #e2e8f0;";
-                        if (oIdx + 1 === correctAns) {
-                            style = "padding: 8px; border-radius: 6px; background: #dcfce7; border: 1px solid #22c55e; font-weight: bold; color: #166534;";
-                        } else if (oIdx + 1 === userAns && !isCorrect) {
-                            style = "padding: 8px; border-radius: 6px; background: #fee2e2; border: 1px solid #ef4444; color: #991b1b;";
-                        }
-                        
-                        return `<div style="${style}">${oIdx + 1}. ${opt}</div>`;
-                    }).join("")}
-                </div>
+            <div style="padding: 12px; border-radius: 8px; border: 2px solid ${isCorrect ? '#22c55e' : '#ef4444'}; background: ${isCorrect ? '#f0fdf4' : '#fef2f2'}; margin-bottom: 10px;">
+                <h4 style="margin: 0 0 8px 0;">Q${idx + 1}: ${q.text}</h4>
+                <p style="margin: 4px 0; font-size:14px;">ඔබේ පිළිතුර: <span style="color:${isCorrect ? '#22c55e' : '#ef4444'}; font-weight:bold;">${userAns}. ${q.options[userAns-1]}</span></p>
+                ${!isCorrect ? `<p style="margin: 4px 0; font-size:14px; color:#22c55e;">නිවැරදි පිළිතුර: <b>${correctAns}. ${q.options[correctAns-1]}</b></p>` : ''}
             </div>
         `;
     }).join("");
 }
 
-// --- Countdown Timer Feature ---
-function updateCountdown() {
-    // 2027 උසස් පෙළ විභාගය ඉලක්ක කර දින ගණනය (2027 අගෝස්තු 1 දිනට සාපේක්ෂව)
-    const targetDate = new Date("August 1, 2027 00:00:00").getTime();
-    const now = new Date().getTime();
-    const diff = targetDate - now;
-    const countdownEl = document.getElementById("examCountdown");
-    
-    if (!countdownEl) return;
-    
-    if (diff <= 0) {
-        countdownEl.innerText = "⏳ A/L විභාගය ආරම්භ වී ඇත / අවසන් වී ඇත!";
-        return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    countdownEl.innerText = `🎯 2027 A/L විභාගයට තව දින ${days} යි!`;
+function backToHome() {
+    clearInterval(timerInterval);
+    showPage("home-page");
 }
+
+// --- Sidebar Menu පාලනය ---
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar.style.left === "0px") {
+        sidebar.style.left = "-280px";
+    } else {
+        sidebar.style.left = "0px";
+    }
+}
+
+// --- A/L Exam Countdown (2027) ---
+window.calculateExamCountdown = function() {
+    const examDate = new Date("August 1, 2027 00:00:00").getTime();
+    const now = new Date().getTime();
+    const discrepancy = examDate - now;
+
+    const remainingDays = Math.floor(discrepancy / (1000 * 60 * 60 * 24));
+    const countDisplay = document.getElementById("days-count");
+
+    if (countDisplay) {
+        if (remainingDays > 0) {
+            countDisplay.innerText = remainingDays;
+        } else if (remainingDays === 0) {
+            countDisplay.innerText = "Today!";
+        } else {
+            countDisplay.innerText = "Ended";
+        }
+    }
+};
+
+// --- Modal පාලනය ---
+window.showSidebarModal = function(type) {
+    const modal = document.getElementById("info-modal");
+    const container = document.getElementById("modal-body-content");
+    let template = "";
+    
+    switch (type) {
+        case 'about':
+            template = `<h2>ℹ️ About Owner</h2><p>SFT Meetare පද්ධතිය තාක්ෂණවේදය හදාරන දරුවන්ගේ දැනුම මිනුම වැඩිදියුණු කිරීමට නිපදවා ඇත.</p>`;
+            break;
+        case 'review':
+            template = `<h2>⭐ User Reviews</h2><p>තවමත් සමාලෝචන ලැබී නොමැත.</p>`;
+            break;
+        case 'privacy':
+            template = `<h2>🔒 Privacy Policy</h2><p>ඔබගේ දත්ත සුරක්ෂිතව පවතිනු ඇත.</p>`;
+            break;
+        case 'terms':
+            template = `<h2>📜 Terms & Conditions</h2><p>අධ්‍යාපනික අරමුණු සඳහා පමණක් භාවිත කරන්න.</p>`;
+            break;
+    }
+    container.innerHTML = template;
+    modal.style.display = "block";
+    toggleMenu();
+};
+
+window.closeSidebarModal = function() {
+    document.getElementById("info-modal").style.display = "none";
+};
