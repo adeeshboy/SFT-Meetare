@@ -48,6 +48,39 @@ body {
     position: relative;
 }
 
+/* --- LANGUAGE SELECTOR --- */
+.lang-selector {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: var(--card-bg);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
+}
+
+.lang-selector i {
+    color: var(--primary-color);
+}
+
+#lang-switch {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+}
+
+#lang-switch option {
+    background: var(--bg-dark);
+    color: white;
+}
+
 /* --- LOGIN STYLE --- */
 .login-card {
     background: var(--card-bg);
@@ -119,8 +152,8 @@ body {
 
 /* --- NAVBAR & SIDEBAR --- */
 #home-page {
-    display: block; /* Header list items stretch properly */
-    padding-top: 80px;
+    display: block; 
+    padding-top: 100px;
 }
 
 .navbar {
@@ -245,6 +278,7 @@ body {
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    padding-bottom: 40px;
 }
 
 .lesson-box {
@@ -254,11 +288,11 @@ body {
     border-radius: 12px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .lesson-box:hover {
-    transform: translateY(-50px);
+    transform: translateY(-5px);
     border-color: var(--primary-color);
     box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
 }
