@@ -3,69 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SFT Meeter</title>
+    <title>SFT Meetare - Learn SFT</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div class="container">
-
-    <!-- Login Page -->
-    <div id="loginPage">
-
-        <h1>SFT Meeter</h1>
-        <p class="subtitle">MCQ Quiz Website</p>
-
-        <input type="text" id="username" placeholder="Enter Your Name">
-
-        <button onclick="login()">Login</button>
-
-    </div>
-
-    <!-- Home Page -->
-    <div id="homePage" style="display:none;">
-
-        <h1>Welcome</h1>
-
-        <h2 id="welcomeText"></h2>
-
-        <button onclick="startQuiz()">
-            Start Quiz
-        </button>
-
-    </div>
-
-    <!-- Quiz Page -->
-    <div id="quizPage" style="display:none;">
-
-        <h2 id="progress"></h2>
-
-        <div id="quiz"></div>
-
-        <div class="buttons">
-
-            <button id="prevBtn" onclick="previousQuestion()">
-                Previous
-            </button>
-
-            <button id="nextBtn" onclick="nextQuestion()">
-                Next
-            </button>
-
+    <div id="login-page" class="page active">
+        <div class="login-card">
+            <h2>SFT Meetare</h2>
+            <p>Welcome back! Please login to your account.</p>
+            <form id="login-form">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
         </div>
-
-        <button id="submitBtn" onclick="submitQuiz()">
-            Submit Quiz
-        </button>
-
-        <div id="result"></div>
-
     </div>
 
-</div>
+    <div id="home-page" class="page">
+        <header class="navbar">
+            <button id="menu-btn" class="menu-btn"><i class="fas fa-bars"></i></button>
+            <div class="logo">SFT Meetare</div>
+            <div class="user-profile"><i class="fas fa-user-circle"></i> Student</div>
+        </header>
 
-<script src="questions.js"></script>
-<script src="script.js"></script>
+        <div id="sidebar" class="sidebar">
+            <button id="close-btn" class="close-btn">&times;</button>
+            <div class="sidebar-content">
+                <h3>About Developer</h3>
+                <div class="dev-info">
+                    <i class="fas fa-code-branch dev-icon"></i>
+                    <p><strong>Developer:</strong> Adeesha Lakshitha</p>
+                    <p>This is an educational platform dedicated to Advanced Level Technology (SFT) students to master their syllabus through interactive MCQs.</p>
+                </div>
+                <hr>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
+        <main class="main-content">
+            <h1 class="section-title">SFT Lessons List</h1>
+            <div class="lessons-grid" id="lessons-container">
+                </div>
+        </main>
+    </div>
+
+    <div id="quiz-page" class="page">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h2 id="quiz-title">Lesson Title</h2>
+                <div class="timer" id="timer">Time left: <span id="time-sec">20</span>s</div>
+            </div>
+            <div class="quiz-body">
+                <p class="question" id="question-text">Question goes here?</p>
+                <div class="options" id="options-container">
+                    </div>
+            </div>
+            <div class="quiz-footer">
+                <button id="next-btn" class="btn-primary" style="display: none;">Next Question</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="result-page" class="page">
+        <div class="result-card">
+            <i class="fas fa-trophy trophy-icon"></i>
+            <h2>Quiz Completed!</h2>
+            <p id="result-text">You scored 0 out of 0</p>
+            <button id="back-home-btn" class="btn-primary">Back to Home</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
