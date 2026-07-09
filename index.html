@@ -19,11 +19,13 @@
                 <i class="fas fa-unlock-alt"></i>
             </div>
             <h2>SFT මීටරය</h2>
-            <p class="tagline">🚀😍 තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
+            <p class="tagline">🚀😍  තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
             
             <button type="button" class="google-btn" id="google-login-btn">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                <span>Google ගිණුමෙන් ඇතුල් වන්න</span>
+                <div class="google-icon-wrapper">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                </div>
+                <span class="google-btn-text">Google ගිණුමෙන් ඇතුල් වන්න</span>
             </button>
 
             <div class="divider"><span>නැතහොත් ඊමේල් මඟින්</span></div>
@@ -43,7 +45,7 @@
                     <label class="remember-me">
                         <input type="checkbox"> <span>මාව මතක තබා ගන්න</span>
                     </label>
-                    <a href="#" class="forgot-link">අමතක වුනාද?</a>
+                    <a href="#" class="forgot-link">அමතක වුනාද?</a>
                 </div>
 
                 <button type="submit" class="btn-primary" id="login-submit-btn">Dashboard එකට ඇතුල් වන්න 🚀</button>
@@ -94,18 +96,22 @@
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
         <main class="main-content">
-            <div class="dashboard-grid-layout">
+            <div class="view-switcher-container">
+                <button class="switch-tab-btn active" id="tab-all" onclick="switchView('all')">📄 සියල්ලම</button>
+                <button class="switch-tab-btn" id="tab-syllabus" onclick="switchView('syllabus')">📚 පාඩම් මාලාව</button>
+                <button class="switch-tab-btn" id="tab-papers" onclick="switchView('papers')">📝 ප්‍රශ්න පත්‍ර</button>
+            </div>
+
+            <div class="dashboard-grid-layout" id="dashboard-grid">
                 
-                <section class="cat-section">
+                <section class="cat-section" id="section-syllabus">
                     <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> SFT විෂය නිර්දේශයේ පාඩම්</h2>
-                    <div class="lessons-grid" id="lessons-container">
-                        </div>
+                    <div class="lessons-grid" id="lessons-container"></div>
                 </section>
 
-                <section class="cat-section">
+                <section class="cat-section" id="section-papers">
                     <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර සහ ආදර්ශ ප්‍රශ්න පත්‍ර</h2>
-                    <div class="lessons-grid flex-column-papers" id="papers-container">
-                        </div>
+                    <div class="lessons-grid flex-column-papers" id="papers-container"></div>
                 </section>
 
             </div>
