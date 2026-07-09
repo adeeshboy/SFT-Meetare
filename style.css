@@ -1,108 +1,350 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #10b981;
 }
 
-body{
-    background:linear-gradient(135deg,#0f172a,#2563eb);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.container{
-    width:100%;
-    max-width:500px;
-    background:#fff;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.3);
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    overflow-x: hidden;
 }
 
-h1,h2{
-    text-align:center;
-    color:#2563eb;
-    margin-bottom:15px;
+/* Page Transitions */
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: all 0.5s ease-in-out;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.subtitle{
-    text-align:center;
-    color:#666;
-    margin-bottom:20px;
+.page.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    position: relative;
 }
 
-input{
-    width:100%;
-    padding:14px;
-    margin-bottom:15px;
-    border:2px solid #ddd;
-    border-radius:10px;
-    font-size:16px;
+/* --- LOGIN STYLE --- */
+.login-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid #334155;
 }
 
-input:focus{
-    border-color:#2563eb;
-    outline:none;
+.login-card h2 {
+    color: var(--accent);
+    font-size: 2rem;
+    margin-bottom: 10px;
 }
 
-button{
-    width:100%;
-    padding:14px;
-    margin-top:10px;
-    background:#2563eb;
-    color:#fff;
-    border:none;
-    border-radius:10px;
-    font-size:17px;
-    cursor:pointer;
-    transition:.3s;
+.login-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 30px;
 }
 
-button:hover{
-    background:#1d4ed8;
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
 }
 
-.buttons{
-    display:flex;
-    gap:10px;
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
 }
 
-.buttons button{
-    width:50%;
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
 }
 
-#quiz{
-    margin:20px 0;
+.input-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(79, 70, 229, 0.4);
 }
 
-#quiz label{
-    display:block;
-    padding:12px;
-    margin:10px 0;
-    border:1px solid #ddd;
-    border-radius:10px;
-    cursor:pointer;
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-#quiz label:hover{
-    background:#eef4ff;
+.btn-primary:hover {
+    background: var(--primary-hover);
 }
 
-#progress{
-    text-align:center;
-    font-weight:bold;
-    margin-bottom:20px;
-    color:#2563eb;
+/* --- NAVBAR & SIDEBAR --- */
+#home-page {
+    display: block; /* Header list items stretch properly */
+    padding-top: 80px;
 }
 
-#result{
-    margin-top:20px;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-    color:green;
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    border-bottom: 1px solid #334155;
+    z-index: 100;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100%;
+    background: #1e293b;
+    z-index: 200;
+    transition: 0.4s cubic-bezier(0.1, 1, 0.1, 1);
+    padding: 30px 20px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.sidebar-content h3 {
+    margin-top: 20px;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+.dev-info {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.dev-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.sidebar-content hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #334155;
+}
+
+.legal-links a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+}
+
+.legal-links a:hover {
+    color: white;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+    display: none;
+}
+
+.sidebar-overlay.open {
+    display: block;
+}
+
+/* --- LESSONS GRID --- */
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lesson-box {
+    background: var(--card-bg);
+    border: 1px solid #334155;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-box:hover {
+    transform: translateY(-50px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
+}
+
+.lesson-box i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.lesson-box h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* --- QUIZ CONTAINER --- */
+.quiz-container, .result-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.timer {
+    background: #ef4444;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.question {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-btn {
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.option-btn:hover {
+    border-color: var(--text-muted);
+}
+
+.option-btn.correct {
+    background: #10b981 !important;
+    border-color: #10b981;
+}
+
+.option-btn.wrong {
+    background: #ef4444 !important;
+    border-color: #ef4444;
+}
+
+/* --- RESULT CARD --- */
+.result-card {
+    text-align: center;
+}
+
+.trophy-icon {
+    font-size: 4rem;
+    color: #eab308;
+    margin-bottom: 15px;
 }
