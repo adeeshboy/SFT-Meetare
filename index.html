@@ -59,7 +59,8 @@
             <div class="logo">SFT Meetare</div>
             <div class="user-profile">
                 <i class="fas fa-circle-user"></i> 
-                <span id="user-display-name">Student</span>
+                <span id="user-display-name">Loading...</span>
+                <button id="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </header>
 
@@ -102,6 +103,15 @@
                 <button class="switch-tab-btn" id="tab-papers" onclick="switchView('papers')">📝 Papers</button>
             </div>
 
+            <div class="subject-filter-container" id="subject-filter-bar">
+                <button class="sub-filter-btn active" onclick="filterSubject('ALL')">All Subjects</button>
+                <button class="sub-filter-btn sub-maths" onclick="filterSubject('MATHS')">📐 Maths</button>
+                <button class="sub-filter-btn sub-physics" onclick="filterSubject('PHYSICS')">🔬 Physics</button>
+                <button class="sub-filter-btn sub-chemistry" onclick="filterSubject('CHEMISTRY')">🧪 Chemistry</button>
+                <button class="sub-filter-btn sub-bio" onclick="filterSubject('BIO')">🦠 Bio</button>
+                <button class="sub-filter-btn sub-ict" onclick="filterSubject('ICT')">💻 ICT</button>
+            </div>
+
             <div class="dashboard-grid-layout" id="dashboard-grid">
                 
                 <section class="cat-section" id="section-syllabus">
@@ -110,7 +120,7 @@
                 </section>
 
                 <section class="cat-section" id="section-papers">
-                    <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර සහ ආදර්ශ ප්‍රශ්න පත්‍ර</h2>
+                    <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර</h2>
                     <div class="lessons-grid flex-column-papers" id="papers-container"></div>
                 </section>
 
