@@ -62,7 +62,6 @@
             <button id="menu-btn" class="menu-btn"><i class="fas fa-bars-staggered"></i></button>
             <div class="logo">SFT Meetare</div>
             <div class="user-profile">
-                <!-- 🔥 Google Profile Photo Display Element -->
                 <img id="user-profile-pic" src="https://via.placeholder.com/150" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
                 <span id="user-display-name">Loading...</span>
                 <button id="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
@@ -121,16 +120,14 @@
                     <div class="lessons-grid" id="lessons-container"></div>
                 </section>
 
-                <!-- RIGHT SIDE: PAPERS SECTION WITH AUTOMATED SEARCH BAR -->
+                <!-- RIGHT SIDE: PAPERS SECTION WITH GOOGLE SEARCH -->
                 <section class="cat-section" id="section-papers">
                     <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර (Papers)</h2>
                     
-                    <!-- 🔥 NEW SEARCH BAR FEATURE -->
-                    <div class="search-container" style="margin-bottom: 20px; position: relative;">
-                        <span style="position: absolute; left: 15px; top: 12px; color: #94a3b8;"><i class="fas fa-search"></i></span>
-                        <input type="text" id="paper-search-input" placeholder="ප්‍රශ්න පත්‍රයක් සර්ච් කරන්න (e.g., 2023, Model Paper)..." 
-                               oninput="searchPapers()" 
-                               style="width: 100%; padding: 12px 16px 12px 45px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: #fff; outline: none; font-size: 0.9rem;">
+                    <!-- Google Programmable Search Element -->
+                    <div class="search-container" style="margin-bottom: 20px;">
+                        <script async src="https://cse.google.com/cse.js?cx=36a8ca116a5784cbc"></script>
+                        <div class="gcse-search"></div>
                     </div>
 
                     <div class="lessons-grid flex-column-papers" id="papers-container"></div>
