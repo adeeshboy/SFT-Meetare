@@ -14,87 +14,108 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 
-// --- OFFICIAL EXAM SYLLABUS MAPPED FROM IMAGE ---
+// Global Variables
+let currentSelectedSubject = "ALL";
+let currentActiveTab = "all";
+
+// --- OFFICIAL EXAM SYLLABUS MAPPED BY SUBJECTS ---
 const sftLessonsList = {
     // ---- MATHS MODULE ----
-    1: { name: "01. මිනුම් විද්‍යාව හා පරිමාණය", emoji: "📐" },
-    3: { name: "03. ගණිතකරණ සංකල්පය", emoji: "🧮" },
-    7: { name: "07. ත්‍රිකෝණමිතික අනුපාත", emoji: "📈" },
-    19: { name: "19. ඛණ්ඩාංක ජ්‍යාමිතිය", emoji: "🗺️" },
-    20: { name: "20. සංඛ්‍යානය", emoji: "📊" },
+    1: { name: "01. මිනුම් විද්‍යාව හා පරිමාණය", emoji: "📐", subject: "MATHS" },
+    3: { name: "03. ගණිතකරණ සංකල්පය", emoji: "🧮", subject: "MATHS" },
+    7: { name: "07. ත්‍රිකෝණමිතික අනුපාත", emoji: "📈", subject: "MATHS" },
+    19: { name: "19. ඛණ්ඩාංක ජ්‍යාමිතිය", emoji: "🗺️", subject: "MATHS" },
+    20: { name: "20. සංඛ්‍යානය", emoji: "📊", subject: "MATHS" },
     
     // ---- PHYSICS MODULE ----
-    2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬" },
-    5: { name: "05. බලය", emoji: "🏋️‍♂️" },
-    6: { name: "06. කාර්යය, ශක්තිය, බලය", emoji: "⚙️" },
-    8: { name: "08. ප්‍රකාශ විද්‍යාව", emoji: "🔍" },
-    9: { name: "09. විද්‍යුතය", emoji: "⚡" },
-    10: { name: "10. තාපය", emoji: "🔥" },
-    16: { name: "16. තරංග", emoji: "🌊" },
+    2: { name: "02. මූලික ඒකක හා මූලික උපකරණ", emoji: "🔬", subject: "PHYSICS" },
+    5: { name: "05. බලය", emoji: "🏋️‍♂️", subject: "PHYSICS" },
+    6: { name: "06. කාර්යය, ශක්තිය, බලය", emoji: "⚙️", subject: "PHYSICS" },
+    8: { name: "08. ප්‍රකාශ විද්‍යාව", emoji: "🔍", subject: "PHYSICS" },
+    9: { name: "09. විද්‍යුතය", emoji: "⚡", subject: "PHYSICS" },
+    10: { name: "10. තාපය", emoji: "🔥", subject: "PHYSICS" },
+    16: { name: "16. තරංග", emoji: "🌊", subject: "PHYSICS" },
     
     // ---- CHEMISTRY MODULE ----
-    11: { name: "11. තාප රසායනය", emoji: "🧪" },
-    12: { name: "12. විද්‍යුත් රසායනය", emoji: "🔋" },
-    13: { name: "13. පොලිමර", emoji: "🧬" },
-    14: { name: "14. ඇග්‍රෝඩර්මා", emoji: "🌱" },
-    15: { name: "15. පෘෂ්ඨීය යාන්ත්‍රික ගුණ", emoji: "💧" },
-    17: { name: "17. රසායනික කර්මාන්ත", emoji: "🏭" },
-    18: { name: "18. ස්වභාවික නිෂ්පාදන", emoji: "🥥" },
-    25: { name: "25. පරිසර පද්ධති", emoji: "🌲" },
+    11: { name: "11. තාප රසායනය", emoji: "🧪", subject: "CHEMISTRY" },
+    12: { name: "12. විද්‍යුත් රසායනය", emoji: "🔋", subject: "CHEMISTRY" },
+    13: { name: "13. පොලිමර", emoji: "🧬", subject: "CHEMISTRY" },
+    14: { name: "14. ඇග්‍රෝඩර්මා", emoji: "🌱", subject: "CHEMISTRY" },
+    15: { name: "15. පෘෂ්ඨීය යාන්ත්‍රික ගුණ", emoji: "💧", subject: "CHEMISTRY" },
+    17: { name: "17. රසායනික කර්මාන්ත", emoji: "🏭", subject: "CHEMISTRY" },
+    18: { name: "18. ස්වභාවික නිෂ්පාදන", emoji: "🥥", subject: "CHEMISTRY" },
+    25: { name: "25. පරිසර පද්ධති", emoji: "🌲", subject: "CHEMISTRY" },
     
     // ---- BIO MODULE ----
-    41: { name: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", emoji: "🦠" },
-    42: { name: "04.2. ශාක වර්ගීකරණය", emoji: "🌿" },
-    43: { name: "04.3. සත්ව වර්ගීකරණය", emoji: "🦁" },
-    44: { name: "04.4. ක්ෂුද්‍ර ජීවීන්", emoji: "🧫" },
-    45: { name: "04.5. ක්ෂුද්‍ර ජීවීන් ආශ්‍රිත කර්මාන්ත", emoji: "🍞" },
-    46: { name: "04.6. ජෛව පද්ධතිමය තාක්ෂණය", emoji: "🧬" },
-    47: { name: "04.7. සත්ව කායික විද්‍යාව", emoji: "🫁" },
-    48: { name: "04.8. ස්වාභාවික වනාන්තර", emoji: "🦊" },
-    49: { name: "04.9. පාරිසරික ගැටළු", emoji: "⚠️" },
+    41: { name: "04.1. සෛලීය සංවිධානයක් සහිත ජීවීන්", emoji: "🦠", subject: "BIO" },
+    42: { name: "04.2. ශාක වර්ගීකරණය", emoji: "🌿", subject: "BIO" },
+    43: { name: "04.3. සත්ව වර්ගීකරණය", emoji: "🦁", subject: "BIO" },
+    44: { name: "04.4. ක්ෂුද්‍ර ජීවීන්", emoji: "🧫", subject: "BIO" },
+    45: { name: "04.5. ක්ෂුද්‍ර ජීවීන් ආශ්‍රිත කර්මාන්ත", emoji: "🍞", subject: "BIO" },
+    46: { name: "04.6. ජෛව පද්ධතිමය තාක්ෂණය", emoji: "🧬", subject: "BIO" },
+    47: { name: "04.7. සත්ව කායික විද්‍යාව", emoji: "🫁", subject: "BIO" },
+    48: { name: "04.8. ස්වාභාවික වනාන්තර", emoji: "🦊", subject: "BIO" },
+    49: { name: "04.9. පාරිසරික ගැටළු", emoji: "⚠️", subject: "BIO" },
     
     // ---- ICT MODULE ----
-    21: { name: "21. පරිගණක පද්ධතිය හා උපාංග", emoji: "💻" },
-    22: { name: "22. OS (මෙහෙයුම් පද්ධති)", emoji: "💽" },
-    23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱" },
-    24: { name: "24. අන්තර්ජාලය", emoji: "🌐" }
+    21: { name: "21. පරිගණක පද්ධතිය හා උපාංග", emoji: "💻", subject: "ICT" },
+    22: { name: "22. OS (මෙහෙයුම් පද්ධති)", emoji: "💽", subject: "ICT" },
+    23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱", subject: "ICT" },
+    24: { name: "24. අන්තර්ජාලය", emoji: "🌐", subject: "ICT" }
 };
 
 // --- PAPERS LIST ---
 const papersList = [
-    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝" },
-    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜" },
-    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
+    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝", subject: "ALL" },
+    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜", subject: "ALL" },
+    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎", subject: "ALL" }
 ];
 
 const loginPage = document.getElementById('login-page');
 const homePage = document.getElementById('home-page');
 
-function enterDashboard(displayName) {
-    document.getElementById('user-display-name').innerText = displayName;
-    loginPage.classList.remove('active');
-    setTimeout(() => {
+// --- NEW FEATURE: FIREBASE ROUTE GUARD SECURITY ---
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        // User logged in successfully
+        document.getElementById('user-display-name').innerText = user.displayName || "Student";
+        loginPage.classList.remove('active');
         homePage.classList.add('active');
         generateDashboard();
-    }, 400);
-}
+    } else {
+        // User is signed out, force go to login page
+        homePage.classList.remove('active');
+        loginPage.classList.add('active');
+    }
+});
 
-// --- GOOGLE AUTH ---
+// Auth Handlers
 document.getElementById('google-login-btn').addEventListener('click', () => {
-    auth.signInWithPopup(provider)
-        .then((result) => { enterDashboard(result.user.displayName); })
-        .catch((error) => { alert("Google Authentication Error: " + error.message); });
+    auth.signInWithPopup(provider).catch((error) => { alert("Google Sign-In Error: " + error.message); });
 });
 
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
-    enterDashboard(document.getElementById('username').value);
+    const mockName = document.getElementById('username').value;
+    // Mocking a successful dashboard enter for standard forms
+    document.getElementById('user-display-name').innerText = mockName;
+    loginPage.classList.remove('active');
+    homePage.classList.add('active');
+    generateDashboard();
 });
 
-// View Switcher Navigation
+document.getElementById('logout-btn').addEventListener('click', () => {
+    auth.signOut().then(() => {
+        location.reload(); // Hard refresh to secure auth states safely
+    });
+});
+
+// View Switcher (Syllabus vs Papers Toolbar)
 function switchView(viewType) {
+    currentActiveTab = viewType;
     const syllabusSection = document.getElementById('section-syllabus');
     const papersSection = document.getElementById('section-papers');
+    const filterBar = document.getElementById('subject-filter-bar');
     const gridLayout = document.getElementById('dashboard-grid');
 
     document.querySelectorAll('.switch-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -103,30 +124,53 @@ function switchView(viewType) {
         document.getElementById('tab-all').classList.add('active');
         syllabusSection.style.display = "block";
         papersSection.style.display = "block";
+        filterBar.style.display = "flex";
         gridLayout.style.gridTemplateColumns = window.innerWidth > 992 ? "2.7fr 1.3fr" : "1fr";
     } else if (viewType === 'syllabus') {
         document.getElementById('tab-syllabus').classList.add('active');
         syllabusSection.style.display = "block";
         papersSection.style.display = "none";
+        filterBar.style.display = "flex";
         gridLayout.style.gridTemplateColumns = "1fr";
     } else if (viewType === 'papers') {
         document.getElementById('tab-papers').classList.add('active');
         syllabusSection.style.display = "none";
         papersSection.style.display = "block";
+        filterBar.style.display = "none"; // Hide subject categorizer on general global papers
         gridLayout.style.gridTemplateColumns = "1fr";
     }
+    generateDashboard();
 }
 
-// Generate UI Items
+// --- NEW FEATURE: SUBJECT FILTER LOGIC ---
+function filterSubject(subjectName) {
+    currentSelectedSubject = subjectName;
+    
+    // Manage active visual state classes
+    const buttons = document.querySelectorAll('.sub-filter-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    generateDashboard();
+}
+
+// Render Premium Dashboard Items Dynamically
 function generateDashboard() {
     const lessonsContainer = document.getElementById('lessons-container');
     lessonsContainer.innerHTML = "";
+    
     Object.keys(sftLessonsList).forEach(key => {
+        const item = sftLessonsList[key];
+        
+        // Filter verification check
+        if (currentSelectedSubject !== "ALL" && item.subject !== currentSelectedSubject) return;
+
         const box = document.createElement('div');
         box.className = 'lesson-box';
         box.innerHTML = `
-            <span class="box-emoji">${sftLessonsList[key].emoji}</span>
-            <h3>${sftLessonsList[key].name}</h3>
+            <span class="box-emoji">${item.emoji}</span>
+            <h3>${item.name}</h3>
+            <span class="subject-tag tag-${item.subject.toLowerCase()}">${item.subject}</span>
         `;
         box.onclick = () => startQuiz(key, 'syllabus');
         lessonsContainer.appendChild(box);
@@ -146,7 +190,7 @@ function generateDashboard() {
     });
 }
 
-// --- QUIZ GAME ENGINE ---
+// --- QUIZ ENGINE ---
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
@@ -171,7 +215,7 @@ function loadQuestion(type) {
     
     let titleName = (type === 'syllabus') ? sftLessonsList[currentLesson].name : (papersList.find(p => p.id === currentLesson)?.title || "MCQ Paper");
 
-    const questions = [{ q: `Sample Question for [${titleName}]: Select the most accurate statement.`, options: ["Option A", "Option B", "Option C (Correct Answer)", "Option D"], correct: 2 }];
+    const questions = [{ q: `Sample MCQ Question for [${titleName}]: Select the most accurate statement.`, options: ["Option A", "Option B", "Option C (Correct Answer)", "Option D"], correct: 2 }];
 
     if(currentQuestionIndex >= questions.length) { endQuiz(questions.length); return; }
 
@@ -237,7 +281,7 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000); updateCountdown();
 
-// Sidebar Controller
+// Sidebar Navigation
 const menuBtn = document.getElementById('menu-btn'), closeBtn = document.getElementById('close-btn'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebar-overlay');
 menuBtn.onclick = () => { sidebar.classList.add('open'); overlay.classList.add('open'); }
 closeBtn.onclick = () => { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
