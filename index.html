@@ -20,8 +20,10 @@
         </div>
 
         <div class="login-card">
-            <div class="lock-icon">🔐</div>
-            <h2 data-lang="site-title">SFT Meetare Login</h2>
+            <div class="lock-badge">
+                <i class="fas fa-unlock-alt"></i>
+            </div>
+            <h2 data-lang="site-title">SFT Meetare</h2>
             <p class="tagline">🚀😍 තාක්ෂණවේදයේ මීටර්කාරයින්ගේ නිවහන</p>
             
             <button type="button" class="google-btn">
@@ -29,15 +31,17 @@
                 <span>Sign in with Google</span>
             </button>
 
-            <div class="divider"><span>OR</span></div>
+            <div class="divider"><span>OR WITH EMAIL</span></div>
 
             <form id="login-form">
                 <div class="input-group">
+                    <span class="input-icon"><i class="far fa-user"></i></span>
                     <input type="text" id="username" placeholder="Enter your name" required>
                 </div>
                 <div class="input-group pass-group">
+                    <span class="input-icon"><i class="far fa-key"></i></span>
                     <input type="password" id="password" placeholder="Enter Password (1234)" required>
-                    <i class="fas fa-eye" id="toggle-password"></i>
+                    <i class="far fa-eye" id="toggle-password"></i>
                 </div>
                 
                 <div class="login-options">
@@ -47,16 +51,19 @@
                     <a href="#" class="forgot-link">Forgot?</a>
                 </div>
 
-                <button type="submit" class="btn-primary" id="login-submit-btn">Login with Password 🚀</button>
+                <button type="submit" class="btn-primary" id="login-submit-btn">Login to Dashboard 🚀</button>
             </form>
         </div>
     </div>
 
     <div id="home-page" class="page">
         <header class="navbar">
-            <button id="menu-btn" class="menu-btn"><i class="fas fa-bars"></i></button>
+            <button id="menu-btn" class="menu-btn"><i class="fas fa-bars-staggered"></i></button>
             <div class="logo" data-lang="site-title">SFT Meetare</div>
-            <div class="user-profile"><i class="fas fa-user-circle"></i> <span id="user-display-name">Student</span></div>
+            <div class="user-profile">
+                <i class="fas fa-circle-user"></i> 
+                <span id="user-display-name">Student</span>
+            </div>
         </header>
 
         <div id="sidebar" class="sidebar">
@@ -64,18 +71,23 @@
             <div class="sidebar-content">
                 
                 <div class="countdown-widget">
-                    <h4 data-lang="countdown-title">2027 A/L Exam Countdown</h4>
-                    <div class="countdown-days"><span id="days-count">00</span> <small data-lang="days-label">Days</small></div>
+                    <h4 data-lang="countdown-title">2027 A/L EXAM COUNTDOWN</h4>
+                    <div class="countdown-days">
+                        <span id="days-count">000</span>
+                        <div class="days-sub" data-lang="days-label">DAYS REMAINING</div>
+                    </div>
                 </div>
-                <hr>
+                
+                <hr class="nav-hr">
 
-                <h3 data-lang="about-dev-title">About Developer</h3>
+                <h3 class="side-title" data-lang="about-dev-title">About Developer</h3>
                 <div class="dev-info">
-                    <i class="fas fa-code-branch dev-icon"></i>
+                    <i class="fas fa-laptop-code dev-icon"></i>
                     <p><strong data-lang="dev-label">Developer:</strong> Adeesha Lakshitha</p>
-                    <p id="dev-desc">This is an educational platform dedicated to Advanced Level Technology (SFT) students to master their syllabus through interactive MCQs.</p>
+                    <p id="dev-desc">This is an educational platform dedicated to Advanced Level Technology (SFT) students.</p>
                 </div>
-                <hr>
+                
+                <hr class="nav-hr">
                 
                 <div class="legal-links">
                     <a href="#" data-lang="link-privacy">Privacy Policy</a>
@@ -87,9 +99,19 @@
         <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
         <main class="main-content">
-            <h1 class="section-title" data-lang="lessons-title">SFT Lessons List</h1>
-            <div class="lessons-grid" id="lessons-container">
-                </div>
+            
+            <section class="cat-section">
+                <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> <span data-lang="cat-syllabus">SFT Syllabus Lessons</span></h2>
+                <div class="lessons-grid" id="lessons-container">
+                    </div>
+            </section>
+
+            <section class="cat-section">
+                <h2 class="cat-title"><i class="fas fa-file-invoice"></i> <span data-lang="cat-papers">Past Papers & Model Papers</span></h2>
+                <div class="lessons-grid" id="papers-container">
+                    </div>
+            </section>
+
         </main>
     </div>
 
@@ -101,8 +123,7 @@
             </div>
             <div class="quiz-body">
                 <p class="question" id="question-text">Question goes here?</p>
-                <div class="options" id="options-container">
-                    </div>
+                <div class="options" id="options-container"></div>
             </div>
             <div class="quiz-footer">
                 <button id="next-btn" class="btn-primary" data-lang="next-btn" style="display: none;">Next Question</button>
@@ -112,7 +133,7 @@
 
     <div id="result-page" class="page">
         <div class="result-card">
-            <i class="fas fa-trophy trophy-icon"></i>
+            <div class="trophy-badge"><i class="fas fa-trophy"></i></div>
             <h2 data-lang="quiz-completed">Quiz Completed!</h2>
             <p id="result-text">You scored 0 out of 0</p>
             <button id="back-home-btn" class="btn-primary" data-lang="back-home-btn">Back to Home</button>
