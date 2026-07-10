@@ -59,7 +59,7 @@ const sftLessonsList = {
     21: { name: "21. පරිගණක පද්ධතිය", emoji: "💻", subject: "ICT" },
     22: { name: "22. OS", emoji: "💽", subject: "ICT" },
     23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱", subject: "ICT" },
-    24: { name: "24. അന്തർജാലം", emoji: "🌐", subject: "ICT" }
+    24: { name: "24. අන්තර්ජාලය", emoji: "🌐", subject: "ICT" }
 };
 
 // --- SFT MCQ QUESTIONS DATABASE ---
