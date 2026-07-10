@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FULL RECOVERY)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FULL RECOVERY + API)
 // ==========================================================================
 
 // --- FIREBASE INITIALIZATION ---
@@ -71,10 +71,13 @@ const papersList = [
 auth.onAuthStateChanged((user) => {
     if (user) {
         document.getElementById('user-display-name').innerText = user.displayName || "Student";
-        if(user.photoURL) document.getElementById('user-profile-pic').src = user.photoURL;
+        if(user.photoURL && document.getElementById('user-profile-pic')) {
+            document.getElementById('user-profile-pic').src = user.photoURL;
+        }
         document.getElementById('login-page').classList.remove('active');
         document.getElementById('home-page').classList.add('active');
         generateDashboard();
+        fetchPapers(); // Load API papers on login
     } else {
         document.getElementById('home-page').classList.remove('active');
         document.getElementById('login-page').classList.add('active');
@@ -82,50 +85,117 @@ auth.onAuthStateChanged((user) => {
 });
 
 document.getElementById('google-login-btn').addEventListener('click', () => auth.signInWithPopup(provider));
-document.getElementById('login-form').addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('login-page').classList.remove('active'); document.getElementById('home-page').classList.add('active'); generateDashboard(); });
+document.getElementById('login-form').addEventListener('submit', (e) => { 
+    e.preventDefault(); 
+    document.getElementById('login-page').classList.remove('active'); 
+    document.getElementById('home-page').classList.add('active'); 
+    generateDashboard(); 
+    fetchPapers();
+});
 document.getElementById('logout-btn').addEventListener('click', () => auth.signOut().then(() => location.reload()));
-document.getElementById('toggle-password').addEventListener('click', function() { const p = document.getElementById('password'); p.type = (p.type === 'password') ? 'text' : 'password'; });
+document.getElementById('toggle-password').addEventListener('click', function() { 
+    const p = document.getElementById('password'); 
+    p.type = (p.type === 'password') ? 'text' : 'password'; 
+});
 
 // --- UI CONTROL & FILTERS ---
 function switchView(viewType) {
-    const sSection = document.getElementById('section-syllabus'), pSection = document.getElementById('section-papers'), fBar = document.getElementById('subject-filter-bar');
+    const sSection = document.getElementById('section-syllabus');
+    const pSection = document.getElementById('section-papers');
+    const fBar = document.getElementById('subject-filter-bar');
+    
     document.querySelectorAll('.switch-tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`tab-${viewType}`).classList.add('active');
     
-    if (viewType === 'all') { sSection.style.display = "block"; pSection.style.display = "block"; fBar.style.display = "flex"; }
-    else if (viewType === 'syllabus') { sSection.style.display = "block"; pSection.style.display = "none"; fBar.style.display = "flex"; }
-    else if (viewType === 'papers') { sSection.style.display = "none"; pSection.style.display = "block"; fBar.style.display = "none"; }
+    if (viewType === 'all') { 
+        sSection.style.display = "block"; pSection.style.display = "block"; fBar.style.display = "flex"; 
+    }
+    else if (viewType === 'syllabus') { 
+        sSection.style.display = "block"; pSection.style.display = "none"; fBar.style.display = "flex"; 
+    }
+    else if (viewType === 'papers') { 
+        sSection.style.display = "none"; pSection.style.display = "block"; fBar.style.display = "none"; 
+    }
     generateDashboard();
+    fetchPapers();
 }
 
 function filterSubject(sub) { 
     currentSelectedSubject = sub; 
     document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if(event && event.target) event.target.classList.add('active');
     generateDashboard(); 
 }
 
 function generateDashboard() {
-    const lContainer = document.getElementById('lessons-container'); lContainer.innerHTML = "";
+    const lContainer = document.getElementById('lessons-container'); 
+    lContainer.innerHTML = "";
+    
     Object.keys(sftLessonsList).forEach(key => {
         if (currentSelectedSubject !== "ALL" && sftLessonsList[key].subject !== currentSelectedSubject) return;
         const div = document.createElement('div'); div.className = 'lesson-box';
         div.innerHTML = `<span class="box-emoji">${sftLessonsList[key].emoji}</span><h3>${sftLessonsList[key].name}</h3>`;
-        div.onclick = () => startQuiz(key, 'syllabus'); lContainer.appendChild(div);
-    });
-    const pContainer = document.getElementById('papers-container'); pContainer.innerHTML = "";
-    papersList.forEach(p => {
-        const div = document.createElement('div'); div.className = 'lesson-box';
-        div.innerHTML = `<span class="box-emoji">${p.emoji}</span><h3>${p.title}</h3>`;
-        div.onclick = () => startQuiz(p.id, 'paper'); pContainer.appendChild(div);
+        div.onclick = () => startQuiz(key, 'syllabus'); 
+        lContainer.appendChild(div);
     });
 }
+
+// --- API FETCHING & PAPER RENDERING ---
+async function fetchPapers() {
+    const pContainer = document.getElementById('papers-container');
+    const searchInput = document.getElementById('paper-search-input');
+    const query = searchInput ? searchInput.value.toLowerCase() : "";
+
+    pContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading papers...</p>";
+
+    try {
+        const response = await fetch('https://pastpaperapi.dileepatechyt.workers.dev/');
+        const apiData = await response.json();
+        pContainer.innerHTML = ""; // Clear loading text
+
+        // 1. Render Local Papers (ඔයාගේ කලින් තිබුණු Paper List එක)
+        papersList.forEach(p => {
+            if(p.title.toLowerCase().includes(query)) {
+                const div = document.createElement('div'); div.className = 'lesson-box';
+                div.innerHTML = `<span class="box-emoji">${p.emoji}</span><h3>${p.title}</h3>`;
+                div.onclick = () => startQuiz(p.id, 'paper'); 
+                pContainer.appendChild(div);
+            }
+        });
+
+        // 2. Render API Papers (API එකෙන් එන දත්ත)
+        const filteredApiData = apiData.filter(item => item.title.toLowerCase().includes(query));
+        filteredApiData.forEach(p => {
+            const div = document.createElement('div'); div.className = 'lesson-box';
+            div.innerHTML = `
+                <span class="box-emoji">📝</span>
+                <h3>${p.title}</h3>
+                <a href="${p.link}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 5px 15px; font-size: 14px;">Download/View</a>
+            `;
+            pContainer.appendChild(div);
+        });
+
+        if(pContainer.innerHTML === "") {
+            pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර හමුවූයේ නැත.</p>";
+        }
+
+    } catch (e) {
+        console.error(e);
+        pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර ලබා ගැනීමේදී දෝෂයක් සිදුවිය.</p>";
+    }
+}
+
+// Global scope එකට Search function එක add කිරීම (HTML එකේ oninput එකට)
+window.fetchPapers = fetchPapers;
 
 // --- QUIZ ENGINE ---
 function startQuiz(id, type) {
     currentLesson = id; currentQuestionIndex = 0; score = 0;
     document.getElementById('home-page').classList.remove('active');
-    setTimeout(() => { document.getElementById('quiz-page').classList.add('active'); loadQuestion(type); }, 400);
+    setTimeout(() => { 
+        document.getElementById('quiz-page').classList.add('active'); 
+        loadQuestion(type); 
+    }, 400);
 }
 
 function loadQuestion(type) {
@@ -134,23 +204,53 @@ function loadQuestion(type) {
     const currentQ = questions[0];
     document.getElementById('question-text').innerText = currentQ.q;
     const container = document.getElementById('options-container'); container.innerHTML = "";
+    
     currentQ.options.forEach((opt, idx) => {
         const btn = document.createElement('button'); btn.className = 'option-btn'; btn.innerText = opt;
-        btn.onclick = () => { clearInterval(timerInterval); if(idx === currentQ.correct) { btn.classList.add('correct'); score++; } else { btn.classList.add('wrong'); } document.getElementById('next-btn').style.display = 'block'; };
+        btn.onclick = () => { 
+            clearInterval(timerInterval); 
+            if(idx === currentQ.correct) { btn.classList.add('correct'); score++; } 
+            else { btn.classList.add('wrong'); } 
+            document.getElementById('next-btn').style.display = 'block'; 
+        };
         container.appendChild(btn);
     });
-    timerInterval = setInterval(() => { timeLeft--; document.getElementById('time-sec').innerText = timeLeft; if(timeLeft <= 0) clearInterval(timerInterval); }, 1000);
+    
+    timerInterval = setInterval(() => { 
+        timeLeft--; 
+        document.getElementById('time-sec').innerText = timeLeft; 
+        if(timeLeft <= 0) clearInterval(timerInterval); 
+    }, 1000);
 }
 
-document.getElementById('next-btn').onclick = () => { document.getElementById('quiz-page').classList.remove('active'); document.getElementById('result-page').classList.add('active'); document.getElementById('result-text').innerText = `Your Score: ${score}`; };
-document.getElementById('back-home-btn').onclick = () => { document.getElementById('result-page').classList.remove('active'); document.getElementById('home-page').classList.add('active'); };
+document.getElementById('next-btn').onclick = () => { 
+    document.getElementById('quiz-page').classList.remove('active'); 
+    document.getElementById('result-page').classList.add('active'); 
+    document.getElementById('result-text').innerText = `Your Score: ${score}`; 
+};
+
+document.getElementById('back-home-btn').onclick = () => { 
+    document.getElementById('result-page').classList.remove('active'); 
+    document.getElementById('home-page').classList.add('active'); 
+};
 
 // --- SIDEBAR & COUNTDOWN ---
-document.getElementById('menu-btn').onclick = () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('open'); };
-document.getElementById('close-btn').onclick = () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('open'); };
+document.getElementById('menu-btn').onclick = () => { 
+    document.getElementById('sidebar').classList.add('open'); 
+    document.getElementById('sidebar-overlay').classList.add('open'); 
+};
+document.getElementById('close-btn').onclick = () => { 
+    document.getElementById('sidebar').classList.remove('open'); 
+    document.getElementById('sidebar-overlay').classList.remove('open'); 
+};
+document.getElementById('sidebar-overlay').onclick = () => {
+    document.getElementById('sidebar').classList.remove('open'); 
+    document.getElementById('sidebar-overlay').classList.remove('open');
+};
 
 function updateCountdown() {
     const diff = new Date("August 1, 2027").getTime() - new Date().getTime();
     document.getElementById("days-count").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
 }
-setInterval(updateCountdown, 1000); updateCountdown();
+setInterval(updateCountdown, 1000); 
+updateCountdown();
