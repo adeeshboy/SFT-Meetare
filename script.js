@@ -71,7 +71,12 @@ const papersList = [
 // --- AUTHENTICATION ---
 auth.onAuthStateChanged((user) => {
     if (user) {
+        // Name & Profile Picture Update
         document.getElementById('user-display-name').innerText = user.displayName || "Student";
+        if(user.photoURL) {
+            document.getElementById('user-profile-pic').src = user.photoURL;
+        }
+
         document.getElementById('login-page').classList.remove('active');
         document.getElementById('home-page').classList.add('active');
         generateDashboard();
