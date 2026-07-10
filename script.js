@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (MCQ ENGINE INTEGRATED)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (2 MINUTE TIMER UPDATED)
 // ==========================================================================
 
 // --- FIREBASE INITIALIZATION ---
@@ -22,8 +22,8 @@ let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
-let timeLeft = 20;
-let activeQuestionsList = []; // දැනට තෝරාගෙන ඇති පාඩමේ ප්‍රශ්න එකතුව
+let timeLeft = 120; // ⏱️ මුළු වෙලාව තත්පර 120 (මිනිත්තු 2) ලෙස වෙනස් කරන ලදී
+let activeQuestionsList = []; 
 
 // --- DATA LISTS ---
 const sftLessonsList = {
@@ -37,7 +37,7 @@ const sftLessonsList = {
     6: { name: "06. කාර්යය, ශක්තිය, ජවය", emoji: "⚙️", subject: "PHYSICS" },
     8: { name: "08. භ්‍රමණ චලිතය", emoji: "🔄", subject: "PHYSICS" },
     9: { name: "09. විද්‍යුතය", emoji: "⚡", subject: "PHYSICS" },
-    10: { name: "10. තාපය", emoji: "🔥", subject: "PHYSICS" },
+    10: { name: "10. TAAPA", emoji: "🔥", subject: "PHYSICS" },
     16: { name: "16. තරල", emoji: "🌊", subject: "PHYSICS" },
     11: { name: "11. තාප රසායනය", emoji: "🧪", subject: "CHEMISTRY" },
     12: { name: "12. චාලක රසායනය", emoji: "⏳", subject: "CHEMISTRY" },
@@ -59,15 +59,15 @@ const sftLessonsList = {
     21: { name: "21. පරිගණක පද්ධතිය", emoji: "💻", subject: "ICT" },
     22: { name: "22. OS", emoji: "💽", subject: "ICT" },
     23: { name: "23. යෙදුම් මෘදුකාංග", emoji: "📱", subject: "ICT" },
-    24: { name: "24. අන්තර්ජාලය", emoji: "🌐", subject: "ICT" }
+    24: { name: "24. അന്തർജാലം", emoji: "🌐", subject: "ICT" }
 };
 
-// --- SFT MCQ QUESTIONS DATABASE (5 Questions Per Lesson) ---
+// --- SFT MCQ QUESTIONS DATABASE ---
 const sftQuestionsDatabase = {
     1: [
         { q: "සිලින්ඩරයක වක්‍ර පෘෂ්ඨ වර්ගඵලය සෙවීමේ සූත්‍රය කුමක්ද?", options: ["2 * pi * r * h", "pi * r^2 * h", "2 * pi * r", "pi * r * l"], correct: 0 },
         { q: "අරය 7cm වන ගෝලයක මතුපිට වර්ගඵලය සොයන්න.", options: ["154 cm^2", "616 cm^2", "308 cm^2", "44 cm^2"], correct: 1 },
-        { q: "ඝනකයක පැත්තක දිග 2m නම් එහි මුළු පෘෂ්ඨ වර්ගඵලය කොපමණද?", options: ["4 m^2", "8 m^2", "24 m^2", "16 m^2"], correct: 2 },
+        { q: "ඝනකයක පැත්තක দিগ 2m නම් එහි මුළු පෘෂ්ඨ වර්ගඵලය කොපමණද?", options: ["4 m^2", "8 m^2", "24 m^2", "16 m^2"], correct: 2 },
         { q: "සෘජුකෝණාස්‍රාකාර ප්‍රිස්මයක පරිමාව සෙවීමට භාවිත කරන්නේ?", options: ["දිග x පළල", "දිග x පළල x උස", "1/3 x පාද වර්ගඵලය x උස", "හරස්කඩ වර්ගඵලය"], correct: 1 },
         { q: "කේතුවක පරිමාව, සමාන අරයක් සහ උසක් ඇති සිලින්ඩරයක පරිමාවෙන් කොපමණ කොටසක්ද?", options: ["අඩක්", "හතරෙන් පංගුවක්", "තුනෙන් එකක්", "දෙගුණයක්"], correct: 2 }
     ],
@@ -87,7 +87,7 @@ const sftQuestionsDatabase = {
     ],
     5: [
         { q: "බලයේ SI ඒකකය කුමක්ද?", options: ["Joule", "Watt", "Newton", "Pascal"], correct: 2 },
-        { q: "F = ma සූත්‍රයෙන් දැක්වෙන්නේ නිව්ටන්ගේ කීවැනි චලිත නියමයද?", options: ["පළමුවන නියමය", "දෙවන නියමය", "තෙවන නියමය", "ගුරුත්වාකර්ෂණ නියමය"], options: ["පළමුවන නියමය", "දෙවන නියමය", "තෙවන නියමය", "සියල්ලම"], correct: 1 },
+        { q: "F = ma සූත්‍රයෙන් දැක්වෙන්නේ නිව්ටන්ගේ කීවැනි චලිත නියමයද?", options: ["පළමුවන නියමය", "දෙවන නියමය", "තෙවන නියමය", "සියල්ලම"], correct: 1 },
         { q: "වස්තුවක නිශ්චලතාව හෝ චලිත ස්වභාවය වෙනස් කිරීමට දක්වන අකමැත්ත හඳුන්වන්නේ?", options: ["වේගය", "ත්වරණය", "status", "ස්කන්ධය/ජඩත්වය"], correct: 3 },
         { q: "ඝර්ෂණ බලය සැමවිටම ක්‍රියා කරන්නේ කුමන දිශාවටද?", options: ["චලිත දිශාවට සමාන්තරව ඒ දෙසටම", "චලිත දිශාවට ලම්බකව", "චලිතය සිදුවන දිශාවට ප්‍රතිවිරුද්ධ දිශාවට", "පහළට"], correct: 2 },
         { q: "ස්කන්ධය 5kg වන වස්තුවක් මත 20N බලයක් යෙදූ විට ඇතිවන ත්වරණය කොපමණද?", options: ["4 m/s^2", "100 m/s^2", "0.25 m/s^2", "25 m/s^2"], correct: 0 }
@@ -123,9 +123,9 @@ const sftQuestionsDatabase = {
     10: [
         { q: "තාපය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 },
         { q: "සෙල්සියස් අංශක 0 (0°C) කෙල්වින් අගයෙන් කොපමණද?", options: ["100 K", "273.15 K", "0 K", "-273.15 K"], correct: 1 },
-        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය තාප ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට තාප ධාරිතාව", "තාප ධාරිතාව", "ගුප්ත තාපය", "එන්තැල්පිය"], correct: 1 },
+        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය තාප ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට TAAPA ධාරිතාව", "තාප ධාරිතාව", "ගුප්ත තාපය", "එන්තැල්පිය"], correct: 1 },
         { q: "ඝන ද්‍රව්‍ය හරහා තාපය ගමන් කරන ප්‍රධාන ක්‍රමය කුමක්ද?", options: ["තාප සන්නයනය", "තාප සංවහනය", "තාප විකිරණය", "වාෂ්පීකරණය"], correct: 0 },
-        { q: "තාපමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර තාප ප්‍රසාරණය", "ඉහළ තාපාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
+        { q: "තාපමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර TAAPA ප්‍රසාරණය", "ඉහළ තාපාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
     ],
     11: [
         { q: "පද්ධතියකින් බාහිර පරිසරයට තාපය මුදාහරින රසායනික ප්‍රතික්‍රියා හඳුන්වන්නේ?", options: ["තාප අවශෝෂක ප්‍රතික්‍රියා", "තාප දායක ප්‍රතික්‍රියා", "ස්වයංක්‍රීය ප්‍රතික්‍රියා", "ප්‍රතිවර්ත්‍ය ප්‍රතික්‍රියා"], correct: 1 },
@@ -152,7 +152,7 @@ const sftQuestionsDatabase = {
         { q: "ස්වභාවික බහුඅවයවිකයක් (Natural Polymer) සඳහා උදාහරණයක් තෝරන්න.", options: ["පොලිතීන්", "PVC", "ස්වභාවික රබර්", "නයිලෝන්"], correct: 2 },
         { q: "පොලිතීන් නිපදවීම සඳහා යොදාගන්නා ඒක අවයවිකය (Monomer) කුමක්ද?", options: ["එතීන් (Ethylene)", "ප්‍රොපීන්", "වයිනයිල් ක්ලෝරයිඩ්", "ස්ටයිරීන්"], correct: 0 },
         { q: "රබර් වල්කනයිස් කිරීමේදී (Vulcanization) එකතු කරනු ලබන මූලද්‍රව්‍යය කුමක්ද?", options: ["නයිට්‍රජන්", "කාබන්", "සල්ෆර් (Sulfur)", "ඔක්සිජන්"], correct: 2 },
-        { q: "පහත සඳහන් බහුඅවයවික අතුරින් තාපසංස්ථාපී (Thermosetting) බහුඅවයවිකයක් වන්නේ?", options: ["පොලිතීන්", "PVC", "බේකලයිට් (Bakelite)", "පොලිස්ටයිරීන්"], correct: 2 },
+        { q: "පහත සඳහන් බහුඅවයවික අතුරින් ठेवा සංස්ථාපී (Thermosetting) බහුඅවයවිකයක් වන්නේ?", options: ["පොලිතීන්", "PVC", "බේකලයිට් (Bakelite)", "පොලිස්ටයිරීන්"], correct: 2 },
         { q: "PVC හි සම්පූර්ණ නම කුමක්ද?", options: ["Polyvinyl Chloride", "Plastic Vinyl Carbon", "Pure Vinyl Chloride", "Polyvinyl Carbonate"], correct: 0 }
     ],
     15: [
@@ -297,6 +297,12 @@ const sftQuestionsDatabase = {
     ]
 };
 
+const papersList = [
+    { id: "p1", title: "2024 A/L SFT Past Paper", emoji: "📝" },
+    { id: "p2", title: "2025 A/L SFT Past Paper", emoji: "📜" },
+    { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
+];
+
 // --- AUTHENTICATION & PROFILE ENGINE ---
 auth.onAuthStateChanged((user) => {
     if (user) {
@@ -429,11 +435,9 @@ function startQuiz(id, type) {
     currentQuestionIndex = 0; 
     score = 0;
     
-    // Syllabus පාඩමකට අදාළ ප්‍රශ්න Database එකෙන් තෝරා ගැනීම (නැතහොත් default placeholder එකක් ලබා දීම)
     if (type === 'syllabus' && sftQuestionsDatabase[id]) {
         activeQuestionsList = sftQuestionsDatabase[id];
     } else {
-        // Past Papers හෝ ප්‍රශ්න නොමැති පාඩම් සඳහා Default placeholder ප්‍රශ්න 5ක් දමයි
         activeQuestionsList = [
             { q: `${sftLessonsList[id] ? sftLessonsList[id].name : 'Paper'} - බහුවරණ ප්‍රශ්නය 01:`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C", "පිළිතුර D"], correct: 0 },
             { q: `${sftLessonsList[id] ? sftLessonsList[id].name : 'Paper'} - බහුවරණ ප්‍රශ්නය 02:`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C", "පිළිතුර D"], correct: 1 },
@@ -452,9 +456,9 @@ function startQuiz(id, type) {
 
 function loadQuestion(type) {
     clearInterval(timerInterval); 
-    timeLeft = 20; 
+    timeLeft = 120; // ⏱️ සෑම ප්‍රශ්නයකටම තත්පර 120ක් (විනාඩි 2) ලබා දෙන ලදී
     document.getElementById('time-sec').innerText = timeLeft;
-    document.getElementById('next-btn').style.display = 'none'; // පිළිතුරක් තෝරනකම් Next Button එක සඟවන්න
+    document.getElementById('next-btn').style.display = 'none'; 
 
     const currentQ = activeQuestionsList[currentQuestionIndex];
     document.getElementById('question-text').innerText = `(${currentQuestionIndex + 1}/5) ${currentQ.q}`;
@@ -469,7 +473,6 @@ function loadQuestion(type) {
         
         btn.onclick = () => { 
             clearInterval(timerInterval); 
-            // සියලුම Button Click කරන්න බැරි වෙන්න block කිරීම
             document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
             
             if(idx === currentQ.correct) { 
@@ -477,7 +480,6 @@ function loadQuestion(type) {
                 score++; 
             } else { 
                 btn.classList.add('wrong'); 
-                // නිවැරදි පිළිතුර කොළ පාටින් Highlight කිරීම
                 container.children[currentQ.correct].classList.add('correct');
             } 
             document.getElementById('next-btn').style.display = 'block'; 
@@ -491,13 +493,12 @@ function loadQuestion(type) {
         if(timeLeft <= 0) {
             clearInterval(timerInterval);
             document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
-            container.children[currentQ.correct].classList.add('correct'); // නිවැරදි එක පෙන්වන්න
+            container.children[currentQ.correct].classList.add('correct'); 
             document.getElementById('next-btn').style.display = 'block'; 
         }
     }, 1000);
 }
 
-// Next Button එක ක්ලික් කළ විට ඊළඟ ප්‍රශ්නයට යාම හෝ Result පෙන්වීම
 document.getElementById('next-btn').onclick = () => { 
     currentQuestionIndex++;
     if(currentQuestionIndex < activeQuestionsList.length) {
