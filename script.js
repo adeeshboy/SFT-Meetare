@@ -37,7 +37,7 @@ const sftLessonsList = {
     6: { name: "06. කාර්යය, ශක්තිය, ජවය", emoji: "⚙️", subject: "PHYSICS" },
     8: { name: "08. භ්‍රමණ චලිතය", emoji: "🔄", subject: "PHYSICS" },
     9: { name: "09. විද්‍යුතය", emoji: "⚡", subject: "PHYSICS" },
-    10: { name: "10. TAAPA", emoji: "🔥", subject: "PHYSICS" },
+    10: { name: "10. තාපය", emoji: "🔥", subject: "PHYSICS" },
     16: { name: "16. තරල", emoji: "🌊", subject: "PHYSICS" },
     11: { name: "11. තාප රසායනය", emoji: "🧪", subject: "CHEMISTRY" },
     12: { name: "12. චාලක රසායනය", emoji: "⏳", subject: "CHEMISTRY" },
