@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FULL RECOVERY + API)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (API SEARCH & DOWNLOAD FIXED)
 // ==========================================================================
 
 // --- FIREBASE INITIALIZATION ---
@@ -140,52 +140,61 @@ function generateDashboard() {
     });
 }
 
-// --- API FETCHING & PAPER RENDERING ---
+// --- API FETCHING & PAPER RENDERING (FIXED) ---
+let apiDataCache = null; // API Data එක තියාගන්න Variable එක
+
 async function fetchPapers() {
     const pContainer = document.getElementById('papers-container');
     const searchInput = document.getElementById('paper-search-input');
     const query = searchInput ? searchInput.value.toLowerCase() : "";
 
-    pContainer.innerHTML = "<p style='text-align:center; width:100%;'>Loading papers...</p>";
+    // පළවෙනි පාර විතරක් API එකෙන් Data ගන්නවා (Speed එක වැඩි කරන්න)
+    if (!apiDataCache) {
+        pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර Load වෙමින් පවතී...</p>";
+        try {
+            const response = await fetch('https://pastpaperapi.dileepatechyt.workers.dev/');
+            apiDataCache = await response.json();
+        } catch (e) {
+            console.error(e);
+            pContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>API දෝෂයක්! ප්‍රශ්න පත්‍ර ලබා ගැනීමේදී ගැටළුවක්.</p>";
+            return;
+        }
+    }
 
-    try {
-        const response = await fetch('https://pastpaperapi.dileepatechyt.workers.dev/');
-        const apiData = await response.json();
-        pContainer.innerHTML = ""; // Clear loading text
+    pContainer.innerHTML = ""; // Box එක Clear කරනවා
 
-        // 1. Render Local Papers (ඔයාගේ කලින් තිබුණු Paper List එක)
-        papersList.forEach(p => {
-            if(p.title.toLowerCase().includes(query)) {
-                const div = document.createElement('div'); div.className = 'lesson-box';
-                div.innerHTML = `<span class="box-emoji">${p.emoji}</span><h3>${p.title}</h3>`;
-                div.onclick = () => startQuiz(p.id, 'paper'); 
-                pContainer.appendChild(div);
-            }
-        });
-
-        // 2. Render API Papers (API එකෙන් එන දත්ත)
-        const filteredApiData = apiData.filter(item => item.title.toLowerCase().includes(query));
+    // 1. API එකෙන් එන Data Search කරලා පෙන්නන කොටස (Download Button එකත් එක්ක)
+    if (apiDataCache && apiDataCache.length > 0) {
+        const filteredApiData = apiDataCache.filter(item => item.title.toLowerCase().includes(query));
         filteredApiData.forEach(p => {
             const div = document.createElement('div'); div.className = 'lesson-box';
             div.innerHTML = `
-                <span class="box-emoji">📝</span>
+                <span class="box-emoji">📥</span>
                 <h3>${p.title}</h3>
-                <a href="${p.link}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 5px 15px; font-size: 14px;">Download/View</a>
+                <a href="${p.link}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 8px 15px; font-size: 14px; background:#007bff; color:#fff; border-radius:5px; width:100%; text-align:center;">
+                    ⬇️ Download Paper
+                </a>
             `;
             pContainer.appendChild(div);
         });
+    }
 
-        if(pContainer.innerHTML === "") {
-            pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර හමුවූයේ නැත.</p>";
+    // 2. Local Papers (ඔයාගේ පරණ ලිස්ට් එක) Search කරලා පෙන්නන කොටස
+    papersList.forEach(p => {
+        if(p.title.toLowerCase().includes(query)) {
+            const div = document.createElement('div'); div.className = 'lesson-box';
+            div.innerHTML = `<span class="box-emoji">${p.emoji}</span><h3>${p.title}</h3>`;
+            div.onclick = () => startQuiz(p.id, 'paper'); 
+            pContainer.appendChild(div);
         }
+    });
 
-    } catch (e) {
-        console.error(e);
-        pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර ලබා ගැනීමේදී දෝෂයක් සිදුවිය.</p>";
+    if(pContainer.innerHTML === "") {
+        pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර කිසිවක් හමුවූයේ නැත.</p>";
     }
 }
 
-// Global scope එකට Search function එක add කිරීම (HTML එකේ oninput එකට)
+// Global scope එකට Search function එක add කිරීම
 window.fetchPapers = fetchPapers;
 
 // --- QUIZ ENGINE ---
