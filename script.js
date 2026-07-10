@@ -1,8 +1,8 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - PREMIUM JAVASCRIPT ENGINE (COMPLETE & INTEGRATED)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FULL RECOVERY)
 // ==========================================================================
 
-// --- FIREBASE CONFIG ---
+// --- FIREBASE INITIALIZATION ---
 const firebaseConfig = {
   apiKey: "AIzaSyBBtsKSoSb5_7_C1HNevt66IqeAQH8ASHs",
   authDomain: "sft-meetare.firebaseapp.com",
@@ -18,7 +18,6 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 // --- STATE VARIABLES ---
 let currentSelectedSubject = "ALL";
-let currentActiveTab = "all";
 let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
@@ -68,15 +67,11 @@ const papersList = [
     { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
-// --- AUTHENTICATION ---
+// --- AUTHENTICATION & PROFILE ENGINE ---
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // Name & Profile Picture Update
         document.getElementById('user-display-name').innerText = user.displayName || "Student";
-        if(user.photoURL) {
-            document.getElementById('user-profile-pic').src = user.photoURL;
-        }
-
+        if(user.photoURL) document.getElementById('user-profile-pic').src = user.photoURL;
         document.getElementById('login-page').classList.remove('active');
         document.getElementById('home-page').classList.add('active');
         generateDashboard();
@@ -89,17 +84,26 @@ auth.onAuthStateChanged((user) => {
 document.getElementById('google-login-btn').addEventListener('click', () => auth.signInWithPopup(provider));
 document.getElementById('login-form').addEventListener('submit', (e) => { e.preventDefault(); document.getElementById('login-page').classList.remove('active'); document.getElementById('home-page').classList.add('active'); generateDashboard(); });
 document.getElementById('logout-btn').addEventListener('click', () => auth.signOut().then(() => location.reload()));
+document.getElementById('toggle-password').addEventListener('click', function() { const p = document.getElementById('password'); p.type = (p.type === 'password') ? 'text' : 'password'; });
 
-// --- UI CONTROL ---
+// --- UI CONTROL & FILTERS ---
 function switchView(viewType) {
     const sSection = document.getElementById('section-syllabus'), pSection = document.getElementById('section-papers'), fBar = document.getElementById('subject-filter-bar');
+    document.querySelectorAll('.switch-tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(`tab-${viewType}`).classList.add('active');
+    
     if (viewType === 'all') { sSection.style.display = "block"; pSection.style.display = "block"; fBar.style.display = "flex"; }
     else if (viewType === 'syllabus') { sSection.style.display = "block"; pSection.style.display = "none"; fBar.style.display = "flex"; }
     else if (viewType === 'papers') { sSection.style.display = "none"; pSection.style.display = "block"; fBar.style.display = "none"; }
     generateDashboard();
 }
 
-function filterSubject(sub) { currentSelectedSubject = sub; generateDashboard(); }
+function filterSubject(sub) { 
+    currentSelectedSubject = sub; 
+    document.querySelectorAll('.sub-filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    generateDashboard(); 
+}
 
 function generateDashboard() {
     const lContainer = document.getElementById('lessons-container'); lContainer.innerHTML = "";
@@ -138,12 +142,15 @@ function loadQuestion(type) {
     timerInterval = setInterval(() => { timeLeft--; document.getElementById('time-sec').innerText = timeLeft; if(timeLeft <= 0) clearInterval(timerInterval); }, 1000);
 }
 
-document.getElementById('next-btn').onclick = () => { document.getElementById('quiz-page').classList.remove('active'); document.getElementById('result-page').classList.add('active'); document.getElementById('result-text').innerText = `Score: ${score}`; };
+document.getElementById('next-btn').onclick = () => { document.getElementById('quiz-page').classList.remove('active'); document.getElementById('result-page').classList.add('active'); document.getElementById('result-text').innerText = `Your Score: ${score}`; };
 document.getElementById('back-home-btn').onclick = () => { document.getElementById('result-page').classList.remove('active'); document.getElementById('home-page').classList.add('active'); };
 
-// --- MISC ---
-document.getElementById('toggle-password').onclick = function() { const p = document.getElementById('password'); p.type = (p.type === 'password') ? 'text' : 'password'; };
-function updateCountdown() { const diff = new Date("August 1, 2027").getTime() - new Date().getTime(); document.getElementById("days-count").innerText = Math.floor(diff / (1000 * 60 * 60 * 24)); }
-setInterval(updateCountdown, 1000);
+// --- SIDEBAR & COUNTDOWN ---
 document.getElementById('menu-btn').onclick = () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('open'); };
 document.getElementById('close-btn').onclick = () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('open'); };
+
+function updateCountdown() {
+    const diff = new Date("August 1, 2027").getTime() - new Date().getTime();
+    document.getElementById("days-count").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+setInterval(updateCountdown, 1000); updateCountdown();
