@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (2 MINUTE TIMER UPDATED)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FIXED REFRESH FLICKER)
 // ==========================================================================
 
 // --- FIREBASE INITIALIZATION ---
@@ -22,7 +22,7 @@ let currentLesson = 1;
 let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
-let timeLeft = 120; // ⏱️ මුළු වෙලාව තත්පර 120 (මිනිත්තු 2) ලෙස වෙනස් කරන ලදී
+let timeLeft = 120; // ⏱️ මුළු වෙලාව තත්පර 120 (මිනිත්තු 2)
 let activeQuestionsList = []; 
 
 // --- DATA LISTS ---
@@ -37,9 +37,9 @@ const sftLessonsList = {
     6: { name: "06. කාර්යය, ශක්තිය, ජවය", emoji: "⚙️", subject: "PHYSICS" },
     8: { name: "08. භ්‍රමණ චලිතය", emoji: "🔄", subject: "PHYSICS" },
     9: { name: "09. විද්‍යුතය", emoji: "⚡", subject: "PHYSICS" },
-    10: { name: "10. තාපය", emoji: "🔥", subject: "PHYSICS" },
+    10: { name: "10. TAAPAය", emoji: "🔥", subject: "PHYSICS" },
     16: { name: "16. තරල", emoji: "🌊", subject: "PHYSICS" },
-    11: { name: "11. තාප රසායනය", emoji: "🧪", subject: "CHEMISTRY" },
+    11: { name: "11. TAAPA රසායනය", emoji: "🧪", subject: "CHEMISTRY" },
     12: { name: "12. චාලක රසායනය", emoji: "⏳", subject: "CHEMISTRY" },
     13: { name: "13. ජෛව පරමාණු", emoji: "🧬", subject: "CHEMISTRY" },
     14: { name: "14. බහුඅවයවික", emoji: "💎", subject: "CHEMISTRY" },
@@ -72,7 +72,7 @@ const sftQuestionsDatabase = {
         { q: "කේතුවක පරිමාව, සමාන අරයක් සහ උසක් ඇති සිලින්ඩරයක පරිමාවෙන් කොපමණ කොටසක්ද?", options: ["අඩක්", "හතරෙන් පංගුවක්", "තුනෙන් එකක්", "දෙගුණයක්"], correct: 2 }
     ],
     2: [
-        { q: "පහත දැක්වෙන ඒකක අතුරින් SI මූලික ඒකකයක් නොවන්නේ කුමක්ද?", options: ["කෙල්වින් (K)", "ඇම්පියරය (A)", "නිව්ටන් (N)", "කැන්ඩෙලා (cd)"], correct: 2 },
+        { q: "පහත දැක්වෙන ඒකක අතුරින් SI මූලික ඒකකයක් නොවන්නේ කුමක්ද?", options: ["කෙල්වින් (K)", "ඇම්පියරය (A)", "නිဝ်ටන් (N)", "කැන්ඩෙලා (cd)"], correct: 2 },
         { q: "පීඩනය මැනීමේ SI ව්‍යුත්පන්න ඒකකය කුමක්ද?", options: ["පැස්කල් (Pa)", "ජූල් (J)", "වොට් (W)", "නිව්ටන් (N)"], correct: 0 },
         { q: "මයික්‍රොමීටර 1ක් (1 micrometer) මීටර වලින් කොපමණද?", options: ["10^-3 m", "10^-6 m", "10^-9 m", "10^-12 m"], correct: 1 },
         { q: "වර්නියර් කැලිපරයක ප්‍රධාන පරිමාණ කොටසක් 1mm ද වර්නියර් කොටස් ගණන 50ක් ද නම් එහි කුඩාම මිනුම?", options: ["0.1 mm", "0.01 mm", "0.02 mm", "0.05 mm"], correct: 2 },
@@ -121,18 +121,18 @@ const sftQuestionsDatabase = {
         { q: "විද්‍යුත් ධාරිතාව (Capacitance) මැනීමේ ඒකකය කුමක්ද?", options: ["Farad (F)", "Henry (H)", "Ohm", "Coulomb"], correct: 0 }
     ],
     10: [
-        { q: "තාපය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 },
+        { q: "TAAPAය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 },
         { q: "සෙල්සියස් අංශක 0 (0°C) කෙල්වින් අගයෙන් කොපමණද?", options: ["100 K", "273.15 K", "0 K", "-273.15 K"], correct: 1 },
-        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය තාප ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට TAAPA ධාරිතාව", "තාප ධාරිතාව", "ගුප්ත තාපය", "එන්තැල්පිය"], correct: 1 },
-        { q: "ඝන ද්‍රව්‍ය හරහා තාපය ගමන් කරන ප්‍රධාන ක්‍රමය කුමක්ද?", options: ["තාප සන්නයනය", "තාප සංවහනය", "තාප විකිරණය", "වාෂ්පීකරණය"], correct: 0 },
-        { q: "තාපමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර TAAPA ප්‍රසාරණය", "ඉහළ තාපාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
+        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය TAAPA ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට TAAPA ධාරිතාව", "TAAPA ධාරිතාව", "ගුප්ත TAAPAය", "එන්තැල්පිය"], correct: 1 },
+        { q: "ඝන ද්‍රව්‍ය හරහා TAAPAය ගමන් කරන ප්‍රධාන ක්‍රමය කුමක්ද?", options: ["TAAPA සන්නයනය", "TAAPA සංවහනය", "TAAPA විකිරණය", "වාෂ්පීකරණය"], correct: 0 },
+        { q: "TAAPAමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර TAAPA ප්‍රසාරණය", "ඉහළ TAAPAාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
     ],
     11: [
-        { q: "පද්ධතියකින් බාහිර පරිසරයට තාපය මුදාහරින රසායනික ප්‍රතික්‍රියා හඳුන්වන්නේ?", options: ["තාප අවශෝෂක ප්‍රතික්‍රියා", "තාප දායක ප්‍රතික්‍රියා", "ස්වයංක්‍රීය ප්‍රතික්‍රියා", "ප්‍රතිවර්ත්‍ය ප්‍රතික්‍රියා"], correct: 1 },
-        { q: "තාප දායක ප්‍රතික්‍රියාවක එන්තැල්පි වෙනස (ΔH) සැමවිටම?", options: ["ධන (+) වේ", "සෘණ (-) වේ", "ශුන්‍ය වේ", "නිශ්චිත නැත"], correct: 1 },
-        { q: "රසායනික බන්ධන බිඳ දැමීමේ ක්‍රියාවලිය සැමවිටම?", options: ["තාප දායක වේ", "තාප අවශෝෂක වේ", "ශක්තිය නිදහස් කරයි", "කිසිවක් නොවේ"], correct: 1 },
-        { q: "තාප රසායනයේදී සම්මත උෂ්ණත්වය සහ පීඩනය (STP) ලෙස සලකන්නේ?", options: ["25°C සහ 1 atm", "0°C සහ 1 atm", "100°C සහ 1 bar", "20°C සහ 1 atm"], correct: 0 },
-        { q: "ප්‍රතික්‍රියාවක තාප වෙනස මැනීමට රසායනාගාරයේදී භාවිත කරන උපකරණය?", options: ["තාපමානය", "කලෝරිමීටරය", "බැරෝමීටරය", "pH මීටරය"], correct: 1 }
+        { q: "පද්ධතියකින් බාහිර පරිසරයට TAAPAය මුදාහරින රසායනික ප්‍රතික්‍රියා හඳුන්වන්නේ?", options: ["TAAPA අවශෝෂක ප්‍රතික්‍රියා", "TAAPA දායක ප්‍රතික්‍රියා", "ස්වයංක්‍රීය ප්‍රතික්‍රියා", "ප්‍රතිවර්ත්‍ය ප්‍රතික්‍රියා"], correct: 1 },
+        { q: "TAAPA දායක ප්‍රතික්‍රියාවක එන්තැල්පි වෙනස (ΔH) සැමවිටම?", options: ["ධන (+) වේ", "සෘණ (-) වේ", "ශුන්‍ය වේ", "නිශ්චිත නැත"], correct: 1 },
+        { q: "රසායනික බන්ධන බිඳ දැමීමේ ක්‍රියාවලිය සැමවිටම?", options: ["TAAPA දායක වේ", "TAAPA අවශෝෂක වේ", "ශක්තිය නිදහස් කරයි", "කිසිවක් නොවේ"], correct: 1 },
+        { q: "TAAPA රසායනයේදී සම්මත උෂ්ණත්වය සහ පීඩනය (STP) ලෙස සලකන්නේ?", options: ["25°C සහ 1 atm", "0°C සහ 1 atm", "100°C සහ 1 bar", "20°C සහ 1 atm"], correct: 0 },
+        { q: "ප්‍රතික්‍රියාවක TAAPA වෙනස මැනීමට රසායනාගාරයේදී භාවිත කරන උපකරණය?", options: ["TAAPAමානය", "කලෝරිමීටරය", "බැරෝමීටරය", "pH මීටරය"], correct: 1 }
     ],
     12: [
         { q: "රසායනික ප්‍රතික්‍රියාවක වේගය කෙරෙහි බලනොපාන සාධකය කුමක්ද?", options: ["උෂ්ණත්වය", "ප්‍රතික්‍රියක සාන්ද්‍රණය", "උත්ප්‍රේරක", "ප්‍රතික්‍රියාව සිදුවන වේලාව"], correct: 3 },
@@ -177,7 +177,7 @@ const sftQuestionsDatabase = {
         { q: "සබන් නිෂ්පාදනයේදී (Saponification) අතුරු ඵලයක් ලෙස ලැබෙන වටිනා ද්‍රව්‍යය කුමක්ද?", options: ["එතනෝල්", "ග්ලිසරෝල් (Glycerol)", "ඇසිටෝන්", "මෙතනෝල්"], correct: 1 }
     ],
     18: [
-        { q: "පොල්තෙල්වල බහුලවම අඩංගු වන මේද අම්ලය කුමක්ද?", options: ["ඔලෙයික් අම්ලය", "ස්ටියරික් අම්ලය", "ලෝරික් අම්ලය (Lauric acid)", "පැල්මිටික් අම්ලය"], correct: 2 },
+        { q: "පོල්තෙල්වල බහුලවම අඩංගු වන මේද අම්ලය කුමක්ද?", options: ["ඔලෙයික් අම්ලය", "ස්ටියරික් අම්ලය", "ලෝරික් අම්ලය (Lauric acid)", "පැල්මිටික් අම්ලය"], correct: 2 },
         { q: "කුරුඳු තෙල්වල ඇති ප්‍රධාන සක්‍රීය රසායනික සංඝටකය කුමක්ද?", options: ["යුජිනෝල්", "සිනමැල්ඩිහයිඩ් (Cinnamaldehyde)", "සිට්‍රනෙලාල්", "මෙන්තෝල්"], correct: 1 },
         { q: "කරාබුනැටි තෙල්වල බහුලවම අඩංගු සක්‍රීය රසායනික සංඝටකය?", options: ["සිනමැල්ඩිහයිඩ්", "යුජිනෝල් (Eugenol)", "ලිනලූල්", "පිනීන්"], correct: 1 },
         { q: "ස්වභාවික ශාක සාර සහ අත්‍යවශ්‍ය තෙල් වර්ග නිස්සාරණය කිරීමට රසායනාගාරයේදී බහුලවම භාවිත කරන ක්‍රමය?", options: ["සරල ආසවනය", "භාගික ආසවනය", "හුමාල ආසවනය (Steam Distillation)", "ස්ඵටිකීකරණය"], correct: 2 },
@@ -303,8 +303,12 @@ const papersList = [
     { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
-// --- AUTHENTICATION & PROFILE ENGINE ---
+// --- AUTHENTICATION & PROFILE ENGINE (⚡ FIXED FLICKERING) ---
 auth.onAuthStateChanged((user) => {
+    // 1. Firebase එකෙන් check කරලා ඉවර වුණ ගමන් Loading screen එක සඟවන්න
+    const mainLoader = document.getElementById('main-app-loader');
+    if (mainLoader) mainLoader.style.display = 'none';
+
     if (user) {
         document.getElementById('user-display-name').innerText = user.displayName || "Student";
         if(user.photoURL && document.getElementById('user-profile-pic')) {
@@ -456,7 +460,7 @@ function startQuiz(id, type) {
 
 function loadQuestion(type) {
     clearInterval(timerInterval); 
-    timeLeft = 120; // ⏱️ සෑම ප්‍රශ්නයකටම තත්පර 120ක් (විනාඩි 2) ලබා දෙන ලදී
+    timeLeft = 120; // ⏱️ සෑම ප්‍රශ්නයකටම තත්පර 120ක් (විනාඩි 2)
     document.getElementById('time-sec').innerText = timeLeft;
     document.getElementById('next-btn').style.display = 'none'; 
 
