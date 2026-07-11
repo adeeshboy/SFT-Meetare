@@ -72,7 +72,7 @@ const sftQuestionsDatabase = {
         { q: "කේතුවක පරිමාව, සමාන අරයක් සහ උසක් ඇති සිලින්ඩරයක පරිමාවෙන් කොපමණ කොටසක්ද?", options: ["අඩක්", "හතරෙන් පංගුවක්", "තුනෙන් එකක්", "දෙගුණයක්"], correct: 2 }
     ],
     2: [
-        { q: "පහත දැක්වෙන ඒකක අතුරින් SI මූලික ඒකකයක් නොවන්නේ කුමක්ද?", options: ["කෙල්වින් (K)", "ඇම්පියරය (A)", "නිဝ်ටන් (N)", "කැන්ඩෙලා (cd)"], correct: 2 },
+        { q: "පහත දැක්වෙන ඒකක අතුරින් SI මූලික ඒකකයක් නොවන්නේ කුමක්ද?", options: ["කෙල්වින් (K)", "ඇම්පියරය (A)", "නිව්ටන් (N)", "කැන්ඩෙලා (cd)"], correct: 2 },
         { q: "පීඩනය මැනීමේ SI ව්‍යුත්පන්න ඒකකය කුමක්ද?", options: ["පැස්කල් (Pa)", "ජූල් (J)", "වොට් (W)", "නිව්ටන් (N)"], correct: 0 },
         { q: "මයික්‍රොමීටර 1ක් (1 micrometer) මීටර වලින් කොපමණද?", options: ["10^-3 m", "10^-6 m", "10^-9 m", "10^-12 m"], correct: 1 },
         { q: "වර්නියර් කැලිපරයක ප්‍රධාන පරිමාණ කොටසක් 1mm ද වර්නියර් කොටස් ගණන 50ක් ද නම් එහි කුඩාම මිනුම?", options: ["0.1 mm", "0.01 mm", "0.02 mm", "0.05 mm"], correct: 2 },
@@ -177,7 +177,7 @@ const sftQuestionsDatabase = {
         { q: "සබන් නිෂ්පාදනයේදී (Saponification) අතුරු ඵලයක් ලෙස ලැබෙන වටිනා ද්‍රව්‍යය කුමක්ද?", options: ["එතනෝල්", "ග්ලිසරෝල් (Glycerol)", "ඇසිටෝන්", "මෙතනෝල්"], correct: 1 }
     ],
     18: [
-        { q: "පོල්තෙල්වල බහුලවම අඩංගු වන මේද අම්ලය කුමක්ද?", options: ["ඔලෙයික් අම්ලය", "ස්ටියරික් අම්ලය", "ලෝරික් අම්ලය (Lauric acid)", "පැල්මිටික් අම්ලය"], correct: 2 },
+        { q: "පොල්තෙල්වල බහුලවම අඩංගු වන මේද අම්ලය කුමක්ද?", options: ["ඔලෙයික් අම්ලය", "ස්ටියරික් අම්ලය", "ලෝරික් අම්ලය (Lauric acid)", "පැල්මිටික් අම්ලය"], correct: 2 },
         { q: "කුරුඳු තෙල්වල ඇති ප්‍රධාන සක්‍රීය රසායනික සංඝටකය කුමක්ද?", options: ["යුජිනෝල්", "සිනමැල්ඩිහයිඩ් (Cinnamaldehyde)", "සිට්‍රනෙලාල්", "මෙන්තෝල්"], correct: 1 },
         { q: "කරාබුනැටි තෙල්වල බහුලවම අඩංගු සක්‍රීය රසායනික සංඝටකය?", options: ["සිනමැල්ඩිහයිඩ්", "යුජිනෝල් (Eugenol)", "ලිනලූල්", "පිනීන්"], correct: 1 },
         { q: "ස්වභාවික ශාක සාර සහ අත්‍යවශ්‍ය තෙල් වර්ග නිස්සාරණය කිරීමට රසායනාගාරයේදී බහුලවම භාවිත කරන ක්‍රමය?", options: ["සරල ආසවනය", "භාගික ආසවනය", "හුමාල ආසවනය (Steam Distillation)", "ස්ඵටිකීකරණය"], correct: 2 },
@@ -303,36 +303,93 @@ const papersList = [
     { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
-// --- AUTHENTICATION & PROFILE ENGINE (⚡ FIXED FLICKERING) ---
-auth.onAuthStateChanged((user) => {
-    // 1. Firebase එකෙන් check කරලා ඉවර වුණ ගමන් Loading screen එක සඟවන්න
-    const mainLoader = document.getElementById('main-app-loader');
-    if (mainLoader) mainLoader.style.display = 'none';
+// --- AUTHENTICATION & PROFILE ENGINE (⚡ FIXED FLICKERING & CUSTOM LOGIN) ---
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(() => {
+    // Persistence set වුණාට පස්සේ තමයි onAuthStateChanged වැඩ කරන්නේ
+    auth.onAuthStateChanged((user) => {
+        const mainLoader = document.getElementById('main-app-loader');
+        if (mainLoader) mainLoader.style.display = 'none';
 
-    if (user) {
-        document.getElementById('user-display-name').innerText = user.displayName || "Student";
-        if(user.photoURL && document.getElementById('user-profile-pic')) {
-            document.getElementById('user-profile-pic').src = user.photoURL;
+        if (user) {
+            // User ලොග් වෙලා ඉන්නේ
+            // Username එක විතරක් ගන්න Email එකෙන් (@ අයින් කරලා)
+            let displayName = user.displayName;
+            if (!displayName && user.email) {
+                displayName = user.email.split('@')[0]; // උදා: kamal@sftmeetare.com -> kamal
+            }
+            
+            document.getElementById('user-display-name').innerText = displayName || "Student";
+            
+            if(user.photoURL && document.getElementById('user-profile-pic')) {
+                document.getElementById('user-profile-pic').src = user.photoURL;
+            }
+            
+            // Pages මාරු කිරීම
+            document.getElementById('login-page').classList.remove('active');
+            document.getElementById('home-page').classList.add('active');
+            
+            generateDashboard();
+            fetchPapers(); 
+        } else {
+            // User ලොග් වෙලා නෑ
+            document.getElementById('home-page').classList.remove('active');
+            document.getElementById('login-page').classList.add('active');
         }
-        document.getElementById('login-page').classList.remove('active');
-        document.getElementById('home-page').classList.add('active');
-        generateDashboard();
-        fetchPapers(); 
-    } else {
-        document.getElementById('home-page').classList.remove('active');
-        document.getElementById('login-page').classList.add('active');
-    }
+    });
+  })
+  .catch((error) => {
+    console.error("Auth Error:", error);
+  });
+
+// --- Google Login Button ---
+document.getElementById('google-login-btn').addEventListener('click', () => {
+    auth.signInWithPopup(provider).catch((error) => {
+        alert("Google Login Error: " + error.message);
+    });
 });
 
-document.getElementById('google-login-btn').addEventListener('click', () => auth.signInWithPopup(provider));
+// --- Custom Password Login Button ---
 document.getElementById('login-form').addEventListener('submit', (e) => { 
     e.preventDefault(); 
-    document.getElementById('login-page').classList.remove('active'); 
-    document.getElementById('home-page').classList.add('active'); 
-    generateDashboard(); 
-    fetchPapers();
+    
+    // 1. User ගහන අගයන් ලබා ගැනීම
+    const rawUsername = document.getElementById('username').value.trim();
+    const passwordValue = document.getElementById('password').value.trim();
+    
+    if(!rawUsername || !passwordValue) {
+        alert("කරුණාකර නම සහ මුරපදය ඇතුළත් කරන්න.");
+        return;
+    }
+
+    // 2. Firebase එකට යවන්න Email එකක් හදාගැනීම
+    // (මේකෙන් ඔයාගේ Firebase Console එකේ Users ටැබ් එකේ පෙනෙන්නේ username@sftmeetare.com විදියට)
+    const formattedEmail = rawUsername.toLowerCase() + "@sftmeetare.com";
+
+    // 3. Login කිරීම
+    auth.signInWithEmailAndPassword(formattedEmail, passwordValue)
+      .then((userCredential) => {
+          // සාර්ථකයි! onAuthStateChanged එකෙන් ඉතුරු ටික බලාගනීවි.
+      })
+      .catch((error) => {
+          // Password එක හරි User හරි වැරදි නම්
+          let errorMessage = "ලොගින් වීමේදී ගැටළුවක්!";
+          if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+              errorMessage = "ඇතුළත් කළ නම හෝ මුරපදය වැරදියි.";
+          }
+          alert(errorMessage);
+          console.error("Login Failed:", error);
+      });
 });
-document.getElementById('logout-btn').addEventListener('click', () => auth.signOut().then(() => location.reload()));
+
+// --- Logout Button ---
+document.getElementById('logout-btn').addEventListener('click', () => {
+    auth.signOut().then(() => {
+        location.reload();
+    });
+});
+
+// --- Toggle Password Visibility ---
 document.getElementById('toggle-password').addEventListener('click', function() { 
     const p = document.getElementById('password'); 
     p.type = (p.type === 'password') ? 'text' : 'password'; 
