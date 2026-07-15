@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FIXED REFRESH FLICKER)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (FIXED REFRESH FLICKER & LOGIN)
 // ==========================================================================
 
 // --- FIREBASE INITIALIZATION ---
@@ -303,7 +303,7 @@ const papersList = [
     { id: "p3", title: "SFT Model Paper - 01", emoji: "💎" }
 ];
 
-// --- AUTHENTICATION & PROFILE ENGINE (⚡ FIXED FLICKERING & CUSTOM LOGIN) ---
+// --- AUTHENTICATION & PROFILE ENGINE ---
 auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
   .then(() => {
     // Persistence set වුණාට පස්සේ තමයි onAuthStateChanged වැඩ කරන්නේ
@@ -349,7 +349,7 @@ document.getElementById('google-login-btn').addEventListener('click', () => {
     });
 });
 
-// --- Custom Password Login Button ---
+// --- Custom Password Login Button (FIXED) ---
 document.getElementById('login-form').addEventListener('submit', (e) => { 
     e.preventDefault(); 
     
@@ -358,13 +358,16 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     const passwordValue = document.getElementById('password').value.trim();
     
     if(!rawUsername || !passwordValue) {
-        alert("කරුණාකර නම සහ මුරපදය ඇතුළත් කරන්න.");
+        alert("කරුණාකර ඊමේල් ලිපිනය/නම සහ මුරපදය ඇතුළත් කරන්න.");
         return;
     }
 
-    // 2. Firebase එකට යවන්න Email එකක් හදාගැනීම
-    // (මේකෙන් ඔයාගේ Firebase Console එකේ Users ටැබ් එකේ පෙනෙන්නේ username@sftmeetare.com විදියට)
-    const formattedEmail = rawUsername.toLowerCase() + "@sftmeetare.com";
+    // 2. ඊමේල් එකක්ද, නැත්නම් නමක්ද කියලා චෙක් කිරීම
+    // (අගය ඇතුළේ '@' ලකුණ තියෙනවා නම් ඒක ඊමේල් එකක් විදියටම ගන්නවා, නැත්නම් පමණක් @sftmeetare.com එකතු කරනවා)
+    let formattedEmail = rawUsername.toLowerCase();
+    if (!formattedEmail.includes('@')) {
+        formattedEmail = formattedEmail + "@sftmeetare.com";
+    }
 
     // 3. Login කිරීම
     auth.signInWithEmailAndPassword(formattedEmail, passwordValue)
@@ -372,13 +375,13 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
           // සාර්ථකයි! onAuthStateChanged එකෙන් ඉතුරු ටික බලාගනීවි.
       })
       .catch((error) => {
-          // Password එක හරි User හරි වැරදි නම්
+          // Firebase අලුත් අප්ඩේට් එකත් එක්ක එරර් කෝඩ් එක 'auth/invalid-credential' ලෙසද එන්න පුළුවන්
           let errorMessage = "ලොගින් වීමේදී ගැටළුවක්!";
-          if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-              errorMessage = "ඇතුළත් කළ නම හෝ මුරපදය වැරදියි.";
+          if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+              errorMessage = "ඇතුළත් කළ ඊමේල්/නම හෝ මුරපදය වැරදියි.";
           }
           alert(errorMessage);
-          console.error("Login Failed:", error);
+          console.error("Login Failed:", error.code, error.message);
       });
 });
 
