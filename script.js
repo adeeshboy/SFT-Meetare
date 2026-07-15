@@ -107,11 +107,11 @@ const sftQuestionsDatabase = {
         { q: "විද්‍යුත් ධාරිතාව (Capacitance) මැනීමේ ඒකකය කුමක්ද?", options: ["Farad (F)", "Henry (H)", "Ohm", "Coulomb"], correct: 0 }
     ],
     10: [
-        { q: "TAAPAය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 },
+        { q: "තාපය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 },
         { q: "සෙල්සියස් අංශක 0 (0°C) කෙල්වින් අගයෙන් කොපමණද?", options: ["100 K", "273.15 K", "0 K", "-273.15 K"], correct: 1 },
-        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය TAAPA ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට TAAPA ධාරිතාව", "TAAPA ධාරිතාව", "ගුප්ත TAAPAය", "එන්තැල්පිය"], correct: 1 },
-        { q: "ඝන ද්‍රව්‍ය හරහා TAAPAය ගමන් කරන ප්‍රධාන ක්‍රමය කුමක්ද?", options: ["TAAPA සන්නයනය", "TAAPA සංවහනය", "TAAPA විකිරණය", "වාෂ්පීකරණය"], correct: 0 },
-        { q: "TAAPAමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර TAAPA ප්‍රසාරණය", "ඉහළ TAAPAාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
+        { q: "ද්‍රව්‍යයක උෂ්ණත්වය 1K කින් ඉහළ නැංවීමට අවශ්‍ය තාප ප්‍රමාණය හඳුන්වන්නේ?", options: ["විශිෂ්ට තාප ධාරිතාව", "තාප ධාරිතාව", "ගුප්ත තාපය", "එන්තැල්පිය"], correct: 1 },
+        { q: "ඝන ද්‍රව්‍ය හරහා තාපය ගමන් කරන ප්‍රධාන ක්‍රමය කුමක්ද?", options: ["තාප සන්නයනය", "තාප සංවහනය", "තාප විකිරණය", "වාෂ්පීකරණය"], correct: 0 },
+        { q: "තාපමානයක් නිෂ්පාදනය කිරීමේදී භාවිත වන රසදියවල ඇති විශේෂ ගුණය කුමක්ද?", options: ["ඒකාකාර තාප ප්‍රසාරණය", "ඉහළ තාපාංකය", "පාරදෘශ්‍ය නොවීම", "සියල්ලම"], correct: 3 }
     ],
     21: [
         { q: "පරිගණකයක ප්‍රධාන සැකසුම් ඒකකය (CPU) තුළ අඩංගු නොවන කොටස කුමක්ද?", options: ["පාලන ඒකකය (CU)", "ගණිත හා තර්කන ඒකකය (ALU)", "ප්‍රධාන මතකය (RAM)", "රෙජිස්ටර (Registers)"], correct: 2 },
@@ -120,7 +120,6 @@ const sftQuestionsDatabase = {
         { q: "පරිගණකය පණගැන්වීමේදී (Booting) ක්‍රියාත්මක වන BIOS වැඩසටහන ගබඩා කර ඇත්තේ?", options: ["RAM", "ROM", "Hard Disk", "Cache Memory"], correct: 1 },
         { q: "දත්ත ගබඩා කිරීමේ පරිමාණ අනුව 1 GB (Gigabyte) සමාන වන්නේ මෙයින් කුමකටද?", options: ["1024 MB", "1024 KB", "1000 MB", "1024 Bytes"], correct: 0 }
     ]
-    // (අනෙකුත් ප්‍රශ්නද අවශ්‍ය පරිදි මෙතැන පැවතිය හැක...)
 };
 
 const papersList = [
@@ -165,7 +164,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
     
     // ඕනෑම නමකුත්, password එක 1234 ත් නම් පමණක් ඇතුළු වීමට ඉඩ දේ
     if (passwordValue === "1234") {
-        sessionStorage.setItem('sft_user', usernameValue); // Refresh කළත් log වී සිටීමට
+        sessionStorage.setItem('sft_user', usernameValue); 
         loginSuccess(usernameValue);
     } else {
         alert("වැරදි මුරපදයක්! (නැවත උත්සාහ කරන්න)");
@@ -237,54 +236,69 @@ function generateDashboard() {
     });
 }
 
+// ==========================================
 // --- API FETCHING & PAPER RENDERING ---
-let apiDataCache = null; 
-
+// ==========================================
 async function fetchPapers() {
     const pContainer = document.getElementById('papers-container');
     const searchInput = document.getElementById('paper-search-input');
-    const query = searchInput ? searchInput.value.toLowerCase() : "";
-
-    if (!apiDataCache) {
-        pContainer.innerHTML = "<p style='text-align:center; width:100%;'>ප්‍රශ්න පත්‍ර Load වෙමින් පවතී...</p>";
-        try {
-            const response = await fetch('https://pastpaperapi.dileepatechyt.workers.dev/');
-            apiDataCache = await response.json();
-        } catch (e) {
-            console.error(e);
-            pContainer.innerHTML = "<p style='text-align:center; width:100%; color:red;'>API දෝෂයක්! ප්‍රශ්න පත්‍ර ලබා ගැනීමේදී ගැටළුවක්.</p>";
-            return;
-        }
-    }
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
     pContainer.innerHTML = ""; 
 
-    if (apiDataCache && apiDataCache.length > 0) {
-        const filteredApiData = apiDataCache.filter(item => item.title.toLowerCase().includes(query));
-        filteredApiData.forEach(p => {
-            const div = document.createElement('div'); div.className = 'lesson-box';
-            div.innerHTML = `
-                <span class="box-emoji">📥</span>
-                <h3>${p.title}</h3>
-                <a href="${p.link}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 8px 15px; font-size: 14px; background:#007bff; color:#fff; border-radius:5px; width:100%; text-align:center;">
-                    ⬇️ Download Paper
-                </a>
-            `;
-            pContainer.appendChild(div);
-        });
-    }
-
+    // 1. Local Papers List
     papersList.forEach(p => {
-        if(p.title.toLowerCase().includes(query)) {
+        if(query === "" || p.title.toLowerCase().includes(query)) {
             const div = document.createElement('div'); div.className = 'lesson-box';
             div.innerHTML = `<span class="box-emoji">${p.emoji}</span><h3>${p.title}</h3>`;
             div.onclick = () => startQuiz(p.id, 'paper'); 
             pContainer.appendChild(div);
         }
     });
+
+    // 2. Fetch from Cloudflare Worker API (Only if query is longer than 2 characters)
+    if (query.length > 2) { 
+        pContainer.innerHTML += `<div id="api-loading" style="text-align:center; width:100%; color:#007bff; margin-top:20px;">🔄 "${query}" සඳහා API එකෙන් සොයමින්...</div>`;
+        
+        try {
+            const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/search?q=${encodeURIComponent(query)}`);
+            const apiData = await response.json();
+            
+            const loadingMsg = document.getElementById('api-loading');
+            if (loadingMsg) loadingMsg.remove();
+
+            if (apiData && apiData.length > 0) {
+                apiData.forEach(p => {
+                    const div = document.createElement('div'); div.className = 'lesson-box';
+                    
+                    const paperTitle = p.title || p.name || "SFT Past Paper";
+                    const paperUrl = p.url || p.link || "";
+                    const downloadLink = `https://pastpaperapi.dileepatechyt.workers.dev/dl?url=${encodeURIComponent(paperUrl)}`;
+
+                    div.innerHTML = `
+                        <span class="box-emoji">📥</span>
+                        <h3>${paperTitle}</h3>
+                        <a href="${downloadLink}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 8px 15px; font-size: 14px; background:#007bff; color:#fff; border-radius:5px; width:100%; text-align:center;">
+                            ⬇️ Download Paper
+                        </a>
+                    `;
+                    pContainer.appendChild(div);
+                });
+            } else {
+                 pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#9ca3af; margin-top:15px;'>මෙම නමින් ප්‍රශ්න පත්‍ර හමුවුණේ නැත.</p>`;
+            }
+        } catch (e) {
+            console.error(e);
+            const loadingMsg = document.getElementById('api-loading');
+            if (loadingMsg) loadingMsg.remove();
+            pContainer.innerHTML += "<p style='text-align:center; width:100%; color:red; margin-top:15px;'>API එක සමග සම්බන්ධ වීමේදී දෝෂයක්!</p>";
+        }
+    }
 }
 
+// ==========================================
 // --- DYNAMIC QUIZ ENGINE ---
+// ==========================================
 function startQuiz(id, type) {
     currentLesson = id; 
     currentQuestionIndex = 0; 
