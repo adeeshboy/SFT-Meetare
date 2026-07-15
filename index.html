@@ -6,6 +6,36 @@
     <title>SFT Meetare - Premium Learning Platform</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .custom-search-container {
+            display: flex;
+            align-items: center;
+            background-color: #0b1120;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 12px 15px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .search-icon {
+            margin-right: 12px;
+            font-size: 18px;
+            color: #9ca3af;
+        }
+        #paper-search-input {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+        #paper-search-input::placeholder {
+            color: #6b7280;
+        }
+    </style>
 </head>
 <body>
 
@@ -117,8 +147,10 @@
                     <h2 class="cat-title"><i class="fas fa-file-invoice"></i> ප්‍රශ්න පත්‍ර (Papers)</h2>
                     
                     <div class="search-container" style="margin-bottom: 20px;">
-                        <script async src="https://cse.google.com/cse.js?cx=36a8ca116a5784cbc"></script>
-                        <div class="gcse-search"></div>
+                        <div class="custom-search-container">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="paper-search-input" placeholder="ප්‍රශ්න පත්‍ර Search කරන්න..." onkeyup="fetchPapers()">
+                        </div>
                     </div>
 
                     <div class="lessons-grid flex-column-papers" id="papers-container"></div>
