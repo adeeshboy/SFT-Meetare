@@ -246,7 +246,7 @@ async function fetchPapers() {
 
     pContainer.innerHTML = ""; 
 
-    // 1. Local Papers List
+    // 1. Local Papers List (Syllabus papers)
     papersList.forEach(p => {
         if(query === "" || p.title.toLowerCase().includes(query)) {
             const div = document.createElement('div'); div.className = 'lesson-box';
@@ -256,30 +256,44 @@ async function fetchPapers() {
         }
     });
 
-    // 2. Fetch from Cloudflare Worker API (Only if query is longer than 2 characters)
-    if (query.length > 2) { 
+    // 2. Fetch from Cloudflare Worker API (අකුරු 3කට වඩා ගැහුවම)
+    if (query.length >= 3) { 
         pContainer.innerHTML += `<div id="api-loading" style="text-align:center; width:100%; color:#007bff; margin-top:20px;">🔄 "${query}" සඳහා API එකෙන් සොයමින්...</div>`;
         
         try {
             const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/search?q=${encodeURIComponent(query)}`);
             const apiData = await response.json();
             
+            // Console එකට දත්ත ටික යවනවා ලෙඩේ හොයාගන්න ලේසි වෙන්න
+            console.log("API Response received:", apiData);
+            
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
 
-            if (apiData && apiData.length > 0) {
-                apiData.forEach(p => {
+            // API එකෙන් එන Data හැඩය මොකක් වුණත් ඒකෙන් Array එක අරගන්නවා
+            let papersArray = [];
+            if (Array.isArray(apiData)) {
+                papersArray = apiData;
+            } else if (apiData.data && Array.isArray(apiData.data)) {
+                papersArray = apiData.data;
+            } else if (apiData.results && Array.isArray(apiData.results)) {
+                papersArray = apiData.results;
+            }
+
+            if (papersArray.length > 0) {
+                papersArray.forEach(p => {
                     const div = document.createElement('div'); div.className = 'lesson-box';
                     
                     const paperTitle = p.title || p.name || "SFT Past Paper";
                     const paperUrl = p.url || p.link || "";
                     const downloadLink = `https://pastpaperapi.dileepatechyt.workers.dev/dl?url=${encodeURIComponent(paperUrl)}`;
 
+                    // TechWaddo එකේ වගේම ලස්සන UI එකක්
                     div.innerHTML = `
-                        <span class="box-emoji">📥</span>
-                        <h3>${paperTitle}</h3>
-                        <a href="${downloadLink}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px; padding: 8px 15px; font-size: 14px; background:#007bff; color:#fff; border-radius:5px; width:100%; text-align:center;">
-                            ⬇️ Download Paper
+                        <div style="font-size: 10px; background: #1a2332; display: inline-block; padding: 3px 8px; border-radius: 4px; color: #9ca3af; margin-bottom: 5px; font-weight: bold;">WIKI PAPER</div>
+                        <h3 style="font-size: 15px; margin-bottom: 15px;">${paperTitle}</h3>
+                        <a href="${downloadLink}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; padding: 10px 15px; font-size: 14px; background:#001f3f; color:#fff; border-radius:8px; width:100%; text-align:center; border: 1px solid #004080;">
+                            💻 ඇප් එක තුළින්ම කියවන්න
                         </a>
                     `;
                     pContainer.appendChild(div);
@@ -288,10 +302,12 @@ async function fetchPapers() {
                  pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#9ca3af; margin-top:15px;'>මෙම නමින් ප්‍රශ්න පත්‍ර හමුවුණේ නැත.</p>`;
             }
         } catch (e) {
-            console.error(e);
+            console.error("API Fetch Error:", e);
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
-            pContainer.innerHTML += "<p style='text-align:center; width:100%; color:red; margin-top:15px;'>API එක සමග සම්බන්ධ වීමේදී දෝෂයක්!</p>";
+            
+            // Error එක CORS ද කියලා පෙන්නන්න හැදුවා
+            pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#ff4d4d; margin-top:15px; font-size: 13px;'>API සම්බන්ධතා දෝෂයක්! (බොහෝවිට CORS Error එකක් විය හැක. Console එක පරීක්ෂා කරන්න)</p>`;
         }
     }
 }
