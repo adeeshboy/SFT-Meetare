@@ -75,7 +75,7 @@ const sftQuestionsDatabase = {
         { q: "බලයේ SI ඒකකය කුමක්ද?", options: ["Joule", "Watt", "Newton", "Pascal"], correct: 2 },
         { q: "F = ma සූත්‍රයෙන් දැක්වෙන්නේ නිව්ටන්ගේ කීවැනි චලිත නියමයද?", options: ["පළමුවන නියමය", "දෙවන නියමය", "තෙවන නියමය", "සියල්ලම"], correct: 1 },
         { q: "වස්තුවක නිශ්චලතාව හෝ චලිත ස්වභාවය වෙනස් කිරීමට දක්වන අකමැත්ත හඳුන්වන්නේ?", options: ["වේගය", "ත්වරණය", "status", "ස්කන්ධය/ජඩත්වය"], correct: 3 },
-        { q: "ඝර්ෂණ බලය සැමවිටම ක්‍රියා කරන්නේ කුමන දිශාවටද?", options: ["චලිත දිශාවට සමාන්තරව ඒ දෙසටම", "චලිත දිශාවට ලම්බකව", "චලිතය සිදුවන දිශාවට ප්‍රතිවිරුද්ධ දිශාවට", "පහළට"], correct: 2 },
+        { q: "ඝර්ෂණ බලය සැමවිටම ක්‍රියා කරන්නේ කුමන දිශාවටද?", options: ["චලිත දිශාවට සමාන්තරව ඒ දෙසටම", "චලිත දිශාවට ලම්බකව", "චලිතය සිදුවන ಗುළට ප්‍රතිවිරුද්ධ දිශාවට", "පහළට"], correct: 2 },
         { q: "ස්කන්ධය 5kg වන වස්තුවක් මත 20N බලයක් යෙදූ විට ඇතිවන ත්වරණය කොපමණද?", options: ["4 m/s^2", "100 m/s^2", "0.25 m/s^2", "25 m/s^2"], correct: 0 }
     ],
     6: [
@@ -264,13 +264,9 @@ async function fetchPapers() {
             const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/search?q=${encodeURIComponent(query)}`);
             const apiData = await response.json();
             
-            // Console එකට දත්ත ටික යවනවා ලෙඩේ හොයාගන්න ලේසි වෙන්න
-            console.log("API Response received:", apiData);
-            
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
 
-            // API එකෙන් එන Data හැඩය මොකක් වුණත් ඒකෙන් Array එක අරගන්නවා
             let papersArray = [];
             if (Array.isArray(apiData)) {
                 papersArray = apiData;
@@ -286,15 +282,13 @@ async function fetchPapers() {
                     
                     const paperTitle = p.title || p.name || "SFT Past Paper";
                     const paperUrl = p.url || p.link || "";
-                    const downloadLink = `https://pastpaperapi.dileepatechyt.workers.dev/dl?url=${encodeURIComponent(paperUrl)}`;
 
-                    // TechWaddo එකේ වගේම ලස්සන UI එකක්
                     div.innerHTML = `
                         <div style="font-size: 10px; background: #1a2332; display: inline-block; padding: 3px 8px; border-radius: 4px; color: #9ca3af; margin-bottom: 5px; font-weight: bold;">WIKI PAPER</div>
                         <h3 style="font-size: 15px; margin-bottom: 15px;">${paperTitle}</h3>
-                        <a href="${downloadLink}" target="_blank" class="btn-primary" style="text-decoration:none; display:inline-block; padding: 10px 15px; font-size: 14px; background:#001f3f; color:#fff; border-radius:8px; width:100%; text-align:center; border: 1px solid #004080;">
+                        <button onclick="downloadPaper('${paperUrl}', this)" class="btn-primary" style="border: none; cursor: pointer; display:inline-block; padding: 10px 15px; font-size: 14px; background:#001f3f; color:#fff; border-radius:8px; width:100%; text-align:center; border: 1px solid #004080;">
                             💻 ඇප් එක තුළින්ම කියවන්න
-                        </a>
+                        </button>
                     `;
                     pContainer.appendChild(div);
                 });
@@ -305,10 +299,47 @@ async function fetchPapers() {
             console.error("API Fetch Error:", e);
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
-            
-            // Error එක CORS ද කියලා පෙන්නන්න හැදුවා
-            pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#ff4d4d; margin-top:15px; font-size: 13px;'>API සම්බන්ධතා දෝෂයක්! (බොහෝවිට CORS Error එකක් විය හැක. Console එක පරීක්ෂා කරන්න)</p>`;
+            pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#ff4d4d; margin-top:15px; font-size: 13px;'>API සම්බන්ධතා දෝෂයක්! (බොහෝවිට CORS Error එකක් විය හැක)</p>`;
         }
+    }
+}
+
+// අලුත් ෆන්ක්ෂන් එක: බටන් එක එබුවම PDF ලින්ක් එක හොයාගෙන ඕපන් කරනවා
+async function downloadPaper(originalUrl, btnElement) {
+    const originalText = btnElement.innerHTML;
+    
+    // බටන් එක ඔබද්දි Loading කියලා පෙන්නනවා
+    btnElement.innerHTML = "⏳ කරුණාකර රැඳී සිටින්න...";
+    btnElement.style.pointerEvents = "none";
+    btnElement.style.opacity = "0.7";
+
+    try {
+        // API එකෙන් අර JSON දත්ත ටික ගන්නවා
+        const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/dl?url=${encodeURIComponent(originalUrl)}`);
+        const data = await response.json();
+
+        // JSON එකේ "links" කියන එක ඇතුලේ තියෙන පළවෙනි PDF ලින්ක් එක අරගන්නවා
+        if (data && data.links) {
+            const linkKeys = Object.keys(data.links);
+            if (linkKeys.length > 0) {
+                const actualPdfUrl = data.links[linkKeys[0]];
+                
+                // ඇත්තම PDF ලින්ක් එක අලුත් Tab එකක ඕපන් කරනවා
+                window.open(actualPdfUrl, '_blank');
+            } else {
+                alert("PDF ලින්ක් එක සොයාගැනීමට නොහැකි විය!");
+            }
+        } else {
+            alert("API එකෙන් නිවැරදි දත්ත ලැබුණේ නැත!");
+        }
+    } catch (e) {
+        console.error("Download Error:", e);
+        alert("බාගත කිරීමේදී දෝෂයක්! අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.");
+    } finally {
+        // ආයෙත් බටන් එක පරණ විදිහටම හදනවා
+        btnElement.innerHTML = originalText;
+        btnElement.style.pointerEvents = "auto";
+        btnElement.style.opacity = "1";
     }
 }
 
