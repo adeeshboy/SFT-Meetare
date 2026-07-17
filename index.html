@@ -39,6 +39,35 @@
 </head>
 <body>
 
+    <!-- ළමයින්ට ප්‍රශ්න යැවිය හැකි Pop-up Form (Modal) -->
+    <div id="add-mcq-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:#0b1120; padding:20px; border-radius:10px; width:90%; max-width:500px; color:white; border: 1px solid #1f2937;">
+            <h3 style="margin-bottom: 10px;">➕ අලුත් ප්‍රශ්නයක් යවන්න</h3>
+            <p style="font-size: 12px; color: #9ca3af; margin-bottom: 15px;">ඔබ යවන ප්‍රශ්නය Admin විසින් පරීක්ෂා කර පබ්ලිශ් කරනු ඇත.</p>
+            
+            <select id="mcq-lesson" style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;"></select>
+            <textarea id="mcq-q" placeholder="ප්‍රශ්නය මෙහි ටයිප් කරන්න..." style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;" rows="3"></textarea>
+            
+            <input type="text" id="mcq-opt0" placeholder="පිළිතුර 1" style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;">
+            <input type="text" id="mcq-opt1" placeholder="පිළිතුර 2" style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;">
+            <input type="text" id="mcq-opt2" placeholder="පිළිතුර 3" style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;">
+            <input type="text" id="mcq-opt3" placeholder="පිළිතුර 4" style="width:100%; padding:10px; margin-bottom:10px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;">
+            
+            <label style="font-size: 13px; color: #9ca3af;">නිවැරදි පිළිතුර තෝරන්න:</label>
+            <select id="mcq-correct" style="width:100%; padding:10px; margin-top:5px; background:#1a2332; color:white; border:1px solid #374151; border-radius: 5px;">
+                <option value="0">පිළිතුර 1 නිවැරදියි</option>
+                <option value="1">පිළිතුර 2 නිවැරදියි</option>
+                <option value="2">පිළිතුර 3 නිවැරදියි</option>
+                <option value="3">පිළිතුර 4 නිවැරදියි</option>
+            </select>
+            
+            <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                <button onclick="closeAddMcqModal()" style="padding:10px 15px; background:#dc3545; color:white; border:none; border-radius:5px; cursor: pointer;">Cancel</button>
+                <button onclick="submitNewMcq()" style="padding:10px 15px; background:#28a745; color:white; border:none; border-radius:5px; cursor: pointer;">ප්‍රශ්නය යවන්න</button>
+            </div>
+        </div>
+    </div>
+
     <div id="login-page" class="page active">
         <div class="lang-badge-fixed">
             <i class="fas fa-globe"></i> සිංහල මාධ්‍යය
@@ -126,6 +155,12 @@
                 <button class="switch-tab-btn active" id="tab-all" onclick="switchView('all')">📄 Show All</button>
                 <button class="switch-tab-btn" id="tab-syllabus" onclick="switchView('syllabus')">📚 Syllabus</button>
                 <button class="switch-tab-btn" id="tab-papers" onclick="switchView('papers')">📝 Papers</button>
+                
+                <!-- අලුත් Add MCQ Button එක -->
+                <button class="switch-tab-btn" onclick="showAddMcqModal()" style="background-color: #0052cc; border: 1px solid #004099; color: white;">➕ Add MCQ</button>
+                
+                <!-- හැංගිලා තියෙන Admin Tab එක -->
+                <button class="switch-tab-btn" id="tab-admin" style="display:none; background-color: #8b0000; color: white;" onclick="switchView('admin')">⚙️ Admin Panel</button>
             </div>
 
             <div class="subject-filter-container" id="subject-filter-bar">
@@ -138,6 +173,13 @@
             </div>
 
             <div class="dashboard-grid-layout" id="dashboard-grid">
+                
+                <!-- Admin Panel Section (අලුතින් එකතු කළ කොටස) -->
+                <section class="cat-section" id="section-admin" style="display:none;">
+                    <h2 class="cat-title" style="color: #ff4d4d;"><i class="fas fa-user-shield"></i> Admin: පරීක්ෂා කිරීමට ඇති ප්‍රශ්න (Pending MCQs)</h2>
+                    <div id="admin-pending-container" style="display:flex; flex-direction:column; gap:15px; margin-top: 15px;"></div>
+                </section>
+
                 <section class="cat-section" id="section-syllabus">
                     <h2 class="cat-title"><i class="fas fa-book-bookmark"></i> SFT විෂය නිර්දේශයේ පාඩම්</h2>
                     <div class="lessons-grid" id="lessons-container"></div>
