@@ -1,5 +1,5 @@
 // ==========================================================================
-// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (WITH FIREBASE AUTH & API)
+// 🚀 SFT MEETARE - FINAL PRODUCTION READY CODE (WITH ADMIN PANEL & MCQ DB)
 // ==========================================================================
 
 // --- STATE VARIABLES ---
@@ -10,6 +10,9 @@ let score = 0;
 let timerInterval;
 let timeLeft = 120; 
 let activeQuestionsList = []; 
+
+// Admin Email Validation
+const ADMIN_EMAIL = "adeeshboy0@gmail.com".toLowerCase();
 
 // --- DATA LISTS ---
 const sftLessonsList = {
@@ -48,12 +51,45 @@ const sftLessonsList = {
     24: { name: "24. අන්තර්ජාලය", emoji: "🌐", subject: "ICT" }
 };
 
+// --- FULL SFT MCQ QUESTIONS DATABASE ---
 const sftQuestionsDatabase = {
     1: [
         { q: "සිලින්ඩරයක වක්‍ර පෘෂ්ඨ වර්ගඵලය සෙවීමේ සූත්‍රය කුමක්ද?", options: ["2 * pi * r * h", "pi * r^2 * h", "2 * pi * r", "pi * r * l"], correct: 0 },
         { q: "අරය 7cm වන ගෝලයක මතුපිට වර්ගඵලය සොයන්න.", options: ["154 cm^2", "616 cm^2", "308 cm^2", "44 cm^2"], correct: 1 }
-    ]
-    // (අවශ්‍ය පරිදි ප්‍රශ්න ඇතුළත් කරන්න)
+    ],
+    2: [
+        { q: "පහත දැක්වෙන ඒකක අතුරින් SI මූලික ඒකකයක් නොවන්නේ කුමක්ද?", options: ["කෙල්වින් (K)", "ඇම්පියරය (A)", "නිව්ටන් (N)", "කැන්ඩෙලා (cd)"], correct: 2 },
+        { q: "පීඩනය මැනීමේ SI ව්‍යුත්පන්න ඒකකය කුමක්ද?", options: ["පැස්කල් (Pa)", "ජූල් (J)", "වොට් (W)", "නිව්ටන් (N)"], correct: 0 }
+    ],
+    3: [
+        { q: "සෘජුකෝණී ත්‍රිකෝණයක කර්ණය හඳුන්වන්නේ කෙසේද?", options: ["සෘජුකෝණයට ඉදිරියෙන් ඇති පාදය", "ලම්භක පාදය", "භූමිය", "පරිධිය"], correct: 0 }
+    ],
+    5: [
+        { q: "බලයේ SI ඒකකය කුමක්ද?", options: ["Joule", "Watt", "Newton", "Pascal"], correct: 2 },
+        { q: "F = ma සූත්‍රයෙන් දැක්වෙන්නේ නිව්ටන්ගේ කීවැනි චලිත නියමයද?", options: ["පළමුවන නියමය", "දෙවන නියමය", "තෙවන නියමය", "සියල්ලම"], correct: 1 }
+    ],
+    6: [
+        { q: "කාර්යය (Work Done) ගණනය කරනු ලබන නිවැරදි සූත්‍රය කුමක්ද?", options: ["W = F / d", "W = F * d", "W = m * g", "W = P * t"], correct: 1 }
+    ],
+    7: [
+        { q: "සෘජුකෝණී ත්‍රිකෝණයක Sin θ අනුපාතය සමාන වන්නේ?", options: ["සම්මුඛ / කර්ණය", "සන්නිහිත / කර්ණය", "සම්මුඛ / සන්නිහිත", "කර්ණය / සම්මුඛ"], correct: 0 }
+    ],
+    8: [
+        { q: "කෝණික ප්‍රවේගය මැනීමේ SI ඒකකය කුමක්ද?", options: ["m/s", "rad/s", "deg/s", "rpm"], correct: 1 }
+    ],
+    9: [
+        { q: "ඕම්ගේ නියමයට (Ohm's Law) අදාළ නිවැරදි සූත්‍රය තෝරන්න.", options: ["V = I / R", "V = I * R", "I = V * R", "P = V * I"], correct: 1 }
+    ],
+    10: [
+        { q: "තාපය මැනීමේ SI ඒකකය කුමක්ද?", options: ["Celsius", "Kelvin", "Joule", "Calorie"], correct: 2 }
+    ],
+    21: [
+        { q: "පරිගණකයක ප්‍රධාන සැකසුම් ඒකකය (CPU) තුළ අඩංගු නොවන කොටස කුමක්ද?", options: ["CU", "ALU", "RAM", "Registers"], correct: 2 },
+        { q: "1 GB සමාන වන්නේ මෙයින් කුමකටද?", options: ["1024 MB", "1024 KB", "1000 MB", "1024 Bytes"], correct: 0 }
+    ],
+    22: [{ q: "OS යනු කුමක්ද?", options: ["මෘදුකාංගයක්", "දෘඩාංගයක්", "ප්‍රතිදාන උපාංගයක්", "Input එකක්"], correct: 0 }],
+    23: [{ q: "Excel යනු කුමක්ද?", options: ["Spreadsheet", "Word", "Browser", "Game"], correct: 0 }],
+    24: [{ q: "HTTP හි අර්ථය?", options: ["Hypertext Transfer Protocol", "Hyper Transfer Tool", "High Tech Protocol", "Hyper Text Tool"], correct: 0 }]
 };
 
 const papersList = [
@@ -79,14 +115,42 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const auth = firebase.auth();
+const db = firebase.firestore(); // Firestore එක Add කළා
 const provider = new firebase.auth.GoogleAuthProvider();
+
+// Database එකෙන් අනුමත කරපු ප්‍රශ්න ටික App එකට Load කරගැනීම
+async function loadApprovedQuestions() {
+    try {
+        const snapshot = await db.collection('approved_mcqs').get();
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if(!sftQuestionsDatabase[data.lessonId]) {
+                sftQuestionsDatabase[data.lessonId] = [];
+            }
+            sftQuestionsDatabase[data.lessonId].push({
+                q: data.question,
+                options: data.options,
+                correct: parseInt(data.correctOption)
+            });
+        });
+        console.log("Approved Community Questions Loaded!");
+    } catch (e) {
+        console.error("Error loading approved questions", e);
+    }
+}
+loadApprovedQuestions();
 
 // App State Check (Firebase Auth Observer)
 auth.onAuthStateChanged((user) => {
     if (user) {
         loginSuccess(user.displayName || "Student");
+        
+        // ADMIN CHECK ⚙️
+        if (user.email && user.email.toLowerCase() === ADMIN_EMAIL) {
+            const adminTab = document.getElementById('tab-admin');
+            if(adminTab) adminTab.style.display = "inline-block";
+        }
     } else {
-        // Fallback for custom password login
         const savedUser = sessionStorage.getItem('sft_user');
         if (savedUser) {
             loginSuccess(savedUser);
@@ -109,42 +173,161 @@ function showLoginPage() {
     document.getElementById('login-page').classList.add('active');
 }
 
-// --- Real Google Login Event ---
 document.getElementById('google-login-btn').addEventListener('click', () => {
     auth.signInWithPopup(provider).catch((error) => {
         alert("Google ගිණුම හරහා ඇතුළු වීමේදී ගැටළුවක්! Error: " + error.message);
     });
 });
 
-// --- Custom Password Login Event ---
 document.getElementById('login-form').addEventListener('submit', (e) => { 
     e.preventDefault(); 
     const usernameValue = document.getElementById('username').value.trim();
     const passwordValue = document.getElementById('password').value.trim();
-    
     if (passwordValue === "1234") {
-        sessionStorage.setItem('sft_user', usernameValue); 
-        loginSuccess(usernameValue);
-    } else {
-        alert("වැරදි මුරපදයක්! (නැවත උත්සාහ කරන්න)");
-    }
+        sessionStorage.setItem('sft_user', usernameValue); loginSuccess(usernameValue);
+    } else { alert("වැරදි මුරපදයක්! (නැවත උත්සාහ කරන්න)"); }
 });
 
-// --- Logout Button ---
 document.getElementById('logout-btn').addEventListener('click', () => {
-    auth.signOut().then(() => {
-        sessionStorage.removeItem('sft_user');
-        location.reload();
-    });
+    auth.signOut().then(() => { sessionStorage.removeItem('sft_user'); location.reload(); });
 });
 
-// --- Toggle Password Visibility ---
 document.getElementById('toggle-password').addEventListener('click', function() { 
     const p = document.getElementById('password'); 
     p.type = (p.type === 'password') ? 'text' : 'password'; 
-    this.classList.toggle('fa-eye'); 
-    this.classList.toggle('fa-eye-slash');
+    this.classList.toggle('fa-eye'); this.classList.toggle('fa-eye-slash');
 });
+
+// ==========================================
+// ➕ ADD MCQ TO DATABASE SYSTEM
+// ==========================================
+function showAddMcqModal() {
+    const select = document.getElementById('mcq-lesson');
+    if(select) {
+        select.innerHTML = "";
+        Object.keys(sftLessonsList).forEach(key => {
+            select.innerHTML += `<option value="${key}">${sftLessonsList[key].name}</option>`;
+        });
+        document.getElementById('add-mcq-modal').style.display = "flex";
+    }
+}
+function closeAddMcqModal() {
+    const modal = document.getElementById('add-mcq-modal');
+    if(modal) modal.style.display = "none";
+}
+
+async function submitNewMcq() {
+    const user = auth.currentUser;
+    if(!user) return alert("ප්‍රශ්න යැවීමට කරුණාකර Google ගිණුම හරහා ලොග් වෙන්න!");
+
+    const lessonId = document.getElementById('mcq-lesson').value;
+    const q = document.getElementById('mcq-q').value.trim();
+    const o0 = document.getElementById('mcq-opt0').value.trim();
+    const o1 = document.getElementById('mcq-opt1').value.trim();
+    const o2 = document.getElementById('mcq-opt2').value.trim();
+    const o3 = document.getElementById('mcq-opt3').value.trim();
+    const correct = document.getElementById('mcq-correct').value;
+
+    if(!q || !o0 || !o1 || !o2 || !o3) {
+        return alert("කරුණාකර ප්‍රශ්නය සහ පිළිතුරු 4 ම සම්පූර්ණ කරන්න!");
+    }
+
+    try {
+        await db.collection('pending_mcqs').add({
+            lessonId: lessonId,
+            question: q,
+            options: [o0, o1, o2, o3],
+            correctOption: correct,
+            author: user.displayName || "Student",
+            email: user.email || "No Email",
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("ඔබේ ප්‍රශ්නය සාර්ථකව යැව්වා! Admin එය පරීක්ෂා කර පබ්ලිශ් කරනු ඇත.");
+        closeAddMcqModal();
+        
+        document.getElementById('mcq-q').value = "";
+        document.getElementById('mcq-opt0').value = "";
+        document.getElementById('mcq-opt1').value = "";
+        document.getElementById('mcq-opt2').value = "";
+        document.getElementById('mcq-opt3').value = "";
+    } catch (e) {
+        console.error(e);
+        alert("දෝෂයක්! අන්තර්ජාලය පරීක්ෂා කරන්න. (Database Rules Error එකක් විය හැක)");
+    }
+}
+
+// ==========================================
+// ⚙️ ADMIN PANEL SYSTEM
+// ==========================================
+async function loadAdminPanel() {
+    const container = document.getElementById('admin-pending-container');
+    if(!container) return;
+    container.innerHTML = "<p style='color:#007bff; text-align:center;'>🔄 පරීක්ෂා කරමින් පවතී...</p>";
+    
+    try {
+        const snapshot = await db.collection('pending_mcqs').orderBy('timestamp', 'asc').get();
+        container.innerHTML = "";
+        
+        if(snapshot.empty) {
+            container.innerHTML = "<p style='color:#9ca3af; text-align:center;'>මේ මොහොතේ අලුතින් ප්‍රශ්න කිසිවක් ලැබී නැත.</p>";
+            return;
+        }
+        
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const div = document.createElement('div');
+            div.style = "background:#1a2332; padding:15px; border-radius:10px; border:1px solid #374151;";
+            div.innerHTML = `
+                <p style="color:#fbbf24; font-size:12px; margin-bottom:5px;"><strong>පාඩම:</strong> ${sftLessonsList[data.lessonId]?.name || data.lessonId}</p>
+                <p style="font-size:15px; margin-bottom:10px;"><strong>Q:</strong> ${data.question}</p>
+                <ul style="list-style:none; padding:0; font-size:14px; margin-bottom:10px; color:#d1d5db;">
+                    <li style="margin-bottom:3px;">1. ${data.options[0]} ${data.correctOption == 0 ? "✅" : ""}</li>
+                    <li style="margin-bottom:3px;">2. ${data.options[1]} ${data.correctOption == 1 ? "✅" : ""}</li>
+                    <li style="margin-bottom:3px;">3. ${data.options[2]} ${data.correctOption == 2 ? "✅" : ""}</li>
+                    <li>4. ${data.options[3]} ${data.correctOption == 3 ? "✅" : ""}</li>
+                </ul>
+                <p style="font-size:11px; color:#9ca3af; margin-bottom:15px;">යැව්වේ: ${data.author} (${data.email})</p>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="approveMcq('${doc.id}')" style="padding:8px 15px; background:#28a745; color:white; border:none; border-radius:5px; cursor:pointer; width:100%;">Approve ✅</button>
+                    <button onclick="rejectMcq('${doc.id}')" style="padding:8px 15px; background:#dc3545; color:white; border:none; border-radius:5px; cursor:pointer; width:100%;">Reject ❌</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    } catch (e) {
+        container.innerHTML = "<p style='color:red;'>දෝෂයක්! Admin Panel Load කිරීමට නොහැක.</p>";
+        console.error(e);
+    }
+}
+
+async function approveMcq(docId) {
+    try {
+        const docRef = db.collection('pending_mcqs').doc(docId);
+        const docSnap = await docRef.get();
+        if(docSnap.exists) {
+            const data = docSnap.data();
+            await db.collection('approved_mcqs').add(data);
+            await docRef.delete();
+            
+            alert("ප්‍රශ්නය සාර්ථකව පබ්ලිශ් කළා!");
+            loadAdminPanel(); 
+            
+            if(!sftQuestionsDatabase[data.lessonId]) sftQuestionsDatabase[data.lessonId] = [];
+            sftQuestionsDatabase[data.lessonId].push({
+                q: data.question,
+                options: data.options,
+                correct: parseInt(data.correctOption)
+            });
+        }
+    } catch(e) { alert("දෝෂයක්! Approve කිරීමට නොහැක."); console.error(e); }
+}
+
+async function rejectMcq(docId) {
+    if(confirm("මෙම ප්‍රශ්නය ප්‍රතික්ෂේප කර මකා දැමීමට අවශ්‍ය බව විශ්වාසද?")) {
+        await db.collection('pending_mcqs').doc(docId).delete();
+        loadAdminPanel();
+    }
+}
 
 // ==========================================
 // --- UI CONTROL & FILTERS ---
@@ -152,22 +335,35 @@ document.getElementById('toggle-password').addEventListener('click', function() 
 function switchView(viewType) {
     const sSection = document.getElementById('section-syllabus');
     const pSection = document.getElementById('section-papers');
+    const aSection = document.getElementById('section-admin'); // Admin section
     const fBar = document.getElementById('subject-filter-bar');
     
     document.querySelectorAll('.switch-tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`tab-${viewType}`).classList.add('active');
     
+    // ඔක්කොම සඟවන්න
+    sSection.style.display = "none";
+    pSection.style.display = "none";
+    if(aSection) aSection.style.display = "none";
+    fBar.style.display = "none";
+
+    // අදාළ දේවල් පමණක් පෙන්නන්න
     if (viewType === 'all') { 
         sSection.style.display = "block"; pSection.style.display = "block"; fBar.style.display = "flex"; 
     }
     else if (viewType === 'syllabus') { 
-        sSection.style.display = "block"; pSection.style.display = "none"; fBar.style.display = "flex"; 
+        sSection.style.display = "block"; fBar.style.display = "flex"; 
     }
     else if (viewType === 'papers') { 
-        sSection.style.display = "none"; pSection.style.display = "block"; fBar.style.display = "none"; 
+        pSection.style.display = "block"; 
     }
+    else if (viewType === 'admin') {
+        if(aSection) aSection.style.display = "block";
+        loadAdminPanel(); // Load Data from Firebase
+    }
+    
     generateDashboard();
-    fetchPapers();
+    if(viewType === 'papers' || viewType === 'all') fetchPapers();
 }
 
 function filterSubject(sub) { 
@@ -199,8 +395,6 @@ async function fetchPapers() {
     const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
 
     pContainer.innerHTML = ""; 
-
-    // 1. Local Papers List
     papersList.forEach(p => {
         if(query === "" || p.title.toLowerCase().includes(query)) {
             const div = document.createElement('div'); div.className = 'lesson-box';
@@ -210,30 +404,18 @@ async function fetchPapers() {
         }
     });
 
-    // 2. Fetch from Cloudflare Worker API
     if (query.length >= 3) { 
         pContainer.innerHTML += `<div id="api-loading" style="text-align:center; width:100%; color:#007bff; margin-top:20px;">🔄 "${query}" සඳහා API එකෙන් සොයමින්...</div>`;
-        
         try {
             const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/search?q=${encodeURIComponent(query)}`);
             const apiData = await response.json();
-            
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
-
-            let papersArray = [];
-            if (Array.isArray(apiData)) {
-                papersArray = apiData;
-            } else if (apiData.data && Array.isArray(apiData.data)) {
-                papersArray = apiData.data;
-            } else if (apiData.results && Array.isArray(apiData.results)) {
-                papersArray = apiData.results;
-            }
+            let papersArray = Array.isArray(apiData) ? apiData : (apiData.data || apiData.results || []);
 
             if (papersArray.length > 0) {
                 papersArray.forEach(p => {
                     const div = document.createElement('div'); div.className = 'lesson-box';
-                    
                     const paperTitle = p.title || p.name || "SFT Past Paper";
                     const paperUrl = p.url || p.link || "";
 
@@ -250,7 +432,6 @@ async function fetchPapers() {
                  pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#9ca3af; margin-top:15px;'>මෙම නමින් ප්‍රශ්න පත්‍ර හමුවුණේ නැත.</p>`;
             }
         } catch (e) {
-            console.error("API Fetch Error:", e);
             const loadingMsg = document.getElementById('api-loading');
             if (loadingMsg) loadingMsg.remove();
             pContainer.innerHTML += `<p style='text-align:center; width:100%; color:#ff4d4d; margin-top:15px; font-size: 13px;'>API සම්බන්ධතා දෝෂයක්!</p>`;
@@ -258,31 +439,21 @@ async function fetchPapers() {
     }
 }
 
-// අලුත් ෆන්ක්ෂන් එක: බටන් එක එබුවම PDF ලින්ක් එක හොයාගෙන ඕපන් කරනවා
 async function downloadPaper(originalUrl, btnElement) {
     const originalText = btnElement.innerHTML;
-    
     btnElement.innerHTML = "⏳ කරුණාකර රැඳී සිටින්න...";
     btnElement.style.pointerEvents = "none";
     btnElement.style.opacity = "0.7";
-
     try {
         const response = await fetch(`https://pastpaperapi.dileepatechyt.workers.dev/dl?url=${encodeURIComponent(originalUrl)}`);
         const data = await response.json();
-
         if (data && data.links) {
             const linkKeys = Object.keys(data.links);
             if (linkKeys.length > 0) {
-                const actualPdfUrl = data.links[linkKeys[0]];
-                window.open(actualPdfUrl, '_blank');
-            } else {
-                alert("PDF ලින්ක් එක සොයාගැනීමට නොහැකි විය!");
-            }
-        } else {
-            alert("API එකෙන් නිවැරදි දත්ත ලැබුණේ නැත!");
-        }
+                window.open(data.links[linkKeys[0]], '_blank');
+            } else { alert("PDF ලින්ක් එක සොයාගැනීමට නොහැකි විය!"); }
+        } else { alert("API එකෙන් නිවැරදි දත්ත ලැබුණේ නැත!"); }
     } catch (e) {
-        console.error("Download Error:", e);
         alert("බාගත කිරීමේදී දෝෂයක්! අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.");
     } finally {
         btnElement.innerHTML = originalText;
@@ -299,20 +470,19 @@ function startQuiz(id, type) {
     currentQuestionIndex = 0; 
     score = 0;
     
-    if (type === 'syllabus' && sftQuestionsDatabase[id]) {
+    // ප්‍රශ්න තිබේදැයි පරීක්ෂා කිරීම
+    if (type === 'syllabus' && sftQuestionsDatabase[id] && sftQuestionsDatabase[id].length > 0) {
         activeQuestionsList = sftQuestionsDatabase[id];
     } else {
         activeQuestionsList = [
-            { q: `${sftLessonsList[id] ? sftLessonsList[id].name : 'Paper'} - බහුවරණ ප්‍රශ්නය 01:`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C", "පිළිතුර D"], correct: 0 },
-            { q: `${sftLessonsList[id] ? sftLessonsList[id].name : 'Paper'} - බහුවරණ ප්‍රශ්නය 02:`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C", "පිළිතුර D"], correct: 1 },
-            { q: `${sftLessonsList[id] ? sftLessonsList[id].name : 'Paper'} - බහුවරණ ප්‍රශ්නය 03:`, options: ["පිළිතුර A", "පිළිතුර B", "පිළිතුර C", "පිළිතුර D"], correct: 2 }
+            { q: `මෙම කොටසට අදාළ ප්‍රශ්න තවම එකතු කර නොමැත. ("Add MCQ" හරහා ඔබටත් ප්‍රශ්න යැවිය හැක!)`, options: ["හරි", "එලකිරි", "මම දාන්නම්", "කවුරුහරි දායි"], correct: 2 }
         ];
     }
 
     document.getElementById('home-page').classList.remove('active');
     setTimeout(() => { 
         document.getElementById('quiz-page').classList.add('active'); 
-        loadQuestion(type); 
+        loadQuestion(); 
     }, 400);
 }
 
